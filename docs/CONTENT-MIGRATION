@@ -1,1 +1,43 @@
+# Content Migration
 
+## Sources
+
+- radarcharts.net
+- radarcharts.wordpress.com
+
+---
+
+## Content
+
+- Articles
+- Categories
+- Tags
+- Authors
+- Images
+- Featured Images
+
+---
+
+## Migration Flow
+
+Export
+
+↓
+
+Clean
+
+↓
+
+Transform
+
+↓
+
+Import into CMS
+
+↓
+
+Verify
+
+↓
+
+Publish

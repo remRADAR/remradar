@@ -1,0 +1,15 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111827;
+  --muted: #6b7280;
+}
+
+html,body,#root{height:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family: Inter, Roboto, -apple-system, Segoe UI, sans-serif;
+}
+
+main{padding:2rem}

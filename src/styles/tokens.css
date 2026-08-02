@@ -1,0 +1,7 @@
+/* Design tokens (colors, spacing, type scale) - expand as needed */
+:root{
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --radius-1: 6px;
+}

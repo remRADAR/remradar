@@ -1,0 +1,2 @@
+import{t as e}from"./rolldown-runtime.BiHUmXkE.mjs";function t(e,t){return{description:`RADARCharts by REM is a dynamic cultural hub designed to protect and amplify the legacy of music.`,favicon:`https://framerusercontent.com/assets/n4qxSKJs6QvWRYPiiB6Y497shA.png`,robots:`max-image-preview:large`,socialImage:`https://framerusercontent.com/assets/KSPZ6uY1zCiUbdIpucTuEaUhsc.png`,title:`RADARCharts by REM - Protect The Music`}}var n=e((()=>{}));export{t as n,n as t};
+//# sourceMappingURL=shared-lib.BTJV15rU.mjs.map

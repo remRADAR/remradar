@@ -11,7 +11,8 @@ const radarServices = [
     id: "artist-spotlight",
     name: "Artist Spotlight",
     category: "Editorial",
-    description: "A dedicated editorial feature designed to introduce an artist to the RADAR audience.",
+    description:
+      "A dedicated editorial feature designed to introduce an artist to the RADAR audience.",
     price: 100000,
     featured: true
   },
@@ -19,7 +20,8 @@ const radarServices = [
     id: "release-campaign",
     name: "Release Campaign",
     category: "Campaigns",
-    description: "Strategic promotional support built around a music release.",
+    description:
+      "Strategic promotional support built around a music release.",
     price: 250000,
     featured: true
   },
@@ -27,13 +29,26 @@ const radarServices = [
     id: "premium-campaign",
     name: "Premium Campaign",
     category: "Campaigns",
-    description: "A larger-scale campaign pathway for artists, brands and projects.",
+    description:
+      "A larger-scale campaign pathway for artists, brands and projects.",
     price: 500000,
     featured: false
   }
 ];
 
 let selectedServices = [];
+
+/* ==========================================
+   RADAR WHATSAPP
+========================================== */
+
+const RADAR_WHATSAPP_LINK =
+  "https://wa.me/message/XSNQAJYPTVEEJ1";
+
+
+/* ==========================================
+   CURRENCY
+========================================== */
 
 function formatNaira(amount) {
   return new Intl.NumberFormat("en-NG", {
@@ -43,50 +58,103 @@ function formatNaira(amount) {
   }).format(amount);
 }
 
+
+/* ==========================================
+   TOTAL
+========================================== */
+
 function getSelectedTotal() {
-  return selectedServices.reduce((total, service) => {
-    return total + service.price;
-  }, 0);
+  return selectedServices.reduce(
+    (total, service) => total + service.price,
+    0
+  );
 }
 
-const serviceGrid = document.getElementById("service-grid");
-const selectedServicesContainer = document.getElementById("selected-services");
-const selectionCount = document.getElementById("selection-count");
-const selectionTotal = document.getElementById("selection-total");
-const checkoutButton = document.getElementById("checkout-button");
+
+/* ==========================================
+   DOM ELEMENTS
+========================================== */
+
+const serviceGrid =
+  document.getElementById("service-grid");
+
+const selectedServicesContainer =
+  document.getElementById("selected-services");
+
+const selectionCount =
+  document.getElementById("selection-count");
+
+const selectionTotal =
+  document.getElementById("selection-total");
+
+const checkoutButton =
+  document.getElementById("checkout-button");
+
+
+/* ==========================================
+   OPEN RADAR WHATSAPP
+========================================== */
+
+function openRadarWhatsApp() {
+  window.open(
+    RADAR_WHATSAPP_LINK,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+
+/* ==========================================
+   RENDER SERVICES
+========================================== */
 
 function renderServices() {
+  if (!serviceGrid) return;
+
   serviceGrid.innerHTML = "";
 
   radarServices.forEach((service) => {
-    const card = document.createElement("article");
+    const card =
+      document.createElement("article");
 
     card.className = "service-card";
 
-    card.dataset.serviceId = service.id;
+    card.dataset.serviceId =
+      service.id;
 
     card.innerHTML = `
       <div>
+
         <div class="service-card-top">
+
           <span class="service-card-category">
             ${service.category}
           </span>
 
           ${
             service.featured
-              ? `<span class="service-card-category">FEATURED</span>`
+              ? `
+                <span class="service-card-category">
+                  FEATURED
+                </span>
+              `
               : ""
           }
+
         </div>
 
-        <h3>${service.name}</h3>
+        <h3>
+          ${service.name}
+        </h3>
 
         <p class="service-card-description">
           ${service.description}
         </p>
+
       </div>
 
       <div class="service-card-bottom">
+
         <strong class="service-price">
           ${formatNaira(service.price)}
         </strong>
@@ -98,6 +166,7 @@ function renderServices() {
         >
           + Add
         </button>
+
       </div>
     `;
 
@@ -105,37 +174,76 @@ function renderServices() {
   });
 }
 
+
+/* ==========================================
+   UPDATE SERVICE CARD
+========================================== */
+
 function updateServiceCard(serviceId) {
-  const card = document.querySelector(
-    `.service-card[data-service-id="${serviceId}"]`
-  );
+  const card =
+    document.querySelector(
+      `.service-card[data-service-id="${serviceId}"]`
+    );
 
   if (!card) return;
 
-  const button = card.querySelector(".service-select");
+  const button =
+    card.querySelector(".service-select");
 
-  const isSelected = selectedServices.some(
-    (service) => service.id === serviceId
+  if (!button) return;
+
+  const isSelected =
+    selectedServices.some(
+      (service) =>
+        service.id === serviceId
+    );
+
+  card.classList.toggle(
+    "selected",
+    isSelected
   );
 
-  card.classList.toggle("selected", isSelected);
-
-  button.textContent = isSelected ? "✓ Added" : "+ Add";
+  button.textContent =
+    isSelected
+      ? "✓ Added"
+      : "+ Add";
 }
 
+
+/* ==========================================
+   RENDER SELECTION
+========================================== */
+
 function renderSelection() {
-  const total = getSelectedTotal();
+  if (
+    !selectedServicesContainer ||
+    !selectionCount ||
+    !selectionTotal
+  ) {
+    return;
+  }
+
+  const total =
+    getSelectedTotal();
 
   selectionCount.textContent =
     `${selectedServices.length} ${
-      selectedServices.length === 1 ? "service" : "services"
+      selectedServices.length === 1
+        ? "service"
+        : "services"
     }`;
 
-  selectionTotal.textContent = formatNaira(total);
+  selectionTotal.textContent =
+    formatNaira(total);
 
-  checkoutButton.disabled = selectedServices.length === 0;
+  if (checkoutButton) {
+    checkoutButton.disabled =
+      selectedServices.length === 0;
+  }
 
-  if (selectedServices.length === 0) {
+  if (
+    selectedServices.length === 0
+  ) {
     selectedServicesContainer.innerHTML = `
       <p class="empty-selection">
         Select services above to begin building your package.
@@ -145,61 +253,212 @@ function renderSelection() {
     return;
   }
 
-  selectedServicesContainer.innerHTML = selectedServices
-    .map(
-      (service) => `
-        <div class="selected-service">
-          <span class="selected-service-name">
-            ${service.name}
-          </span>
+  selectedServicesContainer.innerHTML =
+    selectedServices
+      .map(
+        (service) => `
+          <div class="selected-service">
 
-          <span class="selected-service-price">
-            ${formatNaira(service.price)}
-          </span>
-        </div>
-      `
-    )
-    .join("");
+            <span class="selected-service-name">
+              ${service.name}
+            </span>
+
+            <span class="selected-service-price">
+              ${formatNaira(service.price)}
+            </span>
+
+          </div>
+        `
+      )
+      .join("");
 }
 
+
+/* ==========================================
+   TOGGLE SERVICE
+========================================== */
+
 function toggleService(serviceId) {
-  const service = radarServices.find(
-    (item) => item.id === serviceId
-  );
+  const service =
+    radarServices.find(
+      (item) =>
+        item.id === serviceId
+    );
 
   if (!service) return;
 
-  const existingIndex = selectedServices.findIndex(
-    (item) => item.id === serviceId
-  );
+  const existingIndex =
+    selectedServices.findIndex(
+      (item) =>
+        item.id === serviceId
+    );
 
   if (existingIndex >= 0) {
-    selectedServices.splice(existingIndex, 1);
+    selectedServices.splice(
+      existingIndex,
+      1
+    );
   } else {
     selectedServices.push(service);
   }
 
-  updateServiceCard(serviceId);
+  updateServiceCard(
+    serviceId
+  );
+
   renderSelection();
 }
 
-serviceGrid.addEventListener("click", (event) => {
-  const button = event.target.closest(".service-select");
 
-  if (!button) return;
+/* ==========================================
+   SERVICE SELECTION CLICK
+========================================== */
 
-  toggleService(button.dataset.serviceId);
-});
+if (serviceGrid) {
+  serviceGrid.addEventListener(
+    "click",
+    (event) => {
 
-checkoutButton.addEventListener("click", () => {
-  const total = getSelectedTotal();
+      const button =
+        event.target.closest(
+          ".service-select"
+        );
 
-  if (total <= 0) return;
+      if (!button) return;
 
-  alert(
-    `RADARStore checkout\n\nTotal: ${formatNaira(total)}\n\nPayment integration will be connected in the next phase.`
+      toggleService(
+        button.dataset.serviceId
+      );
+    }
   );
-});
+}
+
+
+/* ==========================================
+   PROCEED TO PAYMENT
+========================================== */
+
+if (checkoutButton) {
+
+  checkoutButton.addEventListener(
+    "click",
+    async () => {
+
+      const total =
+        getSelectedTotal();
+
+      if (total <= 0) return;
+
+      const selectedItems =
+        selectedServices
+          .map(
+            (service) =>
+              `• ${service.name} — ${formatNaira(
+                service.price
+              )}`
+          )
+          .join("\n");
+
+      const message = `Hello RADARCharts by REM,
+
+I'd like to proceed with the following RADARStore services:
+
+${selectedItems}
+
+Total package value: ${formatNaira(total)}
+
+I'd like to discuss the next steps and payment process.
+
+Thank you.`;
+
+      try {
+        await navigator.clipboard.writeText(
+          message
+        );
+      } catch (error) {
+        console.warn(
+          "Could not copy RADARStore enquiry:",
+          error
+        );
+      }
+
+      /*
+        PAYMENT INTEGRATION REMAINS
+        FOR THE NEXT PHASE.
+
+        The existing payment alert
+        should continue to handle
+        the payment workflow.
+      */
+
+      alert(
+        `RADARStore checkout\n\nTotal: ${formatNaira(
+          total
+        )}\n\nPayment integration will be connected in the next phase.`
+      );
+    }
+  );
+}
+
+
+/* ==========================================
+   DISCUSS MY BUDGET / TALK TO RADAR
+========================================== */
+
+/*
+  IMPORTANT:
+
+  We intentionally use EVENT DELEGATION here.
+
+  This means the WhatsApp action still works
+  even if the button is rendered dynamically
+  or its original ID/class is slightly different.
+*/
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    const target =
+      event.target.closest("button");
+
+    if (!target) return;
+
+    const buttonText =
+      target.textContent
+        .trim()
+        .toLowerCase();
+
+    const isBudgetButton =
+      buttonText.includes(
+        "discuss my budget"
+      ) ||
+      buttonText.includes(
+        "talk to radar"
+      ) ||
+      buttonText.includes(
+        "talk to radarcharts"
+      ) ||
+      buttonText.includes(
+        "discuss budget"
+      );
+
+    if (!isBudgetButton) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    openRadarWhatsApp();
+  }
+);
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
 
 renderServices();
+
 renderSelection();

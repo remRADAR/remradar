@@ -3,7 +3,8 @@ const radarServices = [
     id: "page-post",
     name: "Page Post",
     category: "Visibility",
-    description: "Strategic placement across RADARCharts editorial channels.",
+    description:
+      "Strategic placement across RADARCharts editorial channels.",
     price: 50000,
     featured: true
   },
@@ -37,6 +38,7 @@ const radarServices = [
 ];
 
 let selectedServices = [];
+
 
 /* ==========================================
    RADAR WHATSAPP
@@ -96,11 +98,12 @@ const checkoutButton =
 ========================================== */
 
 function openRadarWhatsApp() {
-  window.open(
-    RADAR_WHATSAPP_LINK,
-    "_blank",
-    "noopener,noreferrer"
-  );
+  /*
+    Use direct navigation instead of window.open().
+    This is more reliable inside the GitHub Codespaces
+    preview and on mobile browsers.
+  */
+  window.location.href = RADAR_WHATSAPP_LINK;
 }
 
 
@@ -302,9 +305,7 @@ function toggleService(serviceId) {
     selectedServices.push(service);
   }
 
-  updateServiceCard(
-    serviceId
-  );
+  updateServiceCard(serviceId);
 
   renderSelection();
 }
@@ -385,10 +386,6 @@ Thank you.`;
       /*
         PAYMENT INTEGRATION REMAINS
         FOR THE NEXT PHASE.
-
-        The existing payment alert
-        should continue to handle
-        the payment workflow.
       */
 
       alert(
@@ -402,50 +399,38 @@ Thank you.`;
 
 
 /* ==========================================
-   DISCUSS MY BUDGET / TALK TO RADAR
+   WHATSAPP CTA ACTIONS
 ========================================== */
-
-/*
-  IMPORTANT:
-
-  We intentionally use EVENT DELEGATION here.
-
-  This means the WhatsApp action still works
-  even if the button is rendered dynamically
-  or its original ID/class is slightly different.
-*/
 
 document.addEventListener(
   "click",
   (event) => {
 
     const target =
-      event.target.closest("button");
+      event.target.closest(
+        "button, a"
+      );
 
     if (!target) return;
 
-    const buttonText =
+    const text =
       target.textContent
         .trim()
         .toLowerCase();
 
-    const isBudgetButton =
-      buttonText.includes(
-        "discuss my budget"
-      ) ||
-      buttonText.includes(
-        "talk to radar"
-      ) ||
-      buttonText.includes(
-        "talk to radarcharts"
-      ) ||
-      buttonText.includes(
-        "discuss budget"
-      );
+    const isWhatsAppCTA =
+      text.includes("discuss my budget") ||
+      text.includes("talk to radar") ||
+      text.includes("talk to radarcharts") ||
+      text.includes("discuss budget") ||
+      text.includes("get started");
 
-    if (!isBudgetButton) {
-      return;
-    }
+    if (!isWhatsAppCTA) return;
+
+    /*
+      Do not intercept the rate-card link.
+      Only handle actual RADAR communication CTAs.
+    */
 
     event.preventDefault();
     event.stopPropagation();

@@ -44,8 +44,8 @@ const radarServices = [
 const RADAR_WHATSAPP_URL =
   "https://wa.me/message/XSNQAJYPTVEEJ1";
 
-const RADAR_FLUTTERWAVE_URL =
-  "https://flutterwave.com/pay/5vhgftvger3r";
+const RADAR_PAYMENT_ENDPOINT =
+  "/api/create-payment";
 
 let selectedServices = [];
 
@@ -63,7 +63,8 @@ function formatNaira(amount) {
 
 function getSelectedTotal() {
   return selectedServices.reduce(
-    (total, service) => total + service.price,
+    (total, service) =>
+      total + service.price,
     0
   );
 }
@@ -76,19 +77,29 @@ const serviceGrid =
   document.getElementById("service-grid");
 
 const selectedServicesContainer =
-  document.getElementById("selected-services");
+  document.getElementById(
+    "selected-services"
+  );
 
 const selectionCount =
-  document.getElementById("selection-count");
+  document.getElementById(
+    "selection-count"
+  );
 
 const selectionTotal =
-  document.getElementById("selection-total");
+  document.getElementById(
+    "selection-total"
+  );
 
 const checkoutButton =
-  document.getElementById("checkout-button");
+  document.getElementById(
+    "checkout-button"
+  );
 
 const consultationButton =
-  document.getElementById("consultation-button");
+  document.getElementById(
+    "consultation-button"
+  );
 
 /* ==========================================
    SAFETY CHECK
@@ -115,80 +126,101 @@ function renderServices() {
 
   serviceGrid.innerHTML = "";
 
-  radarServices.forEach((service) => {
-    const card = document.createElement("article");
+  radarServices.forEach(
+    (service) => {
+      const card =
+        document.createElement(
+          "article"
+        );
 
-    card.className = "service-card";
-    card.dataset.serviceId = service.id;
+      card.className =
+        "service-card";
 
-    card.innerHTML = `
-      <div>
-        <div class="service-card-top">
+      card.dataset.serviceId =
+        service.id;
 
-          <span class="service-card-category">
-            ${service.category}
-          </span>
+      card.innerHTML = `
+        <div>
 
-          ${
-            service.featured
-              ? `
-                <span class="service-card-category">
-                  FEATURED
-                </span>
-              `
-              : ""
-          }
+          <div class="service-card-top">
+
+            <span class="service-card-category">
+              ${service.category}
+            </span>
+
+            ${
+              service.featured
+                ? `
+                  <span class="service-card-category">
+                    FEATURED
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+          <h3>
+            ${service.name}
+          </h3>
+
+          <p class="service-card-description">
+            ${service.description}
+          </p>
 
         </div>
 
-        <h3>
-          ${service.name}
-        </h3>
+        <div class="service-card-bottom">
 
-        <p class="service-card-description">
-          ${service.description}
-        </p>
-      </div>
+          <strong class="service-price">
+            ${formatNaira(
+              service.price
+            )}
+          </strong>
 
-      <div class="service-card-bottom">
+          <button
+            class="service-select"
+            type="button"
+            data-service-id="${service.id}"
+            aria-label="Add ${service.name}"
+          >
+            + Add
+          </button>
 
-        <strong class="service-price">
-          ${formatNaira(service.price)}
-        </strong>
+        </div>
+      `;
 
-        <button
-          class="service-select"
-          type="button"
-          data-service-id="${service.id}"
-          aria-label="Add ${service.name}"
-        >
-          + Add
-        </button>
-
-      </div>
-    `;
-
-    serviceGrid.appendChild(card);
-  });
+      serviceGrid.appendChild(
+        card
+      );
+    }
+  );
 }
 
 /* ==========================================
    SERVICE CARD STATE
 ========================================== */
 
-function updateServiceCard(serviceId) {
-  const card = document.querySelector(
-    `.service-card[data-service-id="${serviceId}"]`
-  );
+function updateServiceCard(
+  serviceId
+) {
+  const card =
+    document.querySelector(
+      `.service-card[data-service-id="${serviceId}"]`
+    );
 
   if (!card) return;
 
   const button =
-    card.querySelector(".service-select");
+    card.querySelector(
+      ".service-select"
+    );
 
   const isSelected =
     selectedServices.some(
-      (service) => service.id === serviceId
+      (service) =>
+        service.id ===
+        serviceId
     );
 
   card.classList.toggle(
@@ -197,13 +229,16 @@ function updateServiceCard(serviceId) {
   );
 
   if (button) {
+    const serviceName =
+      card.querySelector(
+        "h3"
+      )?.textContent.trim() ||
+      "service";
+
     button.textContent =
       isSelected
         ? "✓ Added"
         : "+ Add";
-
-    const serviceName =
-      card.querySelector("h3")?.textContent.trim();
 
     button.setAttribute(
       "aria-label",
@@ -215,7 +250,7 @@ function updateServiceCard(serviceId) {
 }
 
 /* ==========================================
-   PACKAGE SELECTION
+   SELECTION
 ========================================== */
 
 function renderSelection() {
@@ -228,11 +263,11 @@ function renderSelection() {
     return;
   }
 
-  const total =
-    getSelectedTotal();
-
   const count =
     selectedServices.length;
+
+  const total =
+    getSelectedTotal();
 
   selectionCount.textContent =
     `${count} ${
@@ -268,7 +303,9 @@ function renderSelection() {
             </span>
 
             <span class="selected-service-price">
-              ${formatNaira(service.price)}
+              ${formatNaira(
+                service.price
+              )}
             </span>
 
           </div>
@@ -277,11 +314,14 @@ function renderSelection() {
       .join("");
 }
 
-function toggleService(serviceId) {
+function toggleService(
+  serviceId
+) {
   const service =
     radarServices.find(
       (item) =>
-        item.id === serviceId
+        item.id ===
+        serviceId
     );
 
   if (!service) return;
@@ -289,7 +329,8 @@ function toggleService(serviceId) {
   const existingIndex =
     selectedServices.findIndex(
       (item) =>
-        item.id === serviceId
+        item.id ===
+        serviceId
     );
 
   if (existingIndex >= 0) {
@@ -298,10 +339,15 @@ function toggleService(serviceId) {
       1
     );
   } else {
-    selectedServices.push(service);
+    selectedServices.push(
+      service
+    );
   }
 
-  updateServiceCard(serviceId);
+  updateServiceCard(
+    serviceId
+  );
+
   renderSelection();
 }
 
@@ -321,7 +367,8 @@ if (serviceGrid) {
       if (!button) return;
 
       toggleService(
-        button.dataset.serviceId
+        button.dataset
+          .serviceId
       );
     }
   );
@@ -342,9 +389,7 @@ function openRadarWhatsApp() {
 if (consultationButton) {
   consultationButton.addEventListener(
     "click",
-    () => {
-      openRadarWhatsApp();
-    }
+    openRadarWhatsApp
   );
 }
 
@@ -352,59 +397,94 @@ if (consultationButton) {
    FLUTTERWAVE PAYMENT
 ========================================== */
 
-function proceedToPayment() {
-  const total =
-    getSelectedTotal();
-
-  if (total <= 0) {
+async function proceedToPayment() {
+  if (
+    selectedServices.length === 0
+  ) {
     return;
   }
 
-  /*
-    The selected package and total have already
-    been calculated and displayed to the client.
+  const originalText =
+    checkoutButton.textContent;
 
-    This version uses the RADARStore Flutterwave
-    payment link.
+  checkoutButton.disabled =
+    true;
 
-    Dynamic Flutterwave checkout will be added in
-    the payment backend phase so the exact selected
-    package total can be passed securely.
-  */
+  checkoutButton.textContent =
+    "Preparing payment...";
 
-  const selectedItems =
-    selectedServices
-      .map((service) => service.name)
-      .join(", ");
+  try {
+    /*
+      IMPORTANT:
 
-  console.info(
-    "RADARStore payment initiated.",
-    {
-      services: selectedServices,
-      serviceNames: selectedItems,
-      total: total,
-      currency: "NGN",
-      paymentProvider: "Flutterwave"
+      We send ONLY the service IDs.
+
+      The server calculates the
+      authoritative prices.
+    */
+
+    const serviceIds =
+      selectedServices.map(
+        (service) =>
+          service.id
+      );
+
+    const response =
+      await fetch(
+        RADAR_PAYMENT_ENDPOINT,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            serviceIds
+          })
+        }
+      );
+
+    const result =
+      await response.json();
+
+    if (
+      !response.ok ||
+      result.status !==
+        "success" ||
+      !result.payment_link
+    ) {
+      throw new Error(
+        result.message ||
+          "Unable to create payment."
+      );
     }
-  );
 
-  const confirmed =
-    window.confirm(
-      `You are about to proceed to payment.\n\n` +
-      `Services:\n${selectedItems}\n\n` +
-      `Total: ${formatNaira(total)}\n\n` +
-      `Continue to Flutterwave?`
+    /*
+      Flutterwave has returned
+      the secure hosted checkout.
+    */
+
+    window.location.href =
+      result.payment_link;
+
+  } catch (error) {
+    console.error(
+      "RADARStore payment error:",
+      error
     );
 
-  if (!confirmed) {
-    return;
-  }
+    alert(
+      "We couldn't start your payment right now. Please try again or use Discuss my budget to contact RADAR."
+    );
 
-  window.open(
-    RADAR_FLUTTERWAVE_URL,
-    "_blank",
-    "noopener,noreferrer"
-  );
+    checkoutButton.disabled =
+      false;
+
+    checkoutButton.textContent =
+      originalText;
+  }
 }
 
 if (checkoutButton) {

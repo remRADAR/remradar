@@ -37,19 +37,17 @@ const radarServices = [
   }
 ];
 
-let selectedServices = [];
-
-
 /* ==========================================
-   RADAR WHATSAPP
+   CONFIGURATION
 ========================================== */
 
-const RADAR_WHATSAPP_LINK =
+const RADAR_WHATSAPP_URL =
   "https://wa.me/message/XSNQAJYPTVEEJ1";
 
+let selectedServices = [];
 
 /* ==========================================
-   CURRENCY
+   HELPERS
 ========================================== */
 
 function formatNaira(amount) {
@@ -60,11 +58,6 @@ function formatNaira(amount) {
   }).format(amount);
 }
 
-
-/* ==========================================
-   TOTAL
-========================================== */
-
 function getSelectedTotal() {
   return selectedServices.reduce(
     (total, service) => total + service.price,
@@ -72,9 +65,8 @@ function getSelectedTotal() {
   );
 }
 
-
 /* ==========================================
-   DOM ELEMENTS
+   DOM
 ========================================== */
 
 const serviceGrid =
@@ -92,23 +84,27 @@ const selectionTotal =
 const checkoutButton =
   document.getElementById("checkout-button");
 
+const consultationButton =
+  document.getElementById("consultation-button");
 
 /* ==========================================
-   OPEN RADAR WHATSAPP
+   SAFETY CHECK
 ========================================== */
 
-function openRadarWhatsApp() {
-  /*
-    Use direct navigation instead of window.open().
-    This is more reliable inside the GitHub Codespaces
-    preview and on mobile browsers.
-  */
-  window.location.href = RADAR_WHATSAPP_LINK;
+if (
+  !serviceGrid ||
+  !selectedServicesContainer ||
+  !selectionCount ||
+  !selectionTotal ||
+  !checkoutButton
+) {
+  console.error(
+    "RADARStore: required page elements are missing."
+  );
 }
 
-
 /* ==========================================
-   RENDER SERVICES
+   SERVICES
 ========================================== */
 
 function renderServices() {
@@ -117,17 +113,13 @@ function renderServices() {
   serviceGrid.innerHTML = "";
 
   radarServices.forEach((service) => {
-    const card =
-      document.createElement("article");
+    const card = document.createElement("article");
 
     card.className = "service-card";
-
-    card.dataset.serviceId =
-      service.id;
+    card.dataset.serviceId = service.id;
 
     card.innerHTML = `
       <div>
-
         <div class="service-card-top">
 
           <span class="service-card-category">
@@ -153,7 +145,6 @@ function renderServices() {
         <p class="service-card-description">
           ${service.description}
         </p>
-
       </div>
 
       <div class="service-card-bottom">
@@ -166,6 +157,7 @@ function renderServices() {
           class="service-select"
           type="button"
           data-service-id="${service.id}"
+          aria-label="Add ${service.name}"
         >
           + Add
         </button>
@@ -177,28 +169,23 @@ function renderServices() {
   });
 }
 
-
 /* ==========================================
-   UPDATE SERVICE CARD
+   SERVICE CARD STATE
 ========================================== */
 
 function updateServiceCard(serviceId) {
-  const card =
-    document.querySelector(
-      `.service-card[data-service-id="${serviceId}"]`
-    );
+  const card = document.querySelector(
+    `.service-card[data-service-id="${serviceId}"]`
+  );
 
   if (!card) return;
 
   const button =
     card.querySelector(".service-select");
 
-  if (!button) return;
-
   const isSelected =
     selectedServices.some(
-      (service) =>
-        service.id === serviceId
+      (service) => service.id === serviceId
     );
 
   card.classList.toggle(
@@ -206,22 +193,31 @@ function updateServiceCard(serviceId) {
     isSelected
   );
 
-  button.textContent =
-    isSelected
-      ? "✓ Added"
-      : "+ Add";
+  if (button) {
+    button.textContent =
+      isSelected
+        ? "✓ Added"
+        : "+ Add";
+
+    button.setAttribute(
+      "aria-label",
+      isSelected
+        ? `Remove ${card.querySelector("h3")?.textContent.trim()}`
+        : `Add ${card.querySelector("h3")?.textContent.trim()}`
+    );
+  }
 }
 
-
 /* ==========================================
-   RENDER SELECTION
+   PACKAGE SELECTION
 ========================================== */
 
 function renderSelection() {
   if (
     !selectedServicesContainer ||
     !selectionCount ||
-    !selectionTotal
+    !selectionTotal ||
+    !checkoutButton
   ) {
     return;
   }
@@ -229,9 +225,12 @@ function renderSelection() {
   const total =
     getSelectedTotal();
 
+  const count =
+    selectedServices.length;
+
   selectionCount.textContent =
-    `${selectedServices.length} ${
-      selectedServices.length === 1
+    `${count} ${
+      count === 1
         ? "service"
         : "services"
     }`;
@@ -239,14 +238,10 @@ function renderSelection() {
   selectionTotal.textContent =
     formatNaira(total);
 
-  if (checkoutButton) {
-    checkoutButton.disabled =
-      selectedServices.length === 0;
-  }
+  checkoutButton.disabled =
+    count === 0;
 
-  if (
-    selectedServices.length === 0
-  ) {
+  if (count === 0) {
     selectedServicesContainer.innerHTML = `
       <p class="empty-selection">
         Select services above to begin building your package.
@@ -276,11 +271,6 @@ function renderSelection() {
       .join("");
 }
 
-
-/* ==========================================
-   TOGGLE SERVICE
-========================================== */
-
 function toggleService(serviceId) {
   const service =
     radarServices.find(
@@ -306,20 +296,17 @@ function toggleService(serviceId) {
   }
 
   updateServiceCard(serviceId);
-
   renderSelection();
 }
 
-
 /* ==========================================
-   SERVICE SELECTION CLICK
+   SERVICE GRID EVENTS
 ========================================== */
 
 if (serviceGrid) {
   serviceGrid.addEventListener(
     "click",
     (event) => {
-
       const button =
         event.target.closest(
           ".service-select"
@@ -334,116 +321,68 @@ if (serviceGrid) {
   );
 }
 
+/* ==========================================
+   WHATSAPP
+========================================== */
+
+function openRadarWhatsApp() {
+  window.open(
+    RADAR_WHATSAPP_URL,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+if (consultationButton) {
+  consultationButton.addEventListener(
+    "click",
+    () => {
+      openRadarWhatsApp();
+    }
+  );
+}
 
 /* ==========================================
-   PROCEED TO PAYMENT
+   PAYMENT PLACEHOLDER
 ========================================== */
 
 if (checkoutButton) {
-
   checkoutButton.addEventListener(
     "click",
-    async () => {
-
+    () => {
       const total =
         getSelectedTotal();
 
       if (total <= 0) return;
 
-      const selectedItems =
-        selectedServices
-          .map(
-            (service) =>
-              `• ${service.name} — ${formatNaira(
-                service.price
-              )}`
-          )
-          .join("\n");
-
-      const message = `Hello RADARCharts by REM,
-
-I'd like to proceed with the following RADARStore services:
-
-${selectedItems}
-
-Total package value: ${formatNaira(total)}
-
-I'd like to discuss the next steps and payment process.
-
-Thank you.`;
-
-      try {
-        await navigator.clipboard.writeText(
-          message
-        );
-      } catch (error) {
-        console.warn(
-          "Could not copy RADARStore enquiry:",
-          error
-        );
-      }
-
       /*
-        PAYMENT INTEGRATION REMAINS
-        FOR THE NEXT PHASE.
+        PAYMENT INTEGRATION PLACEHOLDER
+
+        The live payment provider will be
+        connected here later.
+
+        For now, deliberately do not
+        redirect or pretend payment exists.
       */
 
+      console.info(
+        "RADARStore payment integration pending.",
+        {
+          services: selectedServices,
+          total: total
+        }
+      );
+
       alert(
-        `RADARStore checkout\n\nTotal: ${formatNaira(
-          total
-        )}\n\nPayment integration will be connected in the next phase.`
+        "Payment integration will be attached here."
       );
     }
   );
 }
 
-
 /* ==========================================
-   WHATSAPP CTA ACTIONS
-========================================== */
-
-document.addEventListener(
-  "click",
-  (event) => {
-
-    const target =
-      event.target.closest(
-        "button, a"
-      );
-
-    if (!target) return;
-
-    const text =
-      target.textContent
-        .trim()
-        .toLowerCase();
-
-    const isWhatsAppCTA =
-      text.includes("discuss my budget") ||
-      text.includes("talk to radar") ||
-      text.includes("talk to radarcharts") ||
-      text.includes("discuss budget") ||
-      text.includes("get started");
-
-    if (!isWhatsAppCTA) return;
-
-    /*
-      Do not intercept the rate-card link.
-      Only handle actual RADAR communication CTAs.
-    */
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    openRadarWhatsApp();
-  }
-);
-
-
-/* ==========================================
-   INITIALIZE
+   INITIALISE
 ========================================== */
 
 renderServices();
-
 renderSelection();

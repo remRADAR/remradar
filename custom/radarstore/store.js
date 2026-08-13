@@ -44,6 +44,9 @@ const radarServices = [
 const RADAR_WHATSAPP_URL =
   "https://wa.me/message/XSNQAJYPTVEEJ1";
 
+const RADAR_FLUTTERWAVE_URL =
+  "https://flutterwave.com/pay/5vhgftvger3r";
+
 let selectedServices = [];
 
 /* ==========================================
@@ -199,11 +202,14 @@ function updateServiceCard(serviceId) {
         ? "✓ Added"
         : "+ Add";
 
+    const serviceName =
+      card.querySelector("h3")?.textContent.trim();
+
     button.setAttribute(
       "aria-label",
       isSelected
-        ? `Remove ${card.querySelector("h3")?.textContent.trim()}`
-        : `Add ${card.querySelector("h3")?.textContent.trim()}`
+        ? `Remove ${serviceName}`
+        : `Add ${serviceName}`
     );
   }
 }
@@ -343,40 +349,68 @@ if (consultationButton) {
 }
 
 /* ==========================================
-   PAYMENT PLACEHOLDER
+   FLUTTERWAVE PAYMENT
 ========================================== */
+
+function proceedToPayment() {
+  const total =
+    getSelectedTotal();
+
+  if (total <= 0) {
+    return;
+  }
+
+  /*
+    The selected package and total have already
+    been calculated and displayed to the client.
+
+    This version uses the RADARStore Flutterwave
+    payment link.
+
+    Dynamic Flutterwave checkout will be added in
+    the payment backend phase so the exact selected
+    package total can be passed securely.
+  */
+
+  const selectedItems =
+    selectedServices
+      .map((service) => service.name)
+      .join(", ");
+
+  console.info(
+    "RADARStore payment initiated.",
+    {
+      services: selectedServices,
+      serviceNames: selectedItems,
+      total: total,
+      currency: "NGN",
+      paymentProvider: "Flutterwave"
+    }
+  );
+
+  const confirmed =
+    window.confirm(
+      `You are about to proceed to payment.\n\n` +
+      `Services:\n${selectedItems}\n\n` +
+      `Total: ${formatNaira(total)}\n\n` +
+      `Continue to Flutterwave?`
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  window.open(
+    RADAR_FLUTTERWAVE_URL,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
 
 if (checkoutButton) {
   checkoutButton.addEventListener(
     "click",
-    () => {
-      const total =
-        getSelectedTotal();
-
-      if (total <= 0) return;
-
-      /*
-        PAYMENT INTEGRATION PLACEHOLDER
-
-        The live payment provider will be
-        connected here later.
-
-        For now, deliberately do not
-        redirect or pretend payment exists.
-      */
-
-      console.info(
-        "RADARStore payment integration pending.",
-        {
-          services: selectedServices,
-          total: total
-        }
-      );
-
-      alert(
-        "Payment integration will be attached here."
-      );
-    }
+    proceedToPayment
   );
 }
 

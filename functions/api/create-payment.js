@@ -1,31 +1,34 @@
+const RADAR_SERVICES = {
+  "page-post": {
+    name: "Page Post",
+    price: 50000
+  },
+
+  "artist-spotlight": {
+    name: "Artist Spotlight",
+    price: 100000
+  },
+
+  "release-campaign": {
+    name: "Release Campaign",
+    price: 250000
+  },
+
+  "premium-campaign": {
+    name: "Premium Campaign",
+    price: 500000
+  }
+};
+
 export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
 
-    const {
-      amount,
-      services,
-      customer
-    } = body;
+    const serviceIds = Array.isArray(body.serviceIds)
+      ? body.serviceIds
+      : [];
 
-    /* ==========================================
-       VALIDATION
-    ========================================== */
-
-    if (!amount || Number(amount) <= 0) {
-      return jsonResponse(
-        {
-          status: "error",
-          message: "Invalid payment amount."
-        },
-        400
-      );
-    }
-
-    if (
-      !Array.isArray(services) ||
-      services.length === 0
-    ) {
+    if (serviceIds.length === 0) {
       return jsonResponse(
         {
           status: "error",
@@ -36,9 +39,48 @@ export async function onRequestPost(context) {
     }
 
     /* ==========================================
-       SECURITY
-       The Flutterwave secret key NEVER goes
-       into the browser.
+       SERVER-SIDE PRICE CALCULATION
+    ========================================== */
+
+    const services = [];
+
+    for (const serviceId of serviceIds) {
+      const service = RADAR_SERVICES[serviceId];
+
+      if (!service) {
+        return jsonResponse(
+          {
+            status: "error",
+            message: `Invalid RADARStore service: ${serviceId}`
+          },
+          400
+        );
+      }
+
+      services.push({
+        id: serviceId,
+        name: service.name,
+        price: service.price
+      });
+    }
+
+    const total = services.reduce(
+      (sum, service) => sum + service.price,
+      0
+    );
+
+    if (total <= 0) {
+      return jsonResponse(
+        {
+          status: "error",
+          message: "Invalid payment amount."
+        },
+        400
+      );
+    }
+
+    /* ==========================================
+       FLUTTERWAVE SECRET
     ========================================== */
 
     const secretKey =
@@ -46,14 +88,13 @@ export async function onRequestPost(context) {
 
     if (!secretKey) {
       console.error(
-        "RADARStore: FLW_SECRET_KEY is missing."
+        "RADARStore: FLW_SECRET_KEY is not configured."
       );
 
       return jsonResponse(
         {
           status: "error",
-          message:
-            "Payment system is not configured."
+          message: "Payment system is not configured."
         },
         500
       );
@@ -71,109 +112,92 @@ export async function onRequestPost(context) {
     ========================================== */
 
     const customerName =
-      customer?.name ||
+      body.customer?.name ||
       "RADARStore Client";
 
     const customerEmail =
-      customer?.email ||
+      body.customer?.email ||
       "payments@radarcharts.net";
 
     const customerPhone =
-      customer?.phone ||
+      body.customer?.phone ||
       "";
 
     /* ==========================================
-       RADARSTORE SERVICE SUMMARY
+       SERVICE SUMMARY
     ========================================== */
 
-    const serviceNames =
-      services
-        .map(
-          (service) =>
-            service.name
-        )
-        .join(", ");
+    const serviceNames = services
+      .map((service) => service.name)
+      .join(", ");
 
     /* ==========================================
-       FLUTTERWAVE PAYMENT REQUEST
+       FLUTTERWAVE CHECKOUT
     ========================================== */
 
-    const flutterwaveResponse =
-      await fetch(
-        "https://api.flutterwave.com/v3/payments",
-        {
-          method: "POST",
+    const response = await fetch(
+      "https://api.flutterwave.com/v3/payments",
+      {
+        method: "POST",
 
-          headers: {
-            Authorization:
-              `Bearer ${secretKey}`,
+        headers: {
+          Authorization:
+            `Bearer ${secretKey}`,
 
-            "Content-Type":
-              "application/json"
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          tx_ref: txRef,
+
+          amount: total,
+
+          currency: "NGN",
+
+          redirect_url:
+            "https://radarcharts.net/radarstore/payment-success",
+
+          customer: {
+            name: customerName,
+            email: customerEmail,
+            phonenumber: customerPhone
           },
 
-          body: JSON.stringify({
-            tx_ref: txRef,
+          customizations: {
+            title:
+              "RADARStore — RADARCharts by REM",
+
+            description:
+              `RADARStore services: ${serviceNames}`
+          },
+
+          meta: {
+            source: "RADARStore",
+
+            service_ids:
+              serviceIds.join(","),
+
+            services:
+              serviceNames,
 
             amount:
-              Number(amount),
-
-            currency:
-              "NGN",
-
-            redirect_url:
-              "https://radarcharts.net/radarstore/payment-success",
-
-            customer: {
-              name:
-                customerName,
-
-              email:
-                customerEmail,
-
-              phonenumber:
-                customerPhone
-            },
-
-            customizations: {
-              title:
-                "RADARStore — RADARCharts by REM",
-
-              description:
-                `RADARStore services: ${serviceNames}`,
-
-              logo:
-                "https://radarcharts.net/favicon.ico"
-            },
-
-            meta: {
-              source:
-                "RADARStore",
-
-              services:
-                serviceNames,
-
-              amount:
-                Number(amount)
-            }
-          })
-        }
-      );
+              total
+          }
+        })
+      }
+    );
 
     const result =
-      await flutterwaveResponse.json();
-
-    /* ==========================================
-       FLUTTERWAVE ERROR
-    ========================================== */
+      await response.json();
 
     if (
-      !flutterwaveResponse.ok ||
+      !response.ok ||
       result.status !== "success" ||
       !result.data?.link
     ) {
       console.error(
-        "Flutterwave payment creation failed:",
+        "Flutterwave checkout error:",
         result
       );
 
@@ -181,31 +205,23 @@ export async function onRequestPost(context) {
         {
           status: "error",
           message:
-            "Unable to create Flutterwave checkout."
+            "Flutterwave could not create the payment."
         },
         502
       );
     }
 
-    /* ==========================================
-       SUCCESS
-    ========================================== */
-
     return jsonResponse({
-      status:
-        "success",
-
-      tx_ref:
-        txRef,
-
-      payment_link:
-        result.data.link
+      status: "success",
+      tx_ref: txRef,
+      amount: total,
+      currency: "NGN",
+      payment_link: result.data.link
     });
 
   } catch (error) {
-
     console.error(
-      "RADARStore payment server error:",
+      "RADARStore payment error:",
       error
     );
 
@@ -219,10 +235,6 @@ export async function onRequestPost(context) {
     );
   }
 }
-
-/* ==========================================
-   JSON RESPONSE HELPER
-========================================== */
 
 function jsonResponse(
   data,

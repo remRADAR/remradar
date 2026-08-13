@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>RADARStore — The RADAR Ecosystem</title>
-
-  <link
-    rel="stylesheet"
-    href="store.css"
+  <meta
+    name="description"
+    content="RADARStore — strategic visibility, editorial support and campaign services from RADARCharts by REM."
   >
+
+  <title>RADARStore — RADARCharts by REM</title>
+
+  <link rel="stylesheet" href="store.css">
 </head>
 
 <body>
@@ -23,86 +26,39 @@
          HERO
     =========================================== -->
 
-    <section class="store-hero">
+    <section class="store-hero" aria-labelledby="store-title">
 
-      <div class="hero-copy">
+      <div class="store-hero-background" aria-hidden="true"></div>
+      <div class="store-hero-overlay" aria-hidden="true"></div>
 
-        <p class="eyebrow">
-          RADARSTORE
-        </p>
+      <div class="store-hero-content">
 
-        <h1>
-          The ecosystem<br>
-          behind the music.
+        <div class="eyebrow">
+          RADARCHARTS BY REM
+        </div>
+
+        <h1 id="store-title">
+          RADARStore
         </h1>
 
-        <p class="hero-description">
-          Explore the tools, services and creative infrastructure
-          built by RADAR for artists, brands and the music industry.
+        <p class="store-hero-description">
+          Strategic visibility, editorial support and campaign
+          pathways built for the next generation of music.
         </p>
 
-        <div class="hero-actions">
+        <div class="store-hero-meta">
 
-          <a
-            href="#services"
-            class="primary-button"
-          >
-            Explore the ecosystem
-          </a>
+          <span>
+            MUSIC DISCOVERY
+          </span>
 
-          <a
-            href="#rate-card"
-            class="secondary-button"
-          >
-            View rate card
-          </a>
+          <span>
+            ARTIST INTELLIGENCE
+          </span>
 
-        </div>
-
-      </div>
-
-
-      <!-- ========================================
-           FEATURED INDUSTRYKIT CARD
-      ========================================= -->
-
-      <div class="featured-card">
-
-        <div
-          class="featured-background"
-          aria-hidden="true"
-        ></div>
-
-        <div
-          class="featured-overlay"
-          aria-hidden="true"
-        ></div>
-
-        <div class="card-label">
-          FEATURED
-        </div>
-
-        <div class="featured-content">
-
-          <p class="service-category">
-            RADAR ECOSYSTEM
-          </p>
-
-          <h2>
-            iNDUSTRYKit
-          </h2>
-
-          <p>
-            The infrastructure powering the next generation
-            of music professionals.
-          </p>
-
-          <button
-            class="glass-button"
-            type="button"
-          >
-            Explore →
-          </button>
+          <span>
+            STRATEGIC GROWTH
+          </span>
 
         </div>
 
@@ -116,30 +72,30 @@
     =========================================== -->
 
     <section
-      id="services"
       class="services-section"
+      aria-labelledby="services-title"
     >
 
       <div class="section-heading">
 
         <div>
+          <span class="section-kicker">
+            THE STORE
+          </span>
 
-          <p class="eyebrow">
-            THE ECOSYSTEM
-          </p>
-
-          <h2>
-            Find your RADAR.
+          <h2 id="services-title">
+            Put your work
+            <span>ON THE RADAR.</span>
           </h2>
-
         </div>
 
         <p>
-          Select the services you need and build your
-          RADAR package.
+          Select the services that fit your current objective
+          and build your RADAR package.
         </p>
 
       </div>
+
 
       <div
         id="service-grid"
@@ -150,74 +106,87 @@
 
 
     <!-- ==========================================
-         SELECTION CONSOLE
+         PACKAGE BUILDER
     =========================================== -->
 
-    <section class="selection-section">
+    <section
+      class="selection-section"
+      aria-labelledby="selection-title"
+    >
 
-      <div class="selection-console">
+      <div class="selection-shell">
 
         <div class="selection-header">
 
           <div>
 
-            <p class="eyebrow">
-              YOUR RADAR
-            </p>
+            <span class="section-kicker">
+              PACKAGE BUILDER
+            </span>
 
-            <h2>
+            <h2 id="selection-title">
               Build your package.
             </h2>
 
           </div>
 
-          <span id="selection-count">
+          <div
+            id="selection-count"
+            class="selection-count"
+          >
             0 services
-          </span>
+          </div>
 
         </div>
 
 
-        <div id="selected-services">
-
+        <div
+          id="selected-services"
+          class="selected-services"
+          aria-live="polite"
+        >
           <p class="empty-selection">
             Select services above to begin building your package.
           </p>
-
         </div>
 
 
-        <div class="selection-total">
+        <div class="selection-footer">
 
-          <span>
-            TOTAL
-          </span>
+          <div class="selection-total-block">
 
-          <strong id="selection-total">
-            ₦0
-          </strong>
+            <span>
+              TOTAL
+            </span>
 
-        </div>
+            <strong id="selection-total">
+              ₦0
+            </strong>
+
+          </div>
 
 
-        <div class="selection-actions">
+          <div class="selection-actions">
 
-          <button
-            id="checkout-button"
-            class="primary-button"
-            type="button"
-            disabled
-          >
-            Proceed to payment
-          </button>
+            <button
+              id="checkout-button"
+              class="primary-button"
+              type="button"
+              disabled
+            >
+              Proceed to payment
+            </button>
 
-          <button
-            id="consultation-button"
-            class="secondary-button"
-            type="button"
-          >
-            Discuss my budget
-          </button>
+            <button
+              id="consultation-button"
+              class="secondary-button"
+              type="button"
+              data-radar-whatsapp
+            >
+              Discuss my budget
+            </button>
+
+          </div>
 
         </div>
 
@@ -227,41 +196,91 @@
 
 
     <!-- ==========================================
-         FIND YOUR RADAR
+         AUDIENCE
     =========================================== -->
 
-    <section class="audience-section">
+    <section
+      class="audience-section"
+      aria-labelledby="audience-title"
+    >
 
-      <p class="eyebrow">
-        WHO IS IT FOR?
-      </p>
+      <div class="section-heading">
 
-      <h2>
-        Find your path through the ecosystem.
-      </h2>
+        <div>
+
+          <span class="section-kicker">
+            BUILT FOR
+          </span>
+
+          <h2 id="audience-title">
+            Where you are.
+          </h2>
+
+        </div>
+
+        <p>
+          RADARStore gives artists, projects and creative
+          teams access to strategic pathways across the
+          RADARCharts ecosystem.
+        </p>
+
+      </div>
 
 
       <div class="audience-grid">
 
-        <button type="button">
-          <span>01</span>
-          I'm an Artist
-        </button>
+        <article class="audience-card">
 
-        <button type="button">
-          <span>02</span>
-          I'm a Brand
-        </button>
+          <span class="audience-number">
+            01
+          </span>
 
-        <button type="button">
-          <span>03</span>
-          I'm a Music Professional
-        </button>
+          <h3>
+            Emerging Artists
+          </h3>
 
-        <button type="button">
-          <span>04</span>
-          I'm looking for a Creative Service
-        </button>
+          <p>
+            For artists seeking discovery, visibility,
+            development and audience growth.
+          </p>
+
+        </article>
+
+
+        <article class="audience-card">
+
+          <span class="audience-number">
+            02
+          </span>
+
+          <h3>
+            Music Professionals
+          </h3>
+
+          <p>
+            For teams and professionals building releases,
+            campaigns and stronger industry positioning.
+          </p>
+
+        </article>
+
+
+        <article class="audience-card">
+
+          <span class="audience-number">
+            03
+          </span>
+
+          <h3>
+            Brands & Projects
+          </h3>
+
+          <p>
+            For cultural projects seeking strategic music,
+            media and audience opportunities.
+          </p>
+
+        </article>
 
       </div>
 
@@ -269,24 +288,41 @@
 
 
     <!-- ==========================================
-         RADAR RATE CARD
-         CTA ONLY
+         RATE CARD
     =========================================== -->
 
     <section
-      id="rate-card"
-      class="rate-card-section"
+      class="ratecard-section"
+      aria-labelledby="ratecard-title"
     >
 
-      <a
-        href="https://radarcharts.net/ratecard"
-        class="primary-button"
-      >
-        View rate card →
-      </a>
+      <div class="ratecard-shell">
+
+        <div>
+
+          <span class="section-kicker">
+            RADAR RATE CARD
+          </span>
+
+          <h2 id="ratecard-title">
+            Need the full picture?
+          </h2>
+
+        </div>
+
+        <a
+          class="ratecard-button"
+          href="https://radarcharts.net/ratecard"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View rate card
+          <span aria-hidden="true">→</span>
+        </a>
+
+      </div>
 
     </section>
-
 
   </main>
 

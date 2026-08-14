@@ -47,82 +47,172 @@ export async function onRequestPost(context) {
       );
     }
 
-    const services = serviceIds
-      .map((id) => RADAR_SERVICES[id])
-      .filter(Boolean);
+    /*
+      SECURITY / INTEGRITY CHECK
 
-    if (services.length !== serviceIds.length) {
+      A service may only appear once in a
+      payment request.
+    */
+
+    const uniqueServiceIds =
+      new Set(serviceIds);
+
+    if (
+      uniqueServiceIds.size !==
+      serviceIds.length
+    ) {
       return jsonResponse(
         {
           status: "error",
-          message: "One or more selected services are invalid."
+          message:
+            "Duplicate services are not allowed."
         },
         400
       );
     }
 
+    /*
+      SERVER-AUTHORITATIVE SERVICE LOOKUP
+
+      Never trust prices supplied by
+      the browser.
+    */
+
+    const services = serviceIds
+      .map(
+        (id) =>
+          RADAR_SERVICES[id]
+      )
+      .filter(Boolean);
+
+    if (
+      services.length !==
+      serviceIds.length
+    ) {
+      return jsonResponse(
+        {
+          status: "error",
+          message:
+            "One or more selected services are invalid."
+        },
+        400
+      );
+    }
+
+    /*
+      SERVER-AUTHORITATIVE TOTAL
+    */
+
     const total = services.reduce(
-      (sum, service) => sum + service.price,
+      (sum, service) =>
+        sum + service.price,
       0
     );
 
     const serviceNames = services
-      .map((service) => service.name)
+      .map(
+        (service) =>
+          service.name
+      )
       .join(", ");
 
-    const txRef = `RADARSTORE-${Date.now()}-${crypto.randomUUID()}`;
+    /*
+      TRANSACTION REFERENCE
+    */
+
+    const txRef =
+      `RADARSTORE-${Date.now()}-${crypto.randomUUID()}`;
+
+    /*
+      CUSTOMER
+    */
 
     const customerName =
-      body.customer?.name || "RADARStore Client";
+      body.customer?.name ||
+      "RADARStore Client";
 
     const customerEmail =
-      body.customer?.email || "payments@radarcharts.net";
+      body.customer?.email ||
+      "payments@radarcharts.net";
 
     const customerPhone =
-      body.customer?.phone || "";
+      body.customer?.phone ||
+      "";
 
-    const response = await fetch(
-      "https://api.flutterwave.com/v3/payments",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${secretKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          tx_ref: txRef,
-          amount: total,
-          currency: "NGN",
+    /*
+      FLUTTERWAVE CHECKOUT
+    */
 
-          redirect_url:
-            "https://radarcharts.net/radarstore/payment-success.html",
+    const response =
+      await fetch(
+        "https://api.flutterwave.com/v3/payments",
+        {
+          method: "POST",
 
-          customer: {
-            name: customerName,
-            email: customerEmail,
-            phonenumber: customerPhone
+          headers: {
+            Authorization:
+              `Bearer ${secretKey}`,
+            "Content-Type":
+              "application/json"
           },
 
-          customizations: {
-            title: "RADARStore - RADARCharts by REM",
-            description: `RADARStore services: ${serviceNames}`
-          },
+          body: JSON.stringify({
+            tx_ref: txRef,
 
-          meta: {
-            source: "RADARStore",
-            service_ids: serviceIds.join(","),
-            services: serviceNames,
-            amount: total
-          }
-        })
-      }
-    );
+            amount: total,
 
-    const result = await response.json();
+            currency: "NGN",
+
+            redirect_url:
+              "https://radarcharts.net/radarstore/payment-success.html",
+
+            customer: {
+              name:
+                customerName,
+
+              email:
+                customerEmail,
+
+              phonenumber:
+                customerPhone
+            },
+
+            customizations: {
+              title:
+                "RADARStore - RADARCharts by REM",
+
+              description:
+                `RADARStore services: ${serviceNames}`
+            },
+
+            meta: {
+              source:
+                "RADARStore",
+
+              service_ids:
+                serviceIds.join(","),
+
+              services:
+                serviceNames,
+
+              amount:
+                total
+            }
+          })
+        }
+      );
+
+    const result =
+      await response.json();
+
+    /*
+      FLUTTERWAVE RESPONSE VALIDATION
+    */
 
     if (
       !response.ok ||
-      result.status !== "success" ||
+      result.status !==
+        "success" ||
       !result.data?.link
     ) {
       console.error(
@@ -132,21 +222,39 @@ export async function onRequestPost(context) {
 
       return jsonResponse(
         {
-          status: "error",
-          message: "Flutterwave could not create the payment."
+          status:
+            "error",
+
+          message:
+            "Flutterwave could not create the payment."
         },
         502
       );
     }
 
+    /*
+      RETURN HOSTED CHECKOUT
+    */
+
     return jsonResponse({
-      status: "success",
-      tx_ref: txRef,
-      amount: total,
-      currency: "NGN",
-      payment_link: result.data.link
+      status:
+        "success",
+
+      tx_ref:
+        txRef,
+
+      amount:
+        total,
+
+      currency:
+        "NGN",
+
+      payment_link:
+        result.data.link
     });
+
   } catch (error) {
+
     console.error(
       "RADARStore payment error:",
       error
@@ -154,21 +262,34 @@ export async function onRequestPost(context) {
 
     return jsonResponse(
       {
-        status: "error",
-        message: "Unable to start payment."
+        status:
+          "error",
+
+        message:
+          "Unable to start payment."
       },
       500
     );
   }
 }
 
-function jsonResponse(data, status = 200) {
+
+/*
+  JSON RESPONSE HELPER
+*/
+
+function jsonResponse(
+  data,
+  status = 200
+) {
   return new Response(
     JSON.stringify(data),
     {
       status,
+
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type":
+          "application/json"
       }
     }
   );

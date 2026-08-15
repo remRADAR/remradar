@@ -1,106 +1,83 @@
 /*
- * RADARCharts by REM
- * Visual Refinement Layer
+ * RADARCharts by REM — Visual Refinement Layer
  *
- * PURPOSE
- * - Preserve the existing Framer page structure.
- * - Add RADAR's global dark-silver visual treatment.
- * - Establish responsive visual variables.
- * - Provide the welcome animation once per browser session.
- *
- * IMPORTANT
- * - This file does NOT rebuild Framer pages.
- * - This file does NOT connect to WordPress.
- * - This file does NOT modify RADARStore/payment logic.
- * - The welcome video is optional and fails open if unavailable.
+ * PRESERVATION RULE:
+ * This layer enhances the existing Framer export.
+ * It does NOT rebuild the Framer page.
+ * It does NOT modify RADARStore/payment logic.
  */
 
 (() => {
   "use strict";
 
-  const CONFIG = {
+  const CONFIG = Object.freeze({
     welcomeVideo: "/assets/remRADAR.mp4",
-    welcomeSessionKey: "radarcharts:welcome-seen:v1",
-    transitionDuration: 700
-  };
+    welcomeSessionKey: "radarcharts:welcome-seen:v2",
+    transitionDuration: 720,
+    fallbackDelay: 6500
+  });
+
+  const prefersReducedMotion = () =>
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /*
    * ==========================================
-   * REDUCED MOTION
-   * ==========================================
-   */
-
-  function prefersReducedMotion() {
-    return (
-      typeof window.matchMedia === "function" &&
-      window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches
-    );
-  }
-
-  /*
-   * ==========================================
-   * GLOBAL VISUAL SYSTEM
+   * GLOBAL RADAR VISUAL SYSTEM
    * ==========================================
    */
 
   function injectStyles() {
-    if (
-      document.getElementById(
-        "radar-visual-layer-styles"
-      )
-    ) {
+    if (document.getElementById("radar-visual-layer-styles")) {
       return;
     }
 
     const style = document.createElement("style");
 
-    style.id =
-      "radar-visual-layer-styles";
+    style.id = "radar-visual-layer-styles";
 
     style.textContent = `
       :root {
+        color-scheme: dark;
 
-        /* RADAR graphite / silver palette */
+        --radar-black: #020304;
+        --radar-graphite-0: #050708;
+        --radar-graphite-1: #0a0d10;
+        --radar-graphite-2: #12161a;
+        --radar-graphite-3: #1b2025;
 
-        --radar-black:
-          #030405;
-
-        --radar-graphite:
-          #080a0c;
-
-        --radar-charcoal:
-          #101316;
-
-        --radar-silver:
-          #c9ced3;
-
-        --radar-white:
-          #f4f5f6;
-
-
-        /* Responsive layout system */
+        --radar-silver: #c7ccd1;
+        --radar-white: #f5f6f7;
 
         --radar-page-gutter:
           clamp(
-            18px,
-            3.5vw,
+            16px,
+            3.2vw,
             64px
           );
 
         --radar-content-width:
-          1440px;
+          min(
+            1440px,
+            calc(
+              100vw -
+              (2 * var(--radar-page-gutter))
+            )
+          );
 
         --radar-section-spacing:
           clamp(
-            64px,
+            56px,
             8vw,
             144px
           );
 
-
-        /* Surface system */
+        --radar-card-radius:
+          clamp(
+            18px,
+            2vw,
+            28px
+          );
 
         --radar-surface:
           rgba(
@@ -123,79 +100,136 @@
             255,
             255,
             255,
-            0.11
+            0.105
           );
       }
 
 
       /*
        * ======================================
-       * BASE PAGE
+       * BOX MODEL / GLOBAL SAFETY
        * ======================================
        */
 
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+
       html {
+        min-width: 320px;
+        min-height: 100%;
+
         background:
           var(--radar-black);
+
+        overflow-x:
+          clip;
       }
 
 
       body {
+        min-width: 320px;
+
+        min-height:
+          100vh;
+
+        min-height:
+          100svh;
+
+        margin:
+          0;
+
+        overflow-x:
+          clip;
+
+        color:
+          var(--radar-white);
+
+        /*
+         * RADAR dark-silver glossy
+         * foundation.
+         */
 
         background:
-          radial-gradient(
-            75% 55%
-            at 50% -10%,
-            rgba(
-              255,
-              255,
-              255,
-              0.075
-            ) 0%,
-            rgba(
-              200,
-              205,
-              210,
-              0.035
-            ) 28%,
-            transparent 68%
-          ),
 
           radial-gradient(
-            65% 50%
-            at 85% 35%,
+            90% 58%
+            at 50% -14%,
+
+            rgba(
+              235,
+              240,
+              244,
+              0.115
+            ) 0%,
+
             rgba(
               190,
               198,
               205,
+              0.060
+            ) 24%,
+
+            rgba(
+              120,
+              130,
+              140,
+              0.020
+            ) 45%,
+
+            transparent 72%
+          ),
+
+          radial-gradient(
+            58% 48%
+            at 92% 30%,
+
+            rgba(
+              190,
+              198,
+              205,
+              0.055
+            ) 0%,
+
+            transparent 72%
+          ),
+
+          radial-gradient(
+            54% 44%
+            at 8% 76%,
+
+            rgba(
+              160,
+              170,
+              180,
               0.035
             ) 0%,
-            transparent 70%
+
+            transparent 74%
           ),
 
           linear-gradient(
-            145deg,
-            #030405 0%,
-            #080a0c 35%,
-            #111417 62%,
-            #070809 100%
+            132deg,
+
+            #020304 0%,
+            #080b0e 28%,
+            #111519 52%,
+            #080b0e 74%,
+            #020304 100%
           );
-
-        background-attachment:
-          fixed;
-
-        color:
-          var(--radar-white);
       }
 
 
       /*
-       * ======================================
-       * GLOBAL BACKGROUND ATMOSPHERE
-       * ======================================
+       * Subtle metallic light sweep.
        */
 
-      .radar-visual-background {
+      body::before {
+        content:
+          "";
 
         position:
           fixed;
@@ -209,26 +243,122 @@
         pointer-events:
           none;
 
+        background:
+          linear-gradient(
+            112deg,
+
+            transparent 0%,
+            transparent 39%,
+
+            rgba(
+              255,
+              255,
+              255,
+              0.018
+            ) 47%,
+
+            rgba(
+              255,
+              255,
+              255,
+              0.030
+            ) 50%,
+
+            rgba(
+              255,
+              255,
+              255,
+              0.010
+            ) 54%,
+
+            transparent 63%,
+            transparent 100%
+          );
+
+        opacity:
+          0.72;
+      }
+
+
+      img,
+      video,
+      canvas,
+      svg {
+        max-width:
+          100%;
+      }
+
+
+      /*
+       * ======================================
+       * SAFE ALIGNMENT PRIMITIVES
+       * ======================================
+       *
+       * These are available to the Framer
+       * environment without rebuilding it.
+       */
+
+      .radar-content-width {
+        width:
+          min(
+            100%,
+            var(--radar-content-width)
+          );
+
+        margin-inline:
+          auto;
+
+        padding-inline:
+          var(--radar-page-gutter);
+      }
+
+
+      .radar-section-spacing {
+        padding-block:
+          var(--radar-section-spacing);
+      }
+
+
+      /*
+       * ======================================
+       * BACKGROUND ATMOSPHERE
+       * ======================================
+       */
+
+      .radar-visual-background {
+        position:
+          fixed;
+
+        inset:
+          0;
+
+        z-index:
+          -2;
+
+        pointer-events:
+          none;
+
         overflow:
           hidden;
 
         background:
           radial-gradient(
-            55% 42%
+            46% 36%
             at 50% 0%,
+
             rgba(
               255,
               255,
               255,
-              0.035
+              0.045
             ),
+
             transparent 72%
           );
       }
 
 
       .radar-visual-background::before {
-
         content:
           "";
 
@@ -236,28 +366,29 @@
           absolute;
 
         inset:
-          -20%;
+          -18%;
 
         background:
           radial-gradient(
             ellipse
-            at 50% 15%,
+            at 50% 16%,
+
             rgba(
-              210,
               215,
               220,
-              0.035
+              225,
+              0.045
             ),
-            transparent 48%
+
+            transparent 46%
           );
 
         filter:
-          blur(30px);
+          blur(34px);
       }
 
 
       .radar-visual-background::after {
-
         content:
           "";
 
@@ -265,19 +396,22 @@
           absolute;
 
         inset:
-          -25%;
+          -28%;
 
         background:
           linear-gradient(
-            115deg,
-            transparent 25%,
+            116deg,
+
+            transparent 28%,
+
             rgba(
               255,
               255,
               255,
-              0.012
-            ) 48%,
-            transparent 68%
+              0.014
+            ) 49%,
+
+            transparent 67%
           );
 
         transform:
@@ -292,7 +426,6 @@
        */
 
       .radar-welcome {
-
         position:
           fixed;
 
@@ -303,12 +436,9 @@
           2147483000;
 
         display:
-          flex;
+          grid;
 
-        align-items:
-          center;
-
-        justify-content:
+        place-items:
           center;
 
         overflow:
@@ -323,6 +453,9 @@
         visibility:
           visible;
 
+        isolation:
+          isolate;
+
         transition:
           opacity
           ${CONFIG.transitionDuration}ms
@@ -331,12 +464,15 @@
             1,
             0.36,
             1
-          );
+          ),
+
+          visibility
+          ${CONFIG.transitionDuration}ms
+          step-end;
       }
 
 
       .radar-welcome.is-leaving {
-
         opacity:
           0;
 
@@ -348,22 +484,29 @@
       }
 
 
-      .radar-welcome-video {
+      /*
+       * Native portrait clip.
+       *
+       * Mobile uses cover.
+       * Tablet/desktop uses contain
+       * to protect the composition.
+       */
 
+      .radar-welcome-video {
         display:
           block;
 
         width:
-          100%;
+          100vw;
 
         height:
-          100%;
+          100svh;
 
         object-fit:
           cover;
 
         object-position:
-          center;
+          center center;
 
         background:
           #020303;
@@ -371,54 +514,10 @@
 
 
       /*
-       * Desktop:
-       * preserve the portrait composition
-       * rather than stretching it.
-       */
-
-      @media (min-width: 810px) {
-
-        .radar-welcome-video {
-
-          width:
-            100vw;
-
-          height:
-            100vh;
-
-          object-fit:
-            contain;
-        }
-      }
-
-
-      /*
-       * Mobile:
-       * native portrait format is ideal.
-       */
-
-      @media (max-width: 809px) {
-
-        .radar-welcome-video {
-
-          width:
-            100%;
-
-          height:
-            100%;
-
-          object-fit:
-            cover;
-        }
-      }
-
-
-      /*
-       * INTRO SCRIM
+       * Intro scrim.
        */
 
       .radar-welcome-scrim {
-
         position:
           absolute;
 
@@ -429,26 +528,49 @@
           none;
 
         background:
+
           radial-gradient(
-            75% 75%
+            76% 78%
             at 50% 50%,
+
             transparent 42%,
+
             rgba(
               0,
               0,
               0,
-              0.20
+              0.22
             ) 100%
+          ),
+
+          linear-gradient(
+            to bottom,
+
+            rgba(
+              0,
+              0,
+              0,
+              0.06
+            ),
+
+            transparent 22%,
+            transparent 78%,
+
+            rgba(
+              0,
+              0,
+              0,
+              0.18
+            )
           );
       }
 
 
       /*
-       * SKIP BUTTON
+       * Skip control.
        */
 
       .radar-welcome-skip {
-
         position:
           absolute;
 
@@ -468,6 +590,9 @@
             )
           );
 
+        min-height:
+          38px;
+
         padding:
           10px 15px;
 
@@ -477,7 +602,7 @@
             255,
             255,
             255,
-            0.25
+            0.24
           );
 
         border-radius:
@@ -496,24 +621,16 @@
             255,
             255,
             255,
-            0.86
+            0.88
           );
 
-        font-family:
+        font:
+          500 11px/1
           system-ui,
           -apple-system,
           BlinkMacSystemFont,
           "Segoe UI",
           sans-serif;
-
-        font-size:
-          11px;
-
-        font-weight:
-          500;
-
-        line-height:
-          1;
 
         letter-spacing:
           0.08em;
@@ -533,7 +650,6 @@
 
 
       .radar-welcome-skip:hover {
-
         background:
           rgba(
             255,
@@ -553,7 +669,6 @@
 
 
       .radar-welcome-skip:focus-visible {
-
         outline:
           2px solid
           rgba(
@@ -568,12 +683,7 @@
       }
 
 
-      /*
-       * Prevent page scrolling while intro is active.
-       */
-
       body.radar-welcome-active {
-
         overflow:
           hidden;
       }
@@ -581,14 +691,59 @@
 
       /*
        * ======================================
-       * MOBILE RESPONSIVE VARIABLES
+       * TABLET / DESKTOP VIDEO
+       * ======================================
+       */
+
+      @media (min-width: 600px) {
+
+        .radar-welcome-video {
+          width:
+            100vw;
+
+          height:
+            100svh;
+
+          object-fit:
+            contain;
+        }
+      }
+
+
+      /*
+       * ======================================
+       * DESKTOP
+       * ======================================
+       */
+
+      @media (min-width: 810px) {
+
+        :root {
+          --radar-page-gutter:
+            clamp(
+              28px,
+              3.5vw,
+              64px
+            );
+        }
+
+
+        body {
+          background-attachment:
+            fixed;
+        }
+      }
+
+
+      /*
+       * ======================================
+       * MOBILE
        * ======================================
        */
 
       @media (max-width: 809px) {
 
         :root {
-
           --radar-page-gutter:
             clamp(
               16px,
@@ -598,10 +753,50 @@
 
           --radar-section-spacing:
             clamp(
-              56px,
-              13vw,
+              52px,
+              12vw,
               96px
             );
+        }
+
+
+        .radar-welcome-skip {
+          right:
+            max(
+              14px,
+              env(
+                safe-area-inset-right
+              )
+            );
+
+          bottom:
+            max(
+              14px,
+              env(
+                safe-area-inset-bottom
+              )
+            );
+        }
+      }
+
+
+      /*
+       * ======================================
+       * VERY SMALL PHONES
+       * ======================================
+       */
+
+      @media (max-width: 380px) {
+
+        .radar-welcome-skip {
+          min-height:
+            36px;
+
+          padding-inline:
+            13px;
+
+          font-size:
+            10px;
         }
       }
 
@@ -615,13 +810,11 @@
       @media (prefers-reduced-motion: reduce) {
 
         .radar-welcome {
-
           transition:
             none;
         }
 
         .radar-welcome-skip {
-
           display:
             none;
         }
@@ -669,51 +862,62 @@
 
   /*
    * ==========================================
-   * SESSION STATE
+   * SESSION STORAGE
    * ==========================================
    */
 
-  function hasSeenWelcome() {
+  function storageGet(key) {
 
     try {
-
-      return (
-        window.sessionStorage.getItem(
-          CONFIG.welcomeSessionKey
-        ) === "1"
+      return window.sessionStorage.getItem(
+        key
       );
-
-    } catch (error) {
-
-      return false;
+    } catch (_) {
+      return null;
     }
   }
 
 
-  function markWelcomeSeen() {
+  function storageSet(
+    key,
+    value
+  ) {
 
     try {
-
       window.sessionStorage.setItem(
-        CONFIG.welcomeSessionKey,
-        "1"
+        key,
+        value
       );
-
-    } catch (error) {
-
+    } catch (_) {
       /*
-       * Some privacy configurations
-       * can block sessionStorage.
-       *
-       * The site must remain usable.
+       * Fail open.
        */
     }
   }
 
 
+  function hasSeenWelcome() {
+
+    return (
+      storageGet(
+        CONFIG.welcomeSessionKey
+      ) === "1"
+    );
+  }
+
+
+  function markWelcomeSeen() {
+
+    storageSet(
+      CONFIG.welcomeSessionKey,
+      "1"
+    );
+  }
+
+
   /*
    * ==========================================
-   * REMOVE INTRO
+   * REMOVE WELCOME
    * ==========================================
    */
 
@@ -721,11 +925,8 @@
     overlay
   ) {
 
-    if (!overlay) {
-      return;
-    }
-
     if (
+      !overlay ||
       overlay.classList.contains(
         "is-leaving"
       )
@@ -743,18 +944,9 @@
 
     window.setTimeout(
       () => {
-
-        if (
-          overlay.parentNode
-        ) {
-
-          overlay.parentNode.removeChild(
-            overlay
-          );
-        }
-
+        overlay.remove();
       },
-      CONFIG.transitionDuration + 50
+      CONFIG.transitionDuration + 60
     );
   }
 
@@ -774,13 +966,12 @@
     if (
       hasSeenWelcome()
     ) {
-
       return;
     }
 
 
     /*
-     * Respect accessibility settings.
+     * Accessibility.
      */
 
     if (
@@ -807,13 +998,18 @@
     );
 
     overlay.setAttribute(
+      "aria-modal",
+      "true"
+    );
+
+    overlay.setAttribute(
       "aria-label",
       "RADARCharts welcome"
     );
 
 
     /*
-     * Video
+     * Video.
      */
 
     const video =
@@ -833,6 +1029,9 @@
     video.muted =
       true;
 
+    video.defaultMuted =
+      true;
+
     video.playsInline =
       true;
 
@@ -846,7 +1045,7 @@
 
 
     /*
-     * Scrim
+     * Scrim.
      */
 
     const scrim =
@@ -864,7 +1063,7 @@
 
 
     /*
-     * Skip
+     * Skip.
      */
 
     const skip =
@@ -895,18 +1094,12 @@
 
 
     /*
-     * Assemble
+     * Assemble.
      */
 
-    overlay.appendChild(
-      video
-    );
-
-    overlay.appendChild(
-      scrim
-    );
-
-    overlay.appendChild(
+    overlay.append(
+      video,
+      scrim,
       skip
     );
 
@@ -920,42 +1113,46 @@
 
 
     /*
-     * If the video cannot load,
-     * fail open rather than trapping
-     * the visitor behind the intro.
+     * Fails open if the video
+     * cannot load.
      */
 
-    const fallbackTimer =
+    let fallbackTimer =
       window.setTimeout(
         () => {
 
-          if (
-            video.readyState < 2
-          ) {
+          markWelcomeSeen();
 
-            markWelcomeSeen();
-
-            removeWelcome(
-              overlay
-            );
-          }
+          removeWelcome(
+            overlay
+          );
 
         },
-        5000
+        CONFIG.fallbackDelay
       );
 
 
+    const clearFallback =
+      () => {
+
+        window.clearTimeout(
+          fallbackTimer
+        );
+
+        fallbackTimer =
+          0;
+      };
+
+
     /*
-     * Video successfully starts.
+     * Video is playing.
      */
 
     video.addEventListener(
       "playing",
       () => {
 
-        window.clearTimeout(
-          fallbackTimer
-        );
+        clearFallback();
 
         markWelcomeSeen();
 
@@ -974,6 +1171,8 @@
       "ended",
       () => {
 
+        clearFallback();
+
         removeWelcome(
           overlay
         );
@@ -986,16 +1185,14 @@
 
 
     /*
-     * Loading error.
+     * Loading failure.
      */
 
     video.addEventListener(
       "error",
       () => {
 
-        window.clearTimeout(
-          fallbackTimer
-        );
+        clearFallback();
 
         markWelcomeSeen();
 
@@ -1019,9 +1216,7 @@
       .catch(
         () => {
 
-          window.clearTimeout(
-            fallbackTimer
-          );
+          clearFallback();
 
           markWelcomeSeen();
 

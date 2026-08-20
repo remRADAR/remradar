@@ -1294,3 +1294,77 @@ body {
     opacity: .82;
   }
 }
+
+
+/* Reveal pass: glass surfaces stay present but expose roughly 80% of the
+   atmospheric background beneath them. */
+:root {
+  --radar-glass-reveal-blur: 8px;
+  --radar-glass-reveal-saturation: 112%;
+  --radar-glass-reveal-surface: rgba(255, 246, 237, 0.055);
+  --radar-glass-reveal-inset: rgba(255, 246, 237, 0.018);
+}
+
+.radar-route-header,
+.radar-route-hero,
+.radar-route-section,
+.radar-store-hero,
+.radar-store-selection,
+.radar-store-service-card,
+.radar-store-audience-card,
+.radar-page-article,
+.radar-page-empty,
+.radar-editor-toolbar,
+.radar-editor-card,
+.radar-floating-dock {
+  background: linear-gradient(145deg, var(--radar-glass-reveal-surface), var(--radar-glass-reveal-inset));
+  -webkit-backdrop-filter: blur(var(--radar-glass-reveal-blur)) saturate(var(--radar-glass-reveal-saturation));
+  backdrop-filter: blur(var(--radar-glass-reveal-blur)) saturate(var(--radar-glass-reveal-saturation));
+  border-color: rgba(255, 237, 222, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1rem 3rem rgba(0, 0, 0, 0.12);
+}
+
+.radar-route-tag,
+.radar-route-archive span,
+.radar-route-archive a,
+.radar-store-service-card button,
+.radar-store-primary,
+.radar-store-secondary,
+.radar-editor-toolbar input,
+.radar-editor-fields input,
+.radar-editor-fields textarea,
+.radar-editor-fields select {
+  -webkit-backdrop-filter: blur(6px) saturate(110%);
+  backdrop-filter: blur(6px) saturate(110%);
+  background-color: rgba(255, 246, 237, 0.035);
+}
+
+.radar-floating-dock {
+  box-shadow: 0 1.2rem 3.2rem rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --radar-glass-reveal-blur: 10px;
+    --radar-glass-reveal-saturation: 118%;
+    --radar-glass-reveal-surface: rgba(255, 246, 237, 0.065);
+    --radar-glass-reveal-inset: rgba(255, 246, 237, 0.022);
+  }
+
+  .radar-route-header,
+  .radar-route-hero,
+  .radar-route-section,
+  .radar-store-hero,
+  .radar-store-selection,
+  .radar-store-service-card,
+  .radar-store-audience-card,
+  .radar-page-article,
+  .radar-page-empty,
+  .radar-editor-toolbar,
+  .radar-editor-card,
+  .radar-floating-dock {
+    -webkit-backdrop-filter: blur(var(--radar-glass-reveal-blur)) saturate(var(--radar-glass-reveal-saturation));
+    backdrop-filter: blur(var(--radar-glass-reveal-blur)) saturate(var(--radar-glass-reveal-saturation));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0.9rem 2.5rem rgba(0, 0, 0, 0.16);
+  }
+}

@@ -1,5 +1,11 @@
 export type RadarArticleSource = "radarcharts" | "remradar";
 
+export type RadarArticleReference = {
+  url: string;
+  label?: string;
+  type?: "source" | "spotify" | "artist" | "release" | "data";
+};
+
 export type RadarArticle = {
   id: string;
   slug: string;
@@ -11,6 +17,7 @@ export type RadarArticle = {
   date: string;
   source: RadarArticleSource;
   sourceLabel: string;
+  references?: RadarArticleReference[];
 };
 
 type WordPressPost = {
@@ -21,6 +28,11 @@ type WordPressPost = {
   title?: { rendered?: string };
   excerpt?: { rendered?: string };
   categories?: number[];
+  meta?: {
+    source_url?: string;
+    spotify_url?: string;
+    references?: Array<{ url?: string; label?: string; type?: RadarArticleReference["type"] }>;
+  };
   _embedded?: {
     "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
     "wp:term"?: Array<Array<{ name?: string }>>;
@@ -49,6 +61,12 @@ function categoryFor(post: WordPressPost, fallback: string) {
 }
 
 export function normalizeWordPressPost(post: WordPressPost, source: RadarArticleSource, sourceLabel: string): RadarArticle {
+  const references = [
+    ...(post.meta?.references ?? []),
+    ...(post.meta?.source_url ? [{ url: post.meta.source_url, label: "Source", type: "source" as const }] : []),
+    ...(post.meta?.spotify_url ? [{ url: post.meta.spotify_url, label: "Spotify", type: "spotify" as const }] : []),
+  ].filter((reference): reference is RadarArticleReference => Boolean(reference.url));
+
   return {
     id: `${source}:${post.id}`,
     slug: post.slug,
@@ -60,6 +78,7 @@ export function normalizeWordPressPost(post: WordPressPost, source: RadarArticle
     date: post.date || "",
     source,
     sourceLabel,
+    references: references.length ? references : undefined,
   };
 }
 

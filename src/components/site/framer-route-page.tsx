@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LiquidGlassFooter } from "@/components/site/liquid-glass-footer";
 import type { FramerPageDefinition } from "@/lib/framer-pages";
 import type { RadarArticle, RadarPageArchiveLink } from "@/lib/wordpress";
+import { getArticleCollectionStructuredData } from "@/utils/seo/structured-data";
 
 const navigation = [
   ["Charts", "/charts"],
@@ -42,10 +44,17 @@ function ArticleList({ articles }: { articles: RadarArticle[] }) {
 
 export function FramerRoutePage({ definition, articles = [], archive = [] }: { definition: FramerPageDefinition; articles?: RadarArticle[]; archive?: RadarPageArchiveLink[] }) {
   const archiveLinks = archive.length ? archive : navigation.slice(0, 8).map(([label, href]) => ({ label, href }));
+  const articleStructuredData = articles.length ? getArticleCollectionStructuredData(articles) : null;
+
   return (
     <main className="radar-route-shell">
+      {articleStructuredData ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }} />
+      ) : null}
       <header className="radar-route-header">
-        <Link className="radar-route-header__logo" href="/">RADARCharts</Link>
+        <Link className="radar-route-header__logo" href="/" aria-label="RADARCharts by REM home">
+          <Image src="/radarcharts-logo.webp" alt="RADARCharts by REM" width={180} height={120} priority />
+        </Link>
         <Link className="radar-route-header__home" href="/">Home</Link>
       </header>
 

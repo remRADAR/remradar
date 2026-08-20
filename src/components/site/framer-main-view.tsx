@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { NativeComponentReplacement } from "@/lib/native-content";
 
-const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=aktiv-section-11";
+const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=radarcharts-logo-12";
 
 function injectStyles(document: Document, replacement: NativeComponentReplacement) {
   const styleId = "radar-native-component-replacement-styles";
@@ -20,6 +20,7 @@ function injectStyles(document: Document, replacement: NativeComponentReplacemen
     ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/aktiv-section-poster.jpg') center / cover no-repeat !important; }",
     ".radar-aktiv-image, .radar-aktiv-video { position: relative !important; inset: auto !important; display: block !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: cover !important; object-position: 50% 50% !important; transform: none !important; }",
     ".framer-hz7xvy { position: relative !important; top: -14px !important; }",
+    "[data-radar-site-logo='true'] { display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; object-position: center !important; }",
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
   ].join("\n");
   document.head.appendChild(style);
@@ -28,6 +29,21 @@ function injectStyles(document: Document, replacement: NativeComponentReplacemen
 function applyReplacement(frame: HTMLIFrameElement, replacement: NativeComponentReplacement) {
   const innerDocument = frame.contentDocument;
   if (!innerDocument) return;
+
+  innerDocument.querySelectorAll('[data-framer-name="REMRADAR"]').forEach((logo) => {
+    const logoElement = logo as HTMLElement;
+    let image = logoElement.querySelector<HTMLImageElement>("img[data-radar-site-logo]");
+    if (!image) {
+      logoElement.replaceChildren();
+      image = innerDocument.createElement("img");
+      image.src = "/radarcharts-logo.webp";
+      image.alt = "RADARCharts by REM";
+      image.dataset.radarSiteLogo = "true";
+      logoElement.appendChild(image);
+    }
+    logoElement.setAttribute("aria-label", "RADARCharts by REM");
+  });
+
   const copy = [...innerDocument.querySelectorAll("p")].find((paragraph) =>
     paragraph.textContent?.includes("Experience the perfect fusion") || paragraph.textContent?.trim() === "AKT!V",
   );

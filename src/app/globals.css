@@ -246,11 +246,22 @@ body::-webkit-scrollbar {
     text-decoration: none;
   }
 
-  .radar-route-header__logo {
-    font-size: clamp(0.8rem, 1vw, 1rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .radar-route-header__logo,
+  .radar-store-brand {
+    display: inline-flex;
+    width: clamp(8rem, 16vw, 11.25rem);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 0.4rem;
+    background: #8b8b8b;
+  }
+
+  .radar-route-header__logo img,
+  .radar-store-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .radar-route-header__home,

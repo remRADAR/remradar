@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
@@ -37,7 +38,9 @@ export function RadarStorePage({ services = [] }: { services?: RadarManagedServi
   return (
     <main className="radar-store-page">
       <header className="radar-store-header">
-        <Link className="radar-store-brand" href="/">RADARCharts</Link>
+        <Link className="radar-store-brand" href="/" aria-label="RADARCharts by REM home">
+          <Image src="/radarcharts-logo.webp" alt="RADARCharts by REM" width={180} height={120} priority />
+        </Link>
         <Link className="radar-store-back" href="/">Back to RADAR</Link>
       </header>
 

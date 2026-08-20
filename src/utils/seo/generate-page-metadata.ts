@@ -24,6 +24,7 @@ interface MetadataProps {
   twitterHandle?: string;
   author?: string;
   siteName?: string;
+  keywords?: readonly string[];
 }
 
 export function generateMetadata({
@@ -34,15 +35,19 @@ export function generateMetadata({
   twitterHandle = siteConfig.twitterHandle,
   author = siteConfig.author,
   siteName = siteConfig.name,
+  keywords = siteConfig.keywords,
 }: MetadataProps = {}): Metadata {
   return {
     // Resolves every relative URL below to an absolute one.
     metadataBase: new URL(siteConfig.url),
-    title,
+    title: { default: title, template: `%s | ${siteConfig.name}` },
     description,
+    keywords: [...keywords],
     authors: [{ name: author }],
     creator: author,
     publisher: author,
+    category: "music and culture",
+    formatDetection: { telephone: false },
     alternates: {
       canonical: url,
     },
@@ -52,7 +57,7 @@ export function generateMetadata({
       url,
       siteName,
       // Dimensions must match the real asset; 1200×630 is the ideal size.
-      images: [{ url: ogImage, width: 900, height: 600 }],
+      images: [{ url: ogImage, width: 1200, height: 800, alt: `${siteConfig.name} — ${siteConfig.tagline}` }],
       locale: "en_US",
       type: "website",
     },
@@ -66,6 +71,7 @@ export function generateMetadata({
     },
     icons: {
       icon: [
+        { url: siteConfig.logo, type: "image/webp" },
         { url: "/favicon.ico" },
         { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },

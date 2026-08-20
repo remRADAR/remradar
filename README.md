@@ -1,172 +1,172 @@
-# next16-claude-starter
+# remRADAR
 
-A **Next.js 16 starter** for animation-heavy marketing & landing sites — built
-by [Textura](https://textura.agency) so that AI agents (Claude Code, Cursor)
-generate **clean, production-ready code on the first pass**.
+## RADARCharts · Culture, music, and the living signal
 
-Every motion is spring-based (`@react-spring/web`), text animation runs through
-`spring-text-engine`, scrolling is smoothed with Lenis, styling is Tailwind
-v4, and a rem-based adaptive grid scales the design across every viewport.
+**remRADAR** is an independent cultural platform and creative technology system built around the belief that music, visual culture, people, and ideas should be discovered as a connected signal rather than as isolated posts.
 
----
+This repository contains the self-hosted **RADARCharts** platform: the public-facing digital home for remRADAR’s charts, publications, music intelligence, cultural archives, original media, store experiences, and evolving editorial projects. The site preserves the authored visual language of the original Framer experience while giving the platform a more durable Next.js foundation, a native component-replacement channel, and a controlled bridge to WordPress content.
 
-## ⚡ Start in one prompt
-
-Copy this into **Claude Code** (or Cursor) from an empty folder — it clones the
-starter, detaches it from this repo's history, and sets it up:
-
-```text
-Please clone https://github.com/textura-agency/next16-claude-starter and set it up as a fresh project. Remove connection to the current git and init a new one. Read the obsidian/ vault first (it's the single source of truth) — the README is the map. The hard rules are in obsidian/workflows/ai-agent-guide.md. Default install: yarn install (Node 22.13+), copy .env.example to .env, then yarn dev.
-```
-
-> [!TIP]
-> Prefer to do it by hand? The same steps are spelled out in
-> [Getting started](#getting-started) below.
+> **RADAR is AKT!V. ©2026**
 
 ---
 
-## ⭐ How to use this starter (with AI)
+## What RADARCharts is about
 
-The real value here isn't the boilerplate — it's the **documentation +
-enforcement system** wrapped around it. An [Obsidian vault](./obsidian/README.md)
-holds every convention, a set of Claude Code hooks forces agents to read it
-before writing and update it after, and a small set of hard rules keeps every
-generated component on-style.
+RADARCharts is the discovery and editorial layer of remRADAR. It brings together the movements, releases, artists, stories, images, charts, and communities shaping the present cultural moment.
 
-### Hooks do the enforcement for you
+The platform is designed to feel more like an active visual environment than a conventional content-management website. Its homepage combines Framer-authored compositions, animated brand surfaces, logo tickers, chart experiences, publication modules, music content, archive sections, and a slim navigation dock. The result is a cinematic interface for following what is moving through music and culture now.
 
-`.claude/settings.json` ships **three hooks** that turn the workflow on
-automatically — you don't have to ask for any of this in your prompt:
+The current platform includes the following public areas:
 
-| Hook | When it fires | What it does |
-|------|---------------|--------------|
-| `SessionStart` | new chat / resume | Points the agent at the vault before it does anything |
-| `UserPromptSubmit` | every request | Reminds the agent to consult the relevant guide before acting |
-| `Stop` | end of every turn | Blocks once to confirm the vault was updated to match the change |
+| Area | Purpose |
+| --- | --- |
+| **Home** | The primary RADARCharts experience, including the welcome animation, Framer homepage, logo ticker, media sections, chart surfaces, and navigation dock. |
+| **Charts** | Chart-led discovery and ranked cultural or music intelligence. |
+| **Articles** | Editorial publications and the article stream connected to the WordPress content sources. |
+| **Magazine** | Long-form editorial and archive-oriented publishing. |
+| **RADARMusic** | Music-focused releases, stories, playlists, and artist-facing content. |
+| **RadarStore** | The connected store experience and future commerce surface. |
+| **Spotlights** | Focused profiles, moments, and cultural features. |
+| **Motherland** | A dedicated cultural and geographic editorial space. |
+| **Explore** | The broader platform index and discovery navigation. |
 
-Inspect, edit, or disable them anytime with `/hooks` in Claude Code. ADR:
-[`obsidian/meta/decisions-log.md`](./obsidian/meta/decisions-log.md) (ADR-0007).
+---
 
-### How to write a good request
+## The remRADAR brand
 
-Because the conventions live in the vault, your prompts get to focus on **what**
-you want — not **how** to write it. A good request:
+**remRADAR** is the brand and cultural point of view behind the platform. The name represents a continuous act of noticing: identifying emerging energy, preserving important context, and creating a visible path for people to find what deserves attention.
 
-- **Says what to build, not how.** *"Add a Testimonials section to the home
-  page with a horizontal scroll carousel"* — not *"use react-spring with a
-  parallel hook and a `mode="forward"` Inview…"*. The vault tells the agent how.
-- **Names the page / view / component clearly.** Routes delegate to
-  `src/views/`; reference that file when iterating.
-- **Cites a vault note only to *override* a convention** (rare). Most of the
-  time the hooks will pull in the right guide on their own.
-- **For a brand-new page**, point the agent at the
-  [`new-page`](./obsidian/workflows/new-page.md) playbook or fill in
-  [`generic-layout-prompt`](./obsidian/workflows/generic-layout-prompt.md).
-- **Trust the hard rules.** Spring-based motion only, design tokens, no `any`,
-  server components by default, semantic HTML, routes → views. These are
-  enforced — you don't have to repeat them in every prompt.
+The brand is intentionally cross-disciplinary. It operates across music, editorial, visual identity, culture, community, technology, and commerce. RADARCharts is therefore not only a website; it is one public interface for a wider remRADAR system.
 
-The payoff: animation-heavy pages that ship lint-clean, typed, accessible, and
-on-token — without the usual "now make it production-ready" second pass.
+The design language is built around several durable principles:
 
-### 💸 Cost expectations
+| Principle | Meaning in the product |
+| --- | --- |
+| **Active discovery** | The interface should feel alive, directional, and in motion without becoming difficult to use. |
+| **Editorial context** | Charts and media should lead to stories, people, releases, and deeper cultural understanding. |
+| **Cinematic restraint** | Motion, glass surfaces, dark fields, typography, and image composition create atmosphere while preserving hierarchy. |
+| **Human authorship** | Framer-authored compositions and visual decisions remain part of the product’s identity rather than being flattened into generic templates. |
+| **Open-ended expansion** | New pages, media formats, store experiences, and editorial channels can be added without rebuilding the platform from scratch. |
 
-This starter is **token-intensive by design**. Every prompt fans out into the
-vault (architecture, conventions, the relevant topic note), and the hooks
-re-inject context on every turn. That bought-clean code costs tokens.
+---
 
-> **Minimum recommended plan: [Claude Max (5×)](https://www.anthropic.com/pricing).**
-> A standard Claude.ai Pro plan will hit usage limits quickly on a real
-> session.
+## RADARMatrix
+
+**RADARMatrix** is the strategic and operational intelligence layer for remRADAR. It connects brand direction, product engineering, visual systems, motion, editorial thinking, music-release intelligence, distribution, memory, and future automation into one coherent operating model.
+
+RADARMatrix exists to ensure that the platform does not grow as a collection of disconnected pages or one-off experiments. It helps the project maintain continuity between what remRADAR believes, what it publishes, how it looks, how it behaves, and what it learns over time.
+
+Its operating sequence is:
+
+> **Outcome → Context → Specification → Build → Test → Verify → Report → Continue.**
+
+In practical terms, RADARMatrix provides the following discipline:
+
+| System lane | Responsibility |
+| --- | --- |
+| **Engineering control** | Inspect the repository, preserve architecture, implement changes safely, test critical paths, and verify the result in the actual browser. |
+| **Visual intelligence** | Translate visual intent into design systems, motion behavior, image treatment, composition, and responsive implementation. |
+| **Editorial and release intelligence** | Connect publications, charts, artists, music releases, cultural moments, audiences, and distribution decisions. |
+| **Memory stewardship** | Preserve durable brand principles, accepted patterns, rejected alternatives, decisions, experiments, and open questions with provenance. |
+| **Controlled automation** | Build future workflows around canonical content, approval gates, idempotency, auditability, rights checks, and reversible actions. |
+
+RADARMatrix is not a separate consumer-facing page in the current site. It is the operating framework used to expand remRADAR coherently across product, brand, content, and future agent-assisted systems.
+
+---
+
+## Technical foundation
+
+RADARCharts is a Next.js 16 application using the App Router and Tailwind CSS v4. The original Framer homepage is retained as the authored primary view and is served through a controlled iframe bridge. The bridge synchronizes the iframe height, applies native component replacements, handles the third-section media layer, and preserves the lower Framer components instead of replacing the homepage with a generic rebuild.
+
+The platform uses WordPress as a content bridge for publications and navigation while reducing dependence on WordPress for homepage component control. A local native replacement channel at [`content/component-replacements.json`](./content/component-replacements.json) provides an independently editable source for selected homepage components.
+
+| Layer | Current role |
+| --- | --- |
+| **Next.js 16 App Router** | Application shell, routes, server rendering, APIs, and deployment foundation. |
+| **Framer export** | Authored homepage visual composition and page-level Framer surfaces. |
+| **Framer bridge** | Height synchronization, runtime replacement, media activation, and responsive containment. |
+| **Native component channel** | JSON-backed replacement data and protected API for selected homepage components. |
+| **WordPress adapters** | Publication and navigation content from the active WordPress sources. |
+| **Welcome gate** | Automatic cinematic opening animation with homepage preloading and fade transition. |
+| **Self-hosted media** | Optimized WebM/MP4 assets and poster fallbacks served from the repository. |
+| **Obsidian vault** | Project memory, architecture, workflows, decisions, and agent-facing guidance. |
+
+### Homepage media performance
+
+The animated third section uses a self-hosted compressed video representation of the supplied GIF rather than serving the original 191 MB GIF directly. The primary mobile asset is a 640×360 MP4, with a WebM fallback and a JPEG poster frame. The poster is preloaded during the welcome animation and remains visible while the video decoder initializes, preventing a blank section.
+
+The reproducible conversion workflow is available at [`scripts/optimize_aktiv_media.py`](./scripts/optimize_aktiv_media.py).
 
 ---
 
 ## Getting started
 
-> **Requires Node 22.13+** (Node 20.19+ also works; 24 LTS recommended).
-> On older versions `yarn install` fails outright — `eslint-visitor-keys`
-> requires `^20.19 || ^22.13 || >=24`.
-
-1. **Clone the template**
-   ```bash
-   git clone https://github.com/textura-agency/next16-claude-starter.git my-project
-   cd my-project
-   ```
-
-2. **Detach from this repo's history.** The bundled `.git` folder is hidden;
-   on macOS, with the folder open in Finder, press `⇧ + ⌘ + .` (Shift + Cmd + .)
-   to reveal hidden files, then drag `.git` to the bin. Or from the terminal:
-   ```bash
-   rm -rf .git
-   ```
-
-3. **Initialise your own GitHub repo.** Create an empty repo on GitHub first
-   (no README/`.gitignore` — the template already has them), then:
-   ```bash
-   git init
-   git add .
-   git commit -m "chore: initial commit"
-   git branch -M main
-   git remote add origin <your-new-repo-url>
-   git push -u origin main
-   ```
-
-4. **Install and run**
-   ```bash
-   yarn install
-   cp .env.example .env    # then fill in NEXT_PUBLIC_SITE_URL
-   yarn dev                # http://localhost:3000
-   ```
-   Every value in `.env.example` has a safe fallback, so `yarn dev` works before
-   you fill anything in — see
-   [`environment-variables`](./obsidian/architecture/environment-variables.md).
-
-| Script | Purpose |
-|--------|---------|
-| `yarn dev` | Development server |
-| `yarn build` | Production build |
-| `yarn start` | Serve the production build |
-| `yarn lint` | ESLint |
-
-## 🚀 Deploy to Vercel
-
-The fastest path to production — Next.js is Vercel's home framework, so the
-defaults Just Work. From the project root:
+The project expects **Node 22.13+** and Yarn.
 
 ```bash
-npm i -g vercel@latest    # one-time, if you don't have it
-vercel                    # links the repo and ships a preview deploy
-vercel --prod             # promotes to production
+git clone https://github.com/remRADAR/remradar.git
+cd remradar
+yarn install
+cp .env.example .env
+yarn dev
 ```
 
-Or from the dashboard: open [vercel.com/new](https://vercel.com/new), import
-the GitHub repo you created in step 3, accept the defaults — the Next.js
-preset auto-configures the build, output, and image optimisation. No
-`vercel.json` required.
-
-When you add environment variables (e.g. `NEXT_PUBLIC_SITE_URL`, see
-[`obsidian/architecture/environment-variables.md`](./obsidian/architecture/environment-variables.md)),
-set them in **Project Settings → Environment Variables** on Vercel, then sync
-them locally with:
+The development server runs at `http://localhost:3000` by default. A production-style local preview can be started with:
 
 ```bash
-vercel env pull .env.local
+yarn build
+yarn start
 ```
 
-## 📖 Documentation
+Available scripts include:
 
-Full project documentation lives in the **`obsidian/`** Obsidian vault — open
-that folder in [Obsidian](https://obsidian.md) for a linked, navigable second
-brain covering architecture, the animation system, conventions, and workflows.
+| Command | Purpose |
+| --- | --- |
+| `yarn dev` | Start the development server. |
+| `yarn lint` | Run ESLint. |
+| `yarn build` | Create the production build. |
+| `yarn start` | Serve the production build. |
 
-Start at [`obsidian/README.md`](./obsidian/README.md).
+Environment variables are documented in [`.env.example`](./.env.example) and the project guide at [`obsidian/architecture/environment-variables.md`](./obsidian/architecture/environment-variables.md).
 
-## For AI agents
+---
 
-> ⚠️ This is **not** the Next.js you may know — APIs and conventions differ
-> from older versions. Read `AGENTS.md` and the `obsidian/` vault before
-> writing code.
+## Repository map
 
-Entry points `AGENTS.md` · `CLAUDE.md` · `.cursorrules` all lead into the
-`obsidian/` vault — the single source of truth for this project. Full rules of
-engagement: [`obsidian/workflows/ai-agent-guide.md`](./obsidian/workflows/ai-agent-guide.md).
+| Path | Description |
+| --- | --- |
+| [`src/app`](./src/app) | App Router pages, layouts, and API routes. |
+| [`src/components/site`](./src/components/site) | Site shell, Framer bridge, welcome gate, footer, and navigation components. |
+| [`src/lib`](./src/lib) | Native content and integration helpers. |
+| [`content`](./content) | Editable native component replacement data. |
+| [`public/framer-site`](./public/framer-site) | Self-hosted Framer export and its local assets. |
+| [`scripts`](./scripts) | Repeatable media, migration, and maintenance utilities. |
+| [`obsidian`](./obsidian) | The project’s durable documentation and operating memory. |
+
+Start with [`obsidian/README.md`](./obsidian/README.md) for the vault map and [`obsidian/workflows/ai-agent-guide.md`](./obsidian/workflows/ai-agent-guide.md) for the hard rules governing repository changes.
+
+---
+
+## Working principles
+
+Changes to RADARCharts should preserve the authored visual direction, avoid unnecessary rewrites, and be verified in the real rendered experience. Every meaningful change should consider loading, responsive behavior, accessibility, reduced motion, failure states, content ownership, and rollback.
+
+The site is intentionally being migrated in stages. WordPress remains useful for publication content, while the native channel gradually takes ownership of editable homepage components and other product surfaces. This allows remRADAR to reduce server-side dependency without sacrificing the existing editorial workflow or the authored Framer experience.
+
+When extending the platform, use the following sequence:
+
+> **Understand → Inspect → Plan → Build → Test → Debug → Review → Verify → Continue.**
+
+---
+
+## Status
+
+The main branch contains the current self-hosted RADARCharts migration, including the Framer homepage bridge, automatic welcome animation, responsive section alignment, native component replacement channel, optimized third-section media, and the glass navigation footer.
+
+The platform remains an active build. Future work includes expanding the protected native admin interface, completing the migration of additional editable component data, deepening WordPress synchronization, and continuing the RADARStore and editorial platform development.
+
+---
+
+## License and ownership
+
+This repository is maintained for the remRADAR project. Unless a separate license file states otherwise, the source, brand assets, editorial materials, media, and visual identity should be treated as project-owned materials and should not be redistributed without permission.

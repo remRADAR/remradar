@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Preserved Framer export runtime; it is third-party generated output.
+    "public/_deps/**",
   ]),
   {
     rules: {

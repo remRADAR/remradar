@@ -1,0 +1,204 @@
+{
+  "now_reading": [
+    {
+      "tag": "p",
+      "classes": [
+        "framer-text",
+        "framer-styles-preset-smtg16"
+      ],
+      "style": "--framer-text-alignment:center",
+      "text": "NOW READING...",
+      "ancestors": [
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1m3kjgm"
+          ],
+          "style": "--framer-link-text-color:rgb(0, 153, 255);--framer-link-text-decoration:underline;will-change:transform;opacity:1;transform:none"
+        },
+        {
+          "tag": "a",
+          "classes": [
+            "framer-D3jlu",
+            "framer-j5e0b",
+            "framer-42frxr",
+            "framer-v-42frxr",
+            "framer-1b6kgek"
+          ],
+          "style": "height:100%;width:100%"
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1vr8u7o-container"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "ssr-variant",
+            "hidden-8tzf5w",
+            "hidden-1jgo8ru",
+            "hidden-133g449"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-hz7xvy"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-sVFBc",
+            "framer-72rtr7"
+          ],
+          "style": "min-height:100vh;width:auto;display:contents"
+        }
+      ]
+    },
+    {
+      "tag": "p",
+      "classes": [
+        "framer-text",
+        "framer-styles-preset-smtg16"
+      ],
+      "style": "--framer-text-alignment:center",
+      "text": "NOW READING...",
+      "ancestors": [
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1m3kjgm"
+          ],
+          "style": "--framer-link-text-color:rgb(0, 153, 255);--framer-link-text-decoration:underline;will-change:transform;opacity:1;transform:none"
+        },
+        {
+          "tag": "a",
+          "classes": [
+            "framer-D3jlu",
+            "framer-j5e0b",
+            "framer-42frxr",
+            "framer-v-1mkhgss",
+            "framer-1b6kgek"
+          ],
+          "style": "height:100%;width:100%"
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1vr8u7o-container"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "ssr-variant",
+            "hidden-jhg8sw",
+            "hidden-1jgo8ru",
+            "hidden-72rtr7"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-hz7xvy"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-sVFBc",
+            "framer-72rtr7"
+          ],
+          "style": "min-height:100vh;width:auto;display:contents"
+        }
+      ]
+    },
+    {
+      "tag": "p",
+      "classes": [
+        "framer-text",
+        "framer-styles-preset-smtg16"
+      ],
+      "style": "--framer-text-alignment:center",
+      "text": "NOW READING...",
+      "ancestors": [
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1m3kjgm"
+          ],
+          "style": "--framer-link-text-color:rgb(0, 153, 255);--framer-link-text-decoration:underline;will-change:transform;opacity:1;transform:none"
+        },
+        {
+          "tag": "a",
+          "classes": [
+            "framer-D3jlu",
+            "framer-j5e0b",
+            "framer-42frxr",
+            "framer-v-wck8ev",
+            "framer-1b6kgek"
+          ],
+          "style": "height:100%;width:100%"
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-1vr8u7o-container"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "ssr-variant",
+            "hidden-8tzf5w",
+            "hidden-jhg8sw",
+            "hidden-133g449",
+            "hidden-72rtr7"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-hz7xvy"
+          ],
+          "style": ""
+        },
+        {
+          "tag": "div",
+          "classes": [
+            "framer-sVFBc",
+            "framer-72rtr7"
+          ],
+          "style": "min-height:100vh;width:auto;display:contents"
+        }
+      ]
+    }
+  ],
+  "relevant_rules": {
+    "</style><style data-framer-css-ssr-minified data-framer-components=\"framer-lib-cursors-host framer-Oht50 framer-sVFBc PropertyOverrides framer-lib-combinedCSSRules framer-D3jlu framer-slideshow-component\">html,body,#main": "box-sizing:border-box;margin:0;padding:0",
+    ".framer-sVFBc .framer-1k80cd9": "gap:20px;padding:44px 20px",
+    ".framer-sVFBc .framer-50j9t5-container": "height:620px;min-height:560px",
+    ".framer-sVFBc .framer-hz7xvy": "height:640px",
+    ".framer-sVFBc .framer-1vr8u7o-container": "height:320px",
+    ".framer-sVFBc .framer-27qyin-container,.framer-sVFBc .framer-1vr8u7o-container": "height:360px",
+    ".framer-D3jlu .framer-63hyh-container": "flex:none;width:600px;height:400px;position:relative",
+    ".framer-D3jlu.framer-v-wck8ev .framer-63hyh-container": "width:500px;height:300px",
+    ".framer-D3jlu.framer-v-1mkhgss .framer-63hyh-container": "width:250px;height:150px",
+    ".framer-j5e0b .framer-styles-preset-smtg16:not(.rich-text-wrapper),.framer-j5e0b .framer-styles-preset-smtg16.rich-text-wrapper p": "--framer-font-family:\"Inter\",sans-serif;--framer-font-family-bold:\"Inter-Bold\",\"Inter\",\"Inter Placeholder\",sans-serif;--framer-font-family-bold-italic:\"Inter-BoldItalic\",\"Inter\",\"Inter Placeholder\",sans-serif;--framer-font-family-italic:\"Inter-Italic\",\"Inter\",\"Inter Placeholder\",sans-serif;--framer-font-size:16px;--framer-font-style:normal;--framer-font-style-bold:normal;--framer-font-style-bold-italic:italic;--framer-font-style-italic:italic;--framer-font-weight:300;--framer-font-weight-bold:700;--framer-font-weight-bold-italic:700;--framer-font-weight-italic:400;--framer-letter-spacing:-.02em;--framer-line-height:1.5em;--framer-paragraph-spacing:20px;--framer-text-alignment:left;--framer-text-color:#fff;--framer-text-decoration:none;--framer-text-transform:none",
+    ".framer-slideshow-axis-x": "--framer-dir-multiplier:-1",
+    "html[dir=rtl] .framer-slideshow-axis-x": "--framer-dir-multiplier:1",
+    ".framer-slideshow-axis-y": "--framer-dir-multiplier:-1"
+  },
+  "media_rule_count": 16
+}

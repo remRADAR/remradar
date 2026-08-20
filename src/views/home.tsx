@@ -1,10 +1,25 @@
+import { LiquidGlassFooter } from "@/components/site/liquid-glass-footer";
+import { FramerMainView } from "@/components/site/framer-main-view";
+import { WelcomeGate } from "@/components/site/welcome-gate";
+import { getNativeComponentReplacement } from "@/lib/native-content";
+import { getManagedRadarNavigation } from "@/lib/wordpress";
+
 /**
- * Home view — a Server Component, intentionally empty.
- *
- * This is the starting point for new work: if the project is empty and no other
- * instructions are provided, begin developing here (route `/`). Build sections
- * as client leaves so this view stays a Server Component (hard rule #6).
+ * The imported Framer homepage is the primary site view. The Next shell owns
+ * the global background layer and the replacement footer only.
  */
-export const HomeView = () => {
-  return <main className="min-h-lvh" />;
+export const HomeView = async () => {
+  const [navigation, replacement] = await Promise.all([
+    getManagedRadarNavigation(),
+    getNativeComponentReplacement(),
+  ]);
+
+  return (
+    <main className="relative min-h-lvh overflow-x-clip bg-transparent text-foreground">
+      <WelcomeGate />
+      <div aria-hidden="true" className="radar-background pointer-events-none fixed inset-0 -z-10" />
+      <FramerMainView replacement={replacement} />
+      <LiquidGlassFooter navigation={navigation} />
+    </main>
+  );
 };

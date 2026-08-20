@@ -23,6 +23,20 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
+  async headers() {
+    return [
+      {
+        source: "/framer-site/_deps/images/aktiv-section-loop.(webm|mp4)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
+
   // React Compiler (automatic memoisation) is an opt-in performance win.
   // It requires the `babel-plugin-react-compiler` dev dependency and routes
   // the build through Babel — enable once installed:

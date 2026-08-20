@@ -71,7 +71,7 @@ export function generateMetadata({
     },
     icons: {
       icon: [
-        { url: siteConfig.logo, type: "image/webp" },
+        { url: "/radarmatrix-favicon-512.png", sizes: "512x512", type: "image/png" },
         { url: "/favicon.ico" },
         { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },

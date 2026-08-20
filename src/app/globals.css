@@ -1217,3 +1217,62 @@ body {
     transition: none;
   }
 }
+
+
+/* Mobile glass refinement: stronger frost, controlled by one shared parameter. */
+@media (max-width: 640px) {
+  :root {
+    --radar-mobile-glass-blur: 36px;
+    --radar-mobile-glass-saturation: 155%;
+    --radar-mobile-glass-surface: rgba(255, 246, 237, 0.125);
+    --radar-mobile-glass-inset: rgba(255, 246, 237, 0.052);
+  }
+
+  .radar-route-header,
+  .radar-route-hero,
+  .radar-route-section,
+  .radar-store-hero,
+  .radar-store-selection,
+  .radar-store-service-card,
+  .radar-store-audience-card,
+  .radar-page-article,
+  .radar-page-empty,
+  .radar-editor-toolbar,
+  .radar-editor-card,
+  .radar-floating-dock {
+    background: linear-gradient(145deg, var(--radar-mobile-glass-surface), var(--radar-mobile-glass-inset));
+    -webkit-backdrop-filter: blur(var(--radar-mobile-glass-blur)) saturate(var(--radar-mobile-glass-saturation));
+    backdrop-filter: blur(var(--radar-mobile-glass-blur)) saturate(var(--radar-mobile-glass-saturation));
+    border-color: rgba(255, 237, 222, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.17), inset 0 -1px 0 rgba(0, 0, 0, 0.18), 0 1.4rem 3.6rem rgba(0, 0, 0, 0.22);
+  }
+
+  .radar-route-header,
+  .radar-floating-dock {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 1.25rem 3rem rgba(0, 0, 0, 0.26);
+  }
+
+  .radar-route-tag,
+  .radar-route-archive span,
+  .radar-route-archive a,
+  .radar-store-service-card button,
+  .radar-store-primary,
+  .radar-store-secondary,
+  .radar-editor-toolbar input,
+  .radar-editor-fields input,
+  .radar-editor-fields textarea,
+  .radar-editor-fields select {
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+  }
+
+  .radar-floating-dock__item:hover,
+  .radar-floating-dock__item:focus-visible {
+    background: linear-gradient(145deg, rgba(255, 231, 210, 0.3), rgba(255, 231, 210, 0.12));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 0.7rem 1.6rem rgba(0, 0, 0, 0.2);
+  }
+
+  .radar-atmosphere::before {
+    filter: blur(36px) saturate(118%);
+  }
+}

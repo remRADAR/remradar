@@ -929,3 +929,291 @@ body.radar-welcome-active {
 .radar-editor-fields { display: grid; gap: .8rem; padding: 1rem; }
 .radar-editor-fields textarea { min-height: 4rem; resize: vertical; }
 .radar-editor-toggle { display: flex !important; grid-template-columns: auto 1fr; align-items: center; }
+
+
+/* ---------------------------------------------------------------------------
+   GLASS UI SYSTEM — remRADAR atmospheric shell
+   The Framer-authored composition remains foreground content. This layer adds
+   a continuous time-aware atmosphere and shared frosted surfaces around the
+   native shell without changing the authored homepage geometry.
+   --------------------------------------------------------------------------- */
+:root {
+  --raw-color-brand-ink: #090a10;
+  --raw-color-brand-charcoal: #17161b;
+  --raw-color-brand-silver: #e8ded3;
+  --raw-color-brand-white: #fbf7f2;
+  --raw-color-brand-glass: rgba(25, 24, 29, 0.58);
+  --raw-color-brand-line: rgba(255, 237, 222, 0.18);
+  --raw-gradient-brand-background: radial-gradient(72% 62% at 50% -20%, rgba(241, 194, 156, 0.16), transparent 70%), linear-gradient(135deg, #090a10 0%, #17161b 52%, #0c0b10 100%);
+  --background: var(--raw-color-brand-ink);
+  --foreground: var(--raw-color-brand-white);
+  --surface-footer: var(--raw-color-brand-glass);
+  --surface-footer-inset: var(--raw-color-brand-charcoal);
+  --border-footer: var(--raw-color-brand-line);
+  --footer-accent: var(--raw-color-brand-silver);
+  --footer-foreground: var(--raw-color-brand-white);
+  --footer-muted: rgba(251, 247, 242, 0.68);
+  --page-background: var(--raw-gradient-brand-background);
+}
+
+html,
+body {
+  background: #090a10;
+}
+
+body {
+  color: var(--footer-foreground);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 207, 170, 0.08), transparent 34%), linear-gradient(135deg, #090a10, #17161b 54%, #0c0b10);
+}
+
+.scroll-layout {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+}
+
+.scroll-layout-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+}
+
+.radar-atmosphere {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 44% at 50% 12%, rgba(var(--radar-sky-glow), 0.2), transparent 76%),
+    linear-gradient(180deg, rgba(var(--radar-sky-top), var(--radar-atmosphere-exposure)), rgba(var(--radar-sky-horizon), 0.42) 57%, rgba(9, 10, 16, 0.95));
+  transition: background 1600ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.radar-atmosphere::before,
+.radar-atmosphere::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.radar-atmosphere::before {
+  inset: -18%;
+  background:
+    radial-gradient(38% 28% at 18% 34%, rgba(var(--radar-sky-glow), calc(var(--radar-atmosphere-haze) * .42)), transparent 76%),
+    radial-gradient(42% 30% at 82% 25%, rgba(var(--radar-sky-horizon), calc(var(--radar-atmosphere-haze) * .26)), transparent 78%),
+    radial-gradient(52% 34% at 50% 82%, rgba(255, 220, 191, calc(var(--radar-atmosphere-haze) * .14)), transparent 78%);
+  filter: blur(42px) saturate(112%);
+  opacity: .9;
+  animation: radar-atmosphere-drift 28s ease-in-out infinite alternate;
+}
+
+.radar-atmosphere::after {
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 18%, rgba(255,255,255,var(--radar-atmosphere-stars)) 0 1px, transparent 1.5px), radial-gradient(circle at 75% 28%, rgba(255,255,255,calc(var(--radar-atmosphere-stars) * .65)) 0 1px, transparent 1.5px), radial-gradient(circle at 58% 76%, rgba(255,255,255,calc(var(--radar-atmosphere-stars) * .45)) 0 1px, transparent 1.5px);
+  background-size: 31rem 25rem, 43rem 36rem, 37rem 29rem;
+  mix-blend-mode: screen;
+  opacity: .7;
+}
+
+.radar-atmosphere__grain {
+  position: absolute;
+  inset: 0;
+  opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+@keyframes radar-atmosphere-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  to { transform: translate3d(1.5%, 1%, 0) scale(1.04); }
+}
+
+/* Shared frosted surface language for native pages and utility shells. */
+.radar-route-shell,
+.radar-store-page,
+.radar-editor-shell {
+  background: transparent;
+}
+
+.radar-route-header,
+.radar-route-hero,
+.radar-route-section,
+.radar-store-hero,
+.radar-store-selection,
+.radar-store-service-card,
+.radar-store-audience-card,
+.radar-page-article,
+.radar-page-empty,
+.radar-editor-toolbar,
+.radar-editor-card {
+  border-color: rgba(255, 237, 222, 0.18);
+  background: linear-gradient(145deg, rgba(255, 246, 237, 0.105), rgba(255, 246, 237, 0.035));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 -1px 0 rgba(0,0,0,.16), 0 1.8rem 5rem rgba(0,0,0,.17);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+
+.radar-route-header {
+  width: min(100%, 72rem);
+  margin-top: clamp(.75rem, 2vw, 1.5rem);
+  padding: .7rem 1rem;
+  border: 1px solid rgba(255, 237, 222, 0.16);
+  border-radius: 1.25rem;
+}
+
+.radar-route-header__logo,
+.radar-store-brand {
+  border: 1px solid rgba(255,237,222,.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 .9rem 2rem rgba(0,0,0,.18);
+}
+
+.radar-route-hero,
+.radar-store-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.radar-route-hero::after,
+.radar-store-hero::after,
+.radar-editor-card::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(112deg, rgba(255,255,255,.12), transparent 24%, transparent 72%, rgba(255,211,180,.07));
+  opacity: .7;
+}
+
+.radar-route-hero > *,
+.radar-store-hero__content,
+.radar-editor-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.radar-route-tag,
+.radar-route-archive span,
+.radar-route-archive a,
+.radar-store-service-card button,
+.radar-store-primary,
+.radar-store-secondary {
+  border-color: rgba(255,237,222,.22);
+  background: rgba(255,246,237,.055);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter: blur(16px) saturate(135%);
+}
+
+.radar-route-tag:hover,
+.radar-route-archive a:hover,
+.radar-store-service-card button:hover,
+.radar-store-secondary:hover {
+  border-color: rgba(255,215,187,.62);
+  background: rgba(255,213,182,.14);
+}
+
+.radar-floating-footer {
+  z-index: 30;
+}
+
+.radar-floating-dock {
+  position: relative;
+  border-color: rgba(255, 238, 224, .28);
+  background: linear-gradient(145deg, rgba(255,246,237,.18), rgba(255,246,237,.055));
+  box-shadow: 0 1.8rem 5rem rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.2);
+  backdrop-filter: blur(28px) saturate(145%);
+}
+
+.radar-floating-dock::before {
+  position: absolute;
+  top: 0;
+  right: 12%;
+  left: 12%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255,246,237,.76), transparent);
+  opacity: .7;
+}
+
+.radar-floating-dock__item {
+  color: rgba(251,247,242,.72);
+}
+
+.radar-floating-dock__item:hover,
+.radar-floating-dock__item:focus-visible {
+  border-color: rgba(255,221,198,.7);
+  background: linear-gradient(145deg, rgba(255,231,210,.24), rgba(255,231,210,.08));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 .75rem 1.8rem rgba(0,0,0,.16);
+}
+
+.radar-floating-footer__note {
+  color: rgba(251,247,242,.58);
+}
+
+.radar-editor-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.radar-editor-shell::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background: radial-gradient(42% 36% at 18% 20%, rgba(237,174,142,.12), transparent 78%), radial-gradient(38% 32% at 80% 70%, rgba(145,124,183,.11), transparent 78%);
+  pointer-events: none;
+}
+
+.radar-editor-toolbar,
+.radar-editor-card {
+  border-color: rgba(255,237,222,.18);
+}
+
+.radar-editor-toolbar input,
+.radar-editor-fields input,
+.radar-editor-fields textarea,
+.radar-editor-fields select {
+  border-color: rgba(255,237,222,.18);
+  background: rgba(8,9,14,.44);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(14px);
+}
+
+.radar-editor-toolbar button {
+  background: linear-gradient(145deg, #fff3e8, #d4b8a3);
+  box-shadow: 0 .8rem 2rem rgba(242,185,150,.18), inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+@media (max-width: 640px) {
+  .radar-route-header {
+    border-radius: 1rem;
+  }
+
+  .radar-floating-footer {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .radar-floating-dock {
+    border-radius: 1.25rem;
+    padding: .55rem;
+  }
+
+  .radar-floating-dock__item {
+    min-width: 3rem;
+    min-height: 2.9rem;
+  }
+
+  .radar-atmosphere::before {
+    filter: blur(30px) saturate(108%);
+    animation-duration: 38s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-atmosphere::before {
+    animation: none;
+  }
+
+  .radar-atmosphere {
+    transition: none;
+  }
+}

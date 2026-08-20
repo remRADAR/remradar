@@ -18,7 +18,6 @@ export const HomeView = async () => {
   return (
     <main className="relative min-h-lvh overflow-x-clip bg-transparent text-foreground">
       <WelcomeGate />
-      <div aria-hidden="true" className="radar-background pointer-events-none fixed inset-0 -z-10" />
       <FramerMainView replacement={replacement} components={components} />
       <FloatingDockFooter navigation={navigation} />
     </main>

@@ -9,6 +9,7 @@ import { getSiteStructuredData } from "@/utils/seo/structured-data";
 
 import { LazyCookie } from "@/components/common/Cookie";
 import { AdaptiveGrid } from "@/components/common/grid";
+import { TimeOfDayBackground } from "@/components/site/time-of-day-background";
 import { ReducedMotion } from "@/components/common/reduced-motion";
 import { ScrollLayout } from "@/layouts/scroll-layout";
 
@@ -40,6 +41,7 @@ export default function RootLayout({
           }}
         />
         <ScrollLayout>
+          <TimeOfDayBackground />
           <AdaptiveGrid />
           <ReducedMotion />
           <LazyCookie />

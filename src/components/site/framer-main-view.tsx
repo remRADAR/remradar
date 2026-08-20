@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type { NativeComponentReplacement } from "@/lib/native-content";
+import type { HomepageComponentReplacement } from "@/lib/native-content";
 
 const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=radarcharts-logo-12";
 
-function injectStyles(document: Document, replacement: NativeComponentReplacement) {
+function injectStyles(document: Document, replacement: HomepageComponentReplacement) {
   const styleId = "radar-native-component-replacement-styles";
   if (document.getElementById(styleId)) return;
   const style = document.createElement("style");
@@ -21,14 +21,46 @@ function injectStyles(document: Document, replacement: NativeComponentReplacemen
     ".radar-aktiv-image, .radar-aktiv-video { position: relative !important; inset: auto !important; display: block !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: cover !important; object-position: 50% 50% !important; transform: none !important; }",
     ".framer-hz7xvy { position: relative !important; top: -14px !important; }",
     "[data-radar-site-logo='true'] { display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; object-position: center !important; }",
+    "[data-framer-name='Mobile App Dock'] { display: none !important; }",
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
   ].join("\n");
   document.head.appendChild(style);
 }
 
-function applyReplacement(frame: HTMLIFrameElement, replacement: NativeComponentReplacement) {
+function applyHomepageComponentReplacements(frame: HTMLIFrameElement, components: HomepageComponentReplacement[]) {
   const innerDocument = frame.contentDocument;
   if (!innerDocument) return;
+
+  for (const component of components) {
+    if (!component.enabled || component.componentKey === "aktiv-section" || !component.selector) continue;
+    innerDocument.querySelectorAll(component.selector).forEach((node) => {
+      const element = node as HTMLElement;
+      if (component.text && element.matches("p, h1, h2, h3, span")) element.textContent = component.text;
+      const media = element.matches("img, video") ? element : element.querySelector("img, video");
+      if (media?.tagName === "IMG" && component.imageUrl) {
+        const image = media as HTMLImageElement;
+        image.src = component.imageUrl;
+        image.removeAttribute("srcset");
+        image.removeAttribute("sizes");
+        image.style.objectFit = component.imageFit;
+        image.style.objectPosition = component.imagePosition;
+      }
+      if (media?.tagName === "VIDEO" && component.imageUrl) {
+        const video = media as HTMLVideoElement;
+        video.src = component.imageUrl;
+        video.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
+        video.load();
+        void video.play().catch(() => undefined);
+      }
+    });
+  }
+}
+
+function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageComponentReplacement, components: HomepageComponentReplacement[]) {
+  const innerDocument = frame.contentDocument;
+  if (!innerDocument) return;
+
+  applyHomepageComponentReplacements(frame, components);
 
   innerDocument.querySelectorAll('[data-framer-name="REMRADAR"]').forEach((logo) => {
     const logoElement = logo as HTMLElement;
@@ -108,7 +140,7 @@ function syncFrameHeight(frame: HTMLIFrameElement) {
   if (height > 0) frame.style.height = `${Math.ceil(height)}px`;
 }
 
-export function FramerMainView({ replacement }: { replacement: NativeComponentReplacement }) {
+export function FramerMainView({ replacement, components = [replacement] }: { replacement: HomepageComponentReplacement; components?: HomepageComponentReplacement[] }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [hasError, setHasError] = useState(false);
 
@@ -121,7 +153,7 @@ export function FramerMainView({ replacement }: { replacement: NativeComponentRe
 
     const measure = () => {
       try {
-        applyReplacement(frame, replacement);
+        applyReplacement(frame, replacement, components);
         syncFrameHeight(frame);
       } catch {
         setHasError(true);
@@ -157,7 +189,7 @@ export function FramerMainView({ replacement }: { replacement: NativeComponentRe
       observer?.disconnect();
       mutations?.disconnect();
     };
-  }, [replacement]);
+  }, [replacement, components]);
 
   return (
     <div className="radar-framer-frame-shell">

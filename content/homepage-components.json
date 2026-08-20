@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "components": [
+    {
+      "componentKey": "aktiv-section",
+      "label": "Third section / looping media",
+      "selector": ".framer-50j9t5-container",
+      "text": "",
+      "imageUrl": "/framer-site/_deps/images/aktiv-section-loop-mobile.mp4",
+      "imageFit": "cover",
+      "imagePosition": "50% 50%",
+      "mediaType": "video",
+      "enabled": true,
+      "updatedAt": "2026-08-20T00:00:00.000Z"
+    },
+    {
+      "componentKey": "showreel-logo",
+      "label": "Showreel logo",
+      "selector": "[data-framer-name=\"REMRADAR\"]",
+      "text": "RADARCharts",
+      "imageUrl": "/radarcharts-logo.webp",
+      "imageFit": "contain",
+      "imagePosition": "50% 50%",
+      "mediaType": "image",
+      "enabled": true,
+      "updatedAt": "2026-08-20T00:00:00.000Z"
+    },
+    {
+      "componentKey": "category-strip",
+      "label": "Category image strip",
+      "selector": "[data-framer-name=\"Section - Category\"] img",
+      "text": "",
+      "imageUrl": "",
+      "imageFit": "cover",
+      "imagePosition": "50% 50%",
+      "mediaType": "image",
+      "enabled": true,
+      "updatedAt": "2026-08-20T00:00:00.000Z"
+    },
+    {
+      "componentKey": "now-reading",
+      "label": "Now Reading slideshow",
+      "selector": "[data-framer-name=\"Now Reading\"] img",
+      "text": "NOW READING...",
+      "imageUrl": "",
+      "imageFit": "cover",
+      "imagePosition": "50% 50%",
+      "mediaType": "image",
+      "enabled": true,
+      "updatedAt": "2026-08-20T00:00:00.000Z"
+    },
+    {
+      "componentKey": "radarmusic-card",
+      "label": "RADARMusic card",
+      "selector": "[data-framer-name=\"RADARMusic\"] img",
+      "text": "RADARMusic",
+      "imageUrl": "",
+      "imageFit": "cover",
+      "imagePosition": "50% 50%",
+      "mediaType": "image",
+      "enabled": true,
+      "updatedAt": "2026-08-20T00:00:00.000Z"
+    }
+  ]
+}

@@ -10,21 +10,22 @@ function authorized(request: Request) {
   return Boolean(configured && request.headers.get("x-native-admin-token") === configured);
 }
 
-function validPayload(value: unknown): value is Partial<HomepageComponentReplacement> {
+function validComponent(value: unknown): value is Partial<HomepageComponentReplacement> {
   if (!value || typeof value !== "object") return false;
   const payload = value as Record<string, unknown>;
   return (
-    (payload.componentKey === undefined || typeof payload.componentKey === "string") &&
+    typeof payload.componentKey === "string" &&
     (payload.text === undefined || typeof payload.text === "string") &&
     (payload.imageUrl === undefined || typeof payload.imageUrl === "string") &&
     (payload.imageFit === undefined || payload.imageFit === "contain" || payload.imageFit === "cover") &&
-    (payload.imagePosition === undefined || typeof payload.imagePosition === "string")
+    (payload.imagePosition === undefined || typeof payload.imagePosition === "string") &&
+    (payload.mediaType === undefined || payload.mediaType === "image" || payload.mediaType === "video") &&
+    (payload.enabled === undefined || typeof payload.enabled === "boolean")
   );
 }
 
 export async function GET() {
-  const components = await getHomepageComponents();
-  return NextResponse.json(components.find((component) => component.componentKey === "aktiv-section") ?? components[0], { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ components: await getHomepageComponents() }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function PUT(request: Request) {
@@ -35,11 +36,18 @@ export async function PUT(request: Request) {
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
-  if (!validPayload(payload)) return NextResponse.json({ error: "Invalid component replacement payload" }, { status: 400 });
 
-  const components = await getHomepageComponents();
-  const key = (payload as { componentKey?: string }).componentKey ?? "aktiv-section";
-  const updated = components.map((component) => component.componentKey === key ? { ...component, ...payload, updatedAt: new Date().toISOString() } : component);
+  const components = Array.isArray((payload as { components?: unknown })?.components)
+    ? (payload as { components: unknown[] }).components
+    : [];
+  if (!components.length || components.some((component) => !validComponent(component))) {
+    return NextResponse.json({ error: "Invalid homepage component payload" }, { status: 400 });
+  }
+
+  const updated = components.map((component) => ({
+    ...(component as Partial<HomepageComponentReplacement>),
+    updatedAt: new Date().toISOString(),
+  })) as HomepageComponentReplacement[];
   await writeFile(filePath, `${JSON.stringify({ version: 1, components: updated }, null, 2)}\n`, "utf8");
-  return NextResponse.json(updated.find((component) => component.componentKey === key), { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ components: updated }, { headers: { "Cache-Control": "no-store" } });
 }

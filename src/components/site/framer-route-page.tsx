@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { LiquidGlassFooter } from "@/components/site/liquid-glass-footer";
+import { FloatingDockFooter } from "@/components/site/floating-dock-footer";
 import type { FramerPageDefinition } from "@/lib/framer-pages";
 import type { RadarArticle, RadarPageArchiveLink } from "@/lib/wordpress";
 import { getArticleCollectionStructuredData } from "@/utils/seo/structured-data";
@@ -97,7 +97,7 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
         {navigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
       </nav>
 
-      <LiquidGlassFooter />
+      <FloatingDockFooter />
     </main>
   );
 }

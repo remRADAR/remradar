@@ -841,3 +841,91 @@ body.radar-welcome-active {
   text-transform: uppercase;
   letter-spacing: .12em;
 }
+
+
+/* Aceternity-inspired native floating dock */
+.radar-floating-footer {
+  position: relative;
+  z-index: 30;
+  width: min(100%, 58rem);
+  margin: clamp(2rem, 7vw, 6rem) auto 0;
+  padding: 0 1rem 1.75rem;
+}
+
+.radar-floating-dock {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  align-items: end;
+  gap: clamp(0.2rem, 1vw, 0.65rem);
+  overflow-x: auto;
+  padding: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--border-footer) 82%, white 18%);
+  border-radius: 1.5rem;
+  background: color-mix(in srgb, var(--surface-footer) 78%, transparent);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter: blur(22px) saturate(1.2);
+  scrollbar-width: none;
+}
+
+.radar-floating-dock::-webkit-scrollbar { display: none; }
+
+.radar-floating-dock__item {
+  display: grid;
+  min-width: 3.25rem;
+  place-items: center;
+  gap: 0.22rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  color: var(--footer-muted);
+  text-decoration: none;
+  transform-origin: bottom center;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.radar-floating-dock__item:hover,
+.radar-floating-dock__item:focus-visible {
+  border-color: var(--footer-accent);
+  background: color-mix(in srgb, var(--footer-foreground) 14%, transparent);
+  color: var(--footer-foreground);
+  outline: none;
+}
+
+.radar-floating-dock__item > span { font-size: 1.35rem; line-height: 1; }
+.radar-floating-dock__item small { max-width: 6rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.radar-floating-footer__note { margin: 0.9rem 0 0; text-align: center; color: var(--footer-muted); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+@media (max-width: 640px) {
+  .radar-floating-footer { padding-inline: 0.5rem; }
+  .radar-floating-dock { width: 100%; justify-content: start; border-radius: 1.15rem; }
+  .radar-floating-dock__item { min-width: 3rem; padding-inline: 0.45rem; }
+  .radar-floating-dock__item small { display: none; }
+}
+
+/* Native homepage component editor */
+.radar-editor-shell { min-height: 100svh; padding: clamp(1.25rem, 4vw, 4rem); background: #090b0f; color: #f7f7f3; }
+.radar-editor-header, .radar-editor-toolbar, .radar-editor-grid { width: min(100%, 78rem); margin-inline: auto; }
+.radar-editor-header { display: flex; justify-content: space-between; gap: 2rem; align-items: end; padding-bottom: 2rem; }
+.radar-editor-eyebrow { margin: 0 0 .5rem; color: #a9b8ff; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; }
+.radar-editor-header h1 { margin: 0; font-size: clamp(2rem, 5vw, 4.5rem); letter-spacing: -.06em; }
+.radar-editor-header p:not(.radar-editor-eyebrow) { max-width: 40rem; color: #a7abb5; }
+.radar-editor-back { color: #f7f7f3; }
+.radar-editor-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: 1rem; border: 1px solid #262b35; border-radius: 1rem; background: #11141a; }
+.radar-editor-toolbar label, .radar-editor-fields label { display: grid; gap: .4rem; color: #a7abb5; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+.radar-editor-toolbar input, .radar-editor-fields input, .radar-editor-fields textarea, .radar-editor-fields select { width: 100%; border: 1px solid #303643; border-radius: .55rem; background: #0b0e13; color: #f7f7f3; padding: .65rem .7rem; font: inherit; letter-spacing: normal; text-transform: none; }
+.radar-editor-toolbar button { border: 0; border-radius: .6rem; background: #f7f7f3; color: #0b0e13; padding: .7rem 1rem; font-weight: 700; cursor: pointer; }
+.radar-editor-toolbar button:disabled { cursor: not-allowed; opacity: .45; }
+.radar-editor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; padding-top: 1rem; }
+.radar-editor-card { overflow: hidden; border: 1px solid #262b35; border-radius: 1rem; background: #11141a; }
+.radar-editor-card-heading { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem; }
+.radar-editor-card-heading p, .radar-editor-card-heading h2 { margin: 0; }
+.radar-editor-card-heading p { color: #a9b8ff; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+.radar-editor-card-heading h2 { margin-top: .35rem; font-size: 1.05rem; }
+.radar-editor-card-heading span { max-width: 12rem; overflow: hidden; color: #6e7480; font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.radar-editor-preview { display: grid; min-height: 10rem; place-items: center; background: #07090d; color: #6e7480; }
+.radar-editor-preview img, .radar-editor-preview video { width: 100%; height: 12rem; object-fit: cover; }
+.radar-editor-fields { display: grid; gap: .8rem; padding: 1rem; }
+.radar-editor-fields textarea { min-height: 4rem; resize: vertical; }
+.radar-editor-toggle { display: flex !important; grid-template-columns: auto 1fr; align-items: center; }

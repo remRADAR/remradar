@@ -35,8 +35,8 @@ export const POST = handle(async (req) => {
       throw new ApiError(502, "upstream_error", "Failed to deliver the message.");
     }
   } else {
-    // No upstream configured — log server-side so the starter runs as-is.
-    console.log("[api/contact] submission:", input);
+    // No upstream configured — acknowledge server-side without logging PII.
+    console.info("[api/contact] submission received without upstream endpoint");
   }
 
   return { received: true };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { NativeComponentReplacement } from "@/lib/native-content";
 
-const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=aktiv-section-10";
+const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=aktiv-section-11";
 
 function injectStyles(document: Document, replacement: NativeComponentReplacement) {
   const styleId = "radar-native-component-replacement-styles";
@@ -17,7 +17,7 @@ function injectStyles(document: Document, replacement: NativeComponentReplacemen
     ".radar-aktiv-frame-container { width: 100% !important; height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; }",
     ".radar-aktiv-frame-container > *, .radar-aktiv-frame-container > * > *, .radar-aktiv-frame-container > * > * > * { height: 100% !important; min-height: 0 !important; }",
     ".radar-aktiv-image-layer { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; }",
-    ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; }",
+    ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/aktiv-section-poster.jpg') center / cover no-repeat !important; }",
     ".radar-aktiv-image, .radar-aktiv-video { position: relative !important; inset: auto !important; display: block !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: cover !important; object-position: 50% 50% !important; transform: none !important; }",
     ".framer-hz7xvy { position: relative !important; top: -14px !important; }",
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
@@ -50,9 +50,11 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: NativeComponent
       existingVideo.defaultMuted = true;
       existingVideo.playsInline = true;
       existingVideo.preload = "auto";
+      existingVideo.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
       existingVideo.classList.add("radar-aktiv-video");
       existingVideo.parentElement?.classList.add("radar-aktiv-image-frame");
       existingVideo.parentElement?.parentElement?.classList.add("radar-aktiv-image-layer");
+      existingVideo.load();
       void existingVideo.play().catch(() => undefined);
     } else if (isVideo && existingImage) {
       const video = innerDocument.createElement("video");
@@ -63,6 +65,7 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: NativeComponent
       video.defaultMuted = true;
       video.playsInline = true;
       video.preload = "auto";
+      video.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
       video.setAttribute("aria-hidden", "true");
       video.className = "radar-aktiv-video";
       existingImage.replaceWith(video);

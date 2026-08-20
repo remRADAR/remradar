@@ -31,6 +31,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${onest.variable}`}>
+        <link rel="preload" as="video" href="/framer-site/_deps/images/aktiv-section-loop-mobile.mp4" type="video/mp4" fetchPriority="high" />
+        <link rel="preload" as="image" href="/framer-site/_deps/images/aktiv-section-poster.jpg" type="image/jpeg" fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

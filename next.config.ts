@@ -26,7 +26,16 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/framer-site/_deps/images/aktiv-section-loop.(webm|mp4)",
+        source: "/framer-site/_deps/images/aktiv-section-loop-mobile.(webm|mp4)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/framer-site/_deps/images/aktiv-section-poster.jpg",
         headers: [
           {
             key: "Cache-Control",

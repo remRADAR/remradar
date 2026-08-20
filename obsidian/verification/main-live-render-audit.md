@@ -9,3 +9,9 @@ The iframe reports headings including `RADARCharts`, `Experience the perfect fus
 ## Final bridge verification — 2026-08-20
 
 After moving the bridge into a React client effect and constraining the original fixed parallax layer, the live browser reported an iframe height of 3754 px matching its document scroll height. The third-section container measured 1225×689.0625 px, an exact 16:9 ratio. The looping WebM measured 1225×689.0626 px, also an exact 16:9 ratio, had `readyState=4`, and `paused=false`. Its active source was the self-hosted `/framer-site/_deps/images/aktiv-section-loop.webm`. The third section had no text overlay. Lower Framer content remained present, including `RDR`, `TOP25`, `ADD IMAGE`, `NOW READING...`, the music footer copy, and `TELMAN - Moov Different`.
+
+## Optimized media verification — 2026-08-20
+
+The third-section media was re-encoded from the supplied 191 MB GIF into a 640×360, 20 fps, 12-second MP4 of 241,597 bytes and a WebM fallback of 728,054 bytes. A 640×360 JPEG poster of 52,138 bytes was generated. The document-level preload now starts the MP4 and poster before hydration and during the welcome animation.
+
+The live browser reported the third-section frame at 1225×689.0625 px and the active MP4 at 1225×689.0626 px, both exact 16:9. The video had `readyState=4`, `paused=false`, and the poster URL was active. The iframe and lower Framer content were present. HTTP responses for the MP4, WebM, and poster were 200 with one-year immutable caching.

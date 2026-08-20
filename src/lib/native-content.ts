@@ -14,7 +14,7 @@ export type NativeComponentReplacement = {
 const FALLBACK: NativeComponentReplacement = {
   componentKey: "aktiv-section",
   text: "",
-  imageUrl: "/framer-site/_deps/images/aktiv-section-loop.webm",
+  imageUrl: "/framer-site/_deps/images/aktiv-section-loop-mobile.mp4",
   imageFit: "cover",
   mediaType: "video",
   imagePosition: "50% 50%",

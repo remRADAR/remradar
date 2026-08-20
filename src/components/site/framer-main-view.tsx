@@ -14,7 +14,7 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
   style.textContent = [
     "@keyframes radarAktivDepth { 0%, 100% { transform: perspective(720px) rotateX(0deg) rotateY(0deg) translateZ(0); } 50% { transform: perspective(720px) rotateX(4deg) rotateY(-3deg) translateZ(16px); } }",
     ".radar-aktiv-3d { display: inline-block !important; transform-style: preserve-3d; will-change: transform; text-shadow: 0 1px 0 rgba(255,255,255,.55), 0 2px 0 rgba(255,255,255,.25), 0 4px 0 rgba(0,0,0,.18), 0 8px 18px rgba(0,0,0,.35) !important; animation: radarAktivDepth 4.8s ease-in-out infinite; }",
-    ".radar-aktiv-frame-container { width: 100% !important; height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; }",
+    ".radar-aktiv-frame-container { box-sizing: border-box !important; width: calc(100% - clamp(1.5rem, 4vw, 3.5rem)) !important; margin-inline: auto !important; height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; overflow: hidden !important; border: 1px solid rgba(255,237,222,.14) !important; border-radius: clamp(1rem, 2.4vw, 1.75rem) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 18px 46px rgba(0,0,0,.16) !important; }",
     ".radar-aktiv-frame-container > *, .radar-aktiv-frame-container > * > *, .radar-aktiv-frame-container > * > * > * { height: 100% !important; min-height: 0 !important; }",
     ".radar-aktiv-image-layer { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; }",
     ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/radarmatrix-home-poster.jpg') center / cover no-repeat !important; }",
@@ -23,6 +23,7 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "html, body { background: transparent !important; }",
     "[data-framer-name='Now Reading'], [data-framer-name='RADARMusic'], [data-framer-name='Section - Category'] { border: 1px solid rgba(255,237,222,.16) !important; border-radius: 24px !important; background: linear-gradient(145deg, rgba(255,246,237,.10), rgba(255,246,237,.025)) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 24px 70px rgba(0,0,0,.16) !important; backdrop-filter: blur(18px) saturate(125%) !important; }",
     "[data-framer-name='Mobile App Dock'] { display: none !important; }",
+    "@media (max-width: 809px) { .radar-aktiv-frame-container { width: calc(100% - 1.25rem) !important; border-radius: 1rem !important; } }",
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
   ].join("\n");
   document.head.appendChild(style);

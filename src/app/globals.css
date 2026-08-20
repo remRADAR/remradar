@@ -1276,3 +1276,21 @@ body {
     filter: blur(36px) saturate(118%);
   }
 }
+
+
+/* Background visibility reversal: keep the atmosphere soft, but no longer heavily blurred. */
+.radar-atmosphere::before {
+  filter: blur(18px) saturate(106%);
+  opacity: .78;
+}
+
+.radar-atmosphere__grain {
+  opacity: .035;
+}
+
+@media (max-width: 640px) {
+  .radar-atmosphere::before {
+    filter: blur(14px) saturate(108%);
+    opacity: .82;
+  }
+}

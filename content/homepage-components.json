@@ -17,12 +17,12 @@
       "componentKey": "showreel-logo",
       "label": "Showreel logo",
       "selector": "[data-framer-name=\"REMRADAR\"]",
-      "text": "RADARCharts",
-      "imageUrl": "/radarcharts-logo.webp",
+      "text": "",
+      "imageUrl": "",
       "imageFit": "contain",
       "imagePosition": "50% 50%",
       "mediaType": "image",
-      "enabled": true,
+      "enabled": false,
       "updatedAt": "2026-08-20T00:00:00.000Z"
     },
     {

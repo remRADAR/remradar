@@ -66,6 +66,15 @@ function configureLoopingVideo(
   fallbackUrl: string | undefined,
   posterUrl: string,
 ) {
+  const resolvedPrimary = new URL(primaryUrl, document.baseURI).href;
+  const resolvedFallback = fallbackUrl ? new URL(fallbackUrl, document.baseURI).href : undefined;
+  const alreadyConfigured = video.dataset.radarPrimary === resolvedPrimary && video.poster === new URL(posterUrl, document.baseURI).href;
+  if (alreadyConfigured) {
+    if (video.paused && video.readyState >= HTMLMediaElement.HAVE_METADATA) void video.play().catch(() => undefined);
+    return;
+  }
+
+  video.dataset.radarPrimary = resolvedPrimary;
   video.autoplay = true;
   video.loop = true;
   video.muted = true;
@@ -78,8 +87,9 @@ function configureLoopingVideo(
   video.setAttribute("muted", "");
   video.onerror = null;
   video.onerror = () => {
-    if (fallbackUrl && video.src !== new URL(fallbackUrl, document.baseURI).href) {
-      video.src = fallbackUrl;
+    if (resolvedFallback && video.src !== resolvedFallback) {
+      video.dataset.radarPrimary = resolvedFallback;
+      video.src = resolvedFallback;
       video.load();
       void video.play().catch(() => undefined);
     }

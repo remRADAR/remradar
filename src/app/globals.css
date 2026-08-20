@@ -1368,3 +1368,152 @@ body {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0.9rem 2.5rem rgba(0, 0, 0, 0.16);
   }
 }
+
+
+/* Footer reference upgrade: red-and-white mobile glass navigation. */
+.radar-floating-footer {
+  padding-inline: clamp(.75rem, 3vw, 2rem);
+  padding-bottom: calc(1.1rem + env(safe-area-inset-bottom));
+}
+
+.radar-floating-dock {
+  width: min(100%, 44rem);
+  gap: clamp(.15rem, .8vw, .55rem);
+  padding: .55rem;
+  border: 1px solid rgba(255,255,255,.58);
+  border-radius: 1.65rem;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.66), rgba(255,255,255,.22) 48%, rgba(255,255,255,.12)),
+    linear-gradient(120deg, rgba(217,27,42,.16), rgba(255,255,255,.08) 56%, rgba(217,27,42,.08));
+  box-shadow: 0 1.5rem 3.8rem rgba(10,13,18,.34), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(120,15,25,.12);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  backdrop-filter: blur(24px) saturate(145%);
+}
+
+.radar-floating-dock::after {
+  position: absolute;
+  inset: .18rem;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 1.45rem;
+  background: linear-gradient(105deg, rgba(255,255,255,.16), transparent 35%, rgba(205,24,41,.08));
+}
+
+.radar-floating-dock__item {
+  position: relative;
+  z-index: 1;
+  min-width: 3.25rem;
+  min-height: 3.1rem;
+  padding: .52rem .68rem;
+  border: 1px solid transparent;
+  border-radius: 1.15rem;
+  color: rgba(25,29,37,.72);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  transition: transform 180ms cubic-bezier(.22,1,.36,1), background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.radar-floating-dock__glyph {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  place-items: center;
+  border: 1px solid rgba(25,29,37,.12);
+  border-radius: .7rem;
+  background: rgba(255,255,255,.34);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 .35rem .8rem rgba(45,20,24,.08);
+  font-size: 1.14rem;
+  line-height: 1;
+}
+
+.radar-floating-dock__item small {
+  color: rgba(25,29,37,.66);
+  font-weight: 700;
+  font-size: .55rem;
+  letter-spacing: .07em;
+}
+
+.radar-floating-dock__item.is-current {
+  color: #fff;
+  border-color: rgba(255,255,255,.68);
+  background: linear-gradient(145deg, #ef4452, #c5152c);
+  box-shadow: 0 .6rem 1.3rem rgba(182,20,40,.3), inset 0 1px 0 rgba(255,255,255,.52), inset 0 -1px 0 rgba(112,5,20,.28);
+  text-shadow: 0 1px 2px rgba(90,0,12,.38);
+}
+
+.radar-floating-dock__item.is-current::after {
+  position: absolute;
+  right: .48rem;
+  bottom: .32rem;
+  width: .28rem;
+  height: .28rem;
+  content: "";
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 0 .55rem rgba(255,255,255,.95);
+}
+
+.radar-floating-dock__item.is-current .radar-floating-dock__glyph {
+  border-color: rgba(255,255,255,.48);
+  background: rgba(255,255,255,.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 .3rem .7rem rgba(90,0,12,.2);
+}
+
+.radar-floating-dock__item:hover,
+.radar-floating-dock__item:focus-visible {
+  color: #b40f27;
+  border-color: rgba(196,20,42,.35);
+  background: linear-gradient(145deg, rgba(255,255,255,.62), rgba(239,68,82,.16));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.86), 0 .45rem 1rem rgba(182,20,40,.14);
+  outline: none;
+}
+
+.radar-floating-dock__item.is-current:hover,
+.radar-floating-dock__item.is-current:focus-visible {
+  color: #fff;
+  border-color: rgba(255,255,255,.82);
+  background: linear-gradient(145deg, #f14b59, #bd1129);
+}
+
+.radar-floating-footer__note {
+  color: rgba(255,255,255,.62);
+  text-shadow: 0 1px 1px rgba(0,0,0,.25);
+}
+
+@media (max-width: 640px) {
+  .radar-floating-footer {
+    padding-inline: .65rem;
+  }
+
+  .radar-floating-dock {
+    width: 100%;
+    gap: .22rem;
+    padding: .45rem;
+    border-radius: 1.35rem;
+    -webkit-backdrop-filter: blur(20px) saturate(138%);
+    backdrop-filter: blur(20px) saturate(138%);
+  }
+
+  .radar-floating-dock::after {
+    border-radius: 1.16rem;
+  }
+
+  .radar-floating-dock__item {
+    min-width: 2.85rem;
+    min-height: 2.85rem;
+    padding: .35rem;
+    border-radius: .95rem;
+  }
+
+  .radar-floating-dock__glyph {
+    width: 1.72rem;
+    height: 1.72rem;
+    border-radius: .58rem;
+    font-size: 1rem;
+  }
+
+  .radar-floating-dock__item small,
+  .radar-floating-footer__note {
+    display: none;
+  }
+}

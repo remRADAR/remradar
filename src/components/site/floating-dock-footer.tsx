@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { RadarNavigationItem } from "@/lib/wordpress";
 
@@ -19,6 +20,7 @@ const fallbackLinks: DockLink[] = [
 ];
 
 export function FloatingDockFooter({ navigation }: { navigation?: RadarNavigationItem[] }) {
+  const pathname = usePathname();
   const [active, setActive] = useState<string | null>(null);
   const links = navigation?.length
     ? navigation.map((item) => ({ label: item.label, href: item.href, glyph: fallbackLinks.find((link) => link.href === item.href)?.glyph ?? "◎" }))
@@ -34,7 +36,8 @@ export function FloatingDockFooter({ navigation }: { navigation?: RadarNavigatio
             <Link
               href={link.href}
               key={link.href}
-              className="radar-floating-dock__item"
+              className={`radar-floating-dock__item${pathname === link.href ? " is-current" : ""}`}
+              aria-current={pathname === link.href ? "page" : undefined}
               aria-label={link.label}
               title={link.label}
               onMouseEnter={() => setActive(link.href)}
@@ -43,7 +46,7 @@ export function FloatingDockFooter({ navigation }: { navigation?: RadarNavigatio
               onBlur={() => setActive(null)}
               style={{ transform: `translateY(${active === link.href ? -7 : 0}px) scale(${scale})` }}
             >
-              <span aria-hidden="true">{link.glyph}</span>
+              <span className="radar-floating-dock__glyph" aria-hidden="true">{link.glyph}</span>
               <small>{link.label}</small>
             </Link>
           );

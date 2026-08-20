@@ -1,7 +1,9 @@
 {
   "componentKey": "aktiv-section",
   "text": "",
-  "imageUrl": "/framer-site/_deps/images/aktiv-section-loop-mobile.mp4",
+  "imageUrl": "/framer-site/_deps/images/radarmatrix-home-loop.webm",
+  "videoFallbackUrl": "/framer-site/_deps/images/radarmatrix-home-loop.mp4",
+  "posterUrl": "/framer-site/_deps/images/radarmatrix-home-poster.jpg",
   "imageFit": "cover",
   "mediaType": "video",
   "imagePosition": "50% 50%",

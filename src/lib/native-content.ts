@@ -7,6 +7,8 @@ export type HomepageComponentReplacement = {
   selector: string;
   text: string;
   imageUrl: string;
+  videoFallbackUrl?: string;
+  posterUrl?: string;
   imageFit: "contain" | "cover";
   imagePosition: string;
   mediaType: "image" | "video";
@@ -23,7 +25,9 @@ const FALLBACK: NativeComponentReplacement = {
   label: "Third section / looping media",
   selector: ".framer-50j9t5-container",
   text: "",
-  imageUrl: "/framer-site/_deps/images/aktiv-section-loop-mobile.mp4",
+  imageUrl: "/framer-site/_deps/images/radarmatrix-home-loop.webm",
+  videoFallbackUrl: "/framer-site/_deps/images/radarmatrix-home-loop.mp4",
+  posterUrl: "/framer-site/_deps/images/radarmatrix-home-poster.jpg",
   imageFit: "cover",
   mediaType: "video",
   imagePosition: "50% 50%",

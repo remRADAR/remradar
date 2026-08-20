@@ -17,7 +17,7 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     ".radar-aktiv-frame-container { width: 100% !important; height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; }",
     ".radar-aktiv-frame-container > *, .radar-aktiv-frame-container > * > *, .radar-aktiv-frame-container > * > * > * { height: 100% !important; min-height: 0 !important; }",
     ".radar-aktiv-image-layer { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; }",
-    ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/aktiv-section-poster.jpg') center / cover no-repeat !important; }",
+    ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/radarmatrix-home-poster.jpg') center / cover no-repeat !important; }",
     ".radar-aktiv-image, .radar-aktiv-video { position: relative !important; inset: auto !important; display: block !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: cover !important; object-position: 50% 50% !important; transform: none !important; }",
     ".framer-hz7xvy { position: relative !important; top: -14px !important; }",
     "html, body { background: transparent !important; }",
@@ -48,13 +48,44 @@ function applyHomepageComponentReplacements(frame: HTMLIFrameElement, components
       }
       if (media?.tagName === "VIDEO" && component.imageUrl) {
         const video = media as HTMLVideoElement;
-        video.src = component.imageUrl;
-        video.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
-        video.load();
-        void video.play().catch(() => undefined);
+        configureLoopingVideo(
+          video,
+          component.imageUrl,
+          component.videoFallbackUrl,
+          component.posterUrl ?? "/framer-site/_deps/images/radarmatrix-home-poster.jpg",
+        );
       }
     });
   }
+}
+
+function configureLoopingVideo(
+  video: HTMLVideoElement,
+  primaryUrl: string,
+  fallbackUrl: string | undefined,
+  posterUrl: string,
+) {
+  video.autoplay = true;
+  video.loop = true;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.preload = "auto";
+  video.poster = posterUrl;
+  video.setAttribute("aria-hidden", "true");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("muted", "");
+  video.onerror = null;
+  video.onerror = () => {
+    if (fallbackUrl && video.src !== new URL(fallbackUrl, document.baseURI).href) {
+      video.src = fallbackUrl;
+      video.load();
+      void video.play().catch(() => undefined);
+    }
+  };
+  video.src = primaryUrl;
+  video.load();
+  void video.play().catch(() => undefined);
 }
 
 function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageComponentReplacement, components: HomepageComponentReplacement[]) {
@@ -77,36 +108,19 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageCompone
     const existingImage = frameContainer.querySelector("img");
     const existingVideo = frameContainer.querySelector("video");
     const isVideo = replacement.mediaType === "video" || /\.(webm|mp4)(?:$|\?)/i.test(replacement.imageUrl);
+    const posterUrl = replacement.posterUrl ?? "/framer-site/_deps/images/radarmatrix-home-poster.jpg";
     if (isVideo && existingVideo) {
-      existingVideo.src = replacement.imageUrl;
-      existingVideo.autoplay = true;
-      existingVideo.loop = true;
-      existingVideo.muted = true;
-      existingVideo.defaultMuted = true;
-      existingVideo.playsInline = true;
-      existingVideo.preload = "auto";
-      existingVideo.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
+      configureLoopingVideo(existingVideo, replacement.imageUrl, replacement.videoFallbackUrl, posterUrl);
       existingVideo.classList.add("radar-aktiv-video");
       existingVideo.parentElement?.classList.add("radar-aktiv-image-frame");
       existingVideo.parentElement?.parentElement?.classList.add("radar-aktiv-image-layer");
-      existingVideo.load();
-      void existingVideo.play().catch(() => undefined);
     } else if (isVideo && existingImage) {
       const video = innerDocument.createElement("video");
-      video.src = replacement.imageUrl;
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
-      video.preload = "auto";
-      video.poster = "/framer-site/_deps/images/aktiv-section-poster.jpg";
-      video.setAttribute("aria-hidden", "true");
+      configureLoopingVideo(video, replacement.imageUrl, replacement.videoFallbackUrl, posterUrl);
       video.className = "radar-aktiv-video";
       existingImage.replaceWith(video);
       video.parentElement?.classList.add("radar-aktiv-image-frame");
       video.parentElement?.parentElement?.classList.add("radar-aktiv-image-layer");
-      void video.play().catch(() => undefined);
     } else if (!isVideo && existingImage) {
       existingImage.src = replacement.imageUrl;
       existingImage.removeAttribute("srcset");

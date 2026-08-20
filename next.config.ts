@@ -44,6 +44,24 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/framer-site/_deps/images/radarmatrix-home-loop.(webm|mp4)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/framer-site/_deps/images/radarmatrix-home-poster.jpg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
         source: "/framer-site/_deps/images/aktiv-section-loop-mobile.(webm|mp4)",
         headers: [
           {

@@ -53,7 +53,7 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
       ) : null}
       <header className="radar-route-header">
         <Link className="radar-route-header__logo" href="/" aria-label="RADARCharts by REM home">
-          <Image src="/radarcharts-logo.webp" alt="RADARCharts by REM" width={180} height={120} priority />
+          <Image src="/radarcharts-logo-transparent.png" alt="RADARCharts by REM" width={180} height={120} priority />
         </Link>
         <Link className="radar-route-header__home" href="/">Home</Link>
       </header>

@@ -39,7 +39,7 @@ export function RadarStorePage({ services = [] }: { services?: RadarManagedServi
     <main className="radar-store-page">
       <header className="radar-store-header">
         <Link className="radar-store-brand" href="/" aria-label="RADARCharts by REM home">
-          <Image src="/radarcharts-logo.webp" alt="RADARCharts by REM" width={180} height={120} priority />
+          <Image src="/radarcharts-logo-transparent.png" alt="RADARCharts by REM" width={180} height={120} priority />
         </Link>
         <Link className="radar-store-back" href="/">Back to RADAR</Link>
       </header>

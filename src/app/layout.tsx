@@ -32,8 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${onest.variable}`}>
-        <link rel="preload" as="video" href="/framer-site/_deps/images/radarmatrix-home-loop.webm" type="video/webm" fetchPriority="high" />
-        <link rel="preload" as="image" href="/framer-site/_deps/images/radarmatrix-home-poster.jpg" type="image/jpeg" fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

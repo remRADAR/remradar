@@ -152,7 +152,8 @@ function syncFrameHeight(frame: HTMLIFrameElement) {
   const root = innerDocument?.documentElement;
   if (!body || !root) return;
   const height = Math.max(root.scrollHeight, root.offsetHeight, body.scrollHeight, body.offsetHeight);
-  if (height > 0) frame.style.height = `${Math.ceil(height)}px`;
+  const nextHeight = height > 0 ? `${Math.ceil(height)}px` : "";
+  if (nextHeight && frame.style.height !== nextHeight) frame.style.height = nextHeight;
 }
 
 export function FramerMainView({ replacement, components = [replacement] }: { replacement: HomepageComponentReplacement; components?: HomepageComponentReplacement[] }) {
@@ -163,36 +164,55 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
     const frame = iframeRef.current;
     if (!frame) return;
     let settleTimer = 0;
+    let hydrationTimer = 0;
+    let scheduledMeasure = 0;
+    let isMeasuring = false;
     let observer: ResizeObserver | undefined;
     let mutations: MutationObserver | undefined;
 
     const measure = () => {
+      if (isMeasuring) return;
+      isMeasuring = true;
       try {
         applyReplacement(frame, replacement, components);
         syncFrameHeight(frame);
-      } catch {
-        setHasError(true);
+      } catch (error) {
+        // A transient Framer DOM update should not blank the homepage. The iframe
+        // error listener below remains the only path that shows the hard fallback.
+        console.warn("RADAR homepage bridge retrying after a transient update", error);
+      } finally {
+        isMeasuring = false;
       }
     };
+
+    const scheduleMeasure = () => {
+      if (scheduledMeasure || isMeasuring) return;
+      scheduledMeasure = window.requestAnimationFrame(() => {
+        scheduledMeasure = 0;
+        measure();
+      });
+    };
     const onLoad = () => {
-      measure();
       const document = frame.contentDocument;
-      if (document?.documentElement && "ResizeObserver" in window) {
-        observer = new ResizeObserver(measure);
+      hydrationTimer = window.setTimeout(() => {
+        measure();
+        if (document?.documentElement && "ResizeObserver" in window) {
+        observer = new ResizeObserver(scheduleMeasure);
         observer.observe(document.documentElement);
-        if (document.body) observer.observe(document.body);
-      }
-      if (document?.body && "MutationObserver" in window) {
-        mutations = new MutationObserver(measure);
-        mutations.observe(document.body, { subtree: true, childList: true, characterData: true });
-      }
-      let remaining = 80;
+          if (document.body) observer.observe(document.body);
+        }
+        if (document?.body && "MutationObserver" in window) {
+        mutations = new MutationObserver(scheduleMeasure);
+          mutations.observe(document.body, { subtree: true, childList: true, characterData: true });
+        }
+        let remaining = 24;
       const settle = () => {
         measure();
         remaining -= 1;
         if (remaining > 0) settleTimer = window.setTimeout(settle, 250);
       };
-      settle();
+        settle();
+      }, 6000);
     };
 
     frame.addEventListener("load", onLoad);
@@ -201,6 +221,8 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
     return () => {
       frame.removeEventListener("load", onLoad);
       if (settleTimer) window.clearTimeout(settleTimer);
+      if (hydrationTimer) window.clearTimeout(hydrationTimer);
+      if (scheduledMeasure) window.cancelAnimationFrame(scheduledMeasure);
       observer?.disconnect();
       mutations?.disconnect();
     };

@@ -25,7 +25,11 @@ function validComponent(value: unknown): value is Partial<HomepageComponentRepla
 }
 
 export async function GET() {
-  return NextResponse.json({ components: await getHomepageComponents() }, { headers: { "Cache-Control": "no-store" } });
+  try {
+    return NextResponse.json({ components: await getHomepageComponents() }, { headers: { "Cache-Control": "no-store" } });
+  } catch {
+    return NextResponse.json({ components: [], error: "Homepage content temporarily unavailable" }, { status: 200, headers: { "Cache-Control": "no-store" } });
+  }
 }
 
 export async function PUT(request: Request) {
@@ -48,6 +52,10 @@ export async function PUT(request: Request) {
     ...(component as Partial<HomepageComponentReplacement>),
     updatedAt: new Date().toISOString(),
   })) as HomepageComponentReplacement[];
-  await writeFile(filePath, `${JSON.stringify({ version: 1, components: updated }, null, 2)}\n`, "utf8");
-  return NextResponse.json({ components: updated }, { headers: { "Cache-Control": "no-store" } });
+  try {
+    await writeFile(filePath, `${JSON.stringify({ version: 1, components: updated }, null, 2)}\n`, "utf8");
+    return NextResponse.json({ components: updated }, { headers: { "Cache-Control": "no-store" } });
+  } catch {
+    return NextResponse.json({ error: "Homepage content could not be saved" }, { status: 500 });
+  }
 }

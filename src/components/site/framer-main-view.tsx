@@ -40,7 +40,7 @@ function applyHomepageComponentReplacements(frame: HTMLIFrameElement, components
     if (!component.enabled || component.componentKey === "aktiv-section" || !component.selector) continue;
     innerDocument.querySelectorAll(component.selector).forEach((node) => {
       const element = node as HTMLElement;
-      if (component.text && element.matches("p, h1, h2, h3, span")) element.textContent = component.text;
+      if (component.text && element.matches("p, h1, h2, h3, span") && element.textContent !== component.text) element.textContent = component.text;
       const media = element.matches("img, video") ? element : element.querySelector("img, video");
       if (media?.tagName === "IMG" && component.imageUrl) {
         const image = media as HTMLImageElement;
@@ -113,7 +113,7 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageCompone
   );
   const frameContainer = (innerDocument.querySelector(".framer-50j9t5-container") || copy?.closest(".framer-50j9t5-container")) as HTMLElement | null;
   if (copy) {
-    copy.textContent = replacement.text;
+    if (copy.textContent !== replacement.text) copy.textContent = replacement.text;
     copy.dataset.radarComponent = replacement.componentKey;
     copy.classList.toggle("radar-aktiv-3d", Boolean(replacement.text));
   }
@@ -205,14 +205,14 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
         mutations = new MutationObserver(scheduleMeasure);
           mutations.observe(document.body, { subtree: true, childList: true, characterData: true });
         }
-        let remaining = 24;
-      const settle = () => {
-        measure();
-        remaining -= 1;
-        if (remaining > 0) settleTimer = window.setTimeout(settle, 250);
-      };
+        let remaining = 8;
+        const settle = () => {
+          measure();
+          remaining -= 1;
+          if (remaining > 0) settleTimer = window.setTimeout(settle, 400);
+        };
         settle();
-      }, 6000);
+      }, 1800);
     };
 
     frame.addEventListener("load", onLoad);

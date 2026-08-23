@@ -85,7 +85,7 @@ export function YouTubePlaylistPlayer() {
     <aside className={`radar-playlist-player${open ? " is-open" : ""}`} aria-label="RADAR playlist player">
       <div className="radar-playlist-player__frame" aria-hidden={!open}><div ref={mountRef} /></div>
       <div className="radar-playlist-player__bar">
-        <span className="radar-playlist-player__label">RADAR sound signal</span>
+        <span className="radar-playlist-player__label">Top10 RADARCharts</span>
         <div className="radar-playlist-player__actions">
           <button type="button" onClick={togglePlayback} aria-label={state.playing ? "Pause RADAR playlist" : "Play RADAR playlist"} title={state.playing ? "Pause" : "Play"}>{state.playing ? "Ⅱ" : "▶"}</button>
           <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-label={open ? "Minimize RADAR playlist" : "Open RADAR playlist"}>{open ? "⌄" : "⌃"}</button>

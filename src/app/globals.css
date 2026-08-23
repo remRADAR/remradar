@@ -881,6 +881,25 @@ body.radar-welcome-active {
 @media (max-width: 760px) { .radar-rate-card-grid { grid-template-columns: 1fr; } .radar-rate-card { min-height: 16rem; } .radar-magazine-flipper__book { min-height: 29rem; } .radar-article-detail__article { padding-bottom: 7rem; } }
 @media (prefers-reduced-motion: reduce) { .radar-magazine-flipper__page { animation: none; } .radar-magazine-flipper__progress span { transition: none; } }
 
+/* Scraped rate-card content */
+.radar-rate-card-source { margin: 0; color: var(--footer-muted); font-size: .75rem; letter-spacing: .08em; }
+.radar-rate-card-source a { color: var(--footer-foreground); text-decoration: underline; text-underline-offset: .2em; }
+.radar-rate-card-sections { display: grid; gap: 1rem; width: min(100%, 72rem); margin-inline: auto; }
+.radar-rate-card-section { display: grid; grid-template-columns: minmax(12rem, .32fr) minmax(0, 1fr); gap: clamp(1.25rem, 4vw, 4rem); padding: clamp(1.3rem, 3vw, 3rem); border: 1px solid var(--border-footer); border-radius: 1.5rem; background: linear-gradient(145deg, rgba(255,246,237,.09), rgba(255,246,237,.03)); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1.4rem 4rem rgba(0,0,0,.14); backdrop-filter: blur(18px) saturate(120%); }
+.radar-rate-card-section__heading { display: flex; gap: 1rem; align-items: flex-start; }
+.radar-rate-card-section__heading > span { color: var(--footer-muted); font-size: .7rem; letter-spacing: .14em; }
+.radar-rate-card-section__heading h2 { margin: .55rem 0 0; font-size: clamp(1.7rem, 3.8vw, 4rem); line-height: .92; letter-spacing: -.06em; }
+.radar-rate-card-list { display: grid; gap: .6rem; }
+.radar-rate-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-footer); }
+.radar-rate-card:last-child { border-bottom: 0; }
+.radar-rate-card h3 { margin: 0; font-size: clamp(1rem, 1.6vw, 1.3rem); line-height: 1.1; letter-spacing: -.03em; }
+.radar-rate-card p { max-width: 32rem; margin: .45rem 0 0; color: var(--footer-muted); font-size: .82rem; line-height: 1.4; }
+.radar-rate-card strong { flex: 0 0 auto; max-width: 14rem; color: var(--footer-foreground); font-size: .85rem; line-height: 1.2; text-align: right; }
+.radar-store-ratecard__button { display: inline-flex; align-items: center; gap: .7rem; padding: .75rem 1rem; border: 1px solid var(--border-footer); border-radius: 999px; color: var(--footer-foreground); background: rgba(255,246,237,.06); text-decoration: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.1); backdrop-filter: blur(14px) saturate(130%); }
+.radar-store-ratecard__button:hover, .radar-store-ratecard__button:focus-visible { background: rgba(255,213,182,.14); border-color: rgba(255,215,187,.62); }
+@media (max-width: 760px) { .radar-rate-card-section { grid-template-columns: 1fr; } .radar-rate-card strong { max-width: 10rem; } }
+@media (max-width: 520px) { .radar-rate-card { display: grid; } .radar-rate-card strong { text-align: left; } }
+
 /* Aceternity-inspired native floating dock */
 .radar-floating-footer {
   position: relative;

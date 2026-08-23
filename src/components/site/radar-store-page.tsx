@@ -127,7 +127,7 @@ export function RadarStorePage({ services = [] }: { services?: RadarManagedServi
 
       <section className="radar-store-ratecard" aria-labelledby="radar-store-ratecard-title">
         <div><p className="radar-store-eyebrow">RADAR RATE CARD</p><h2 id="radar-store-ratecard-title">Need the full picture?</h2></div>
-        <a href="https://radarcharts.net/ratecard" target="_blank" rel="noopener noreferrer">View rate card <span aria-hidden="true">→</span></a>
+            <Link href="/ratecard" className="radar-store-ratecard__button">View full rate card <span aria-hidden="true">→</span></Link>
       </section>
     </main>
   );

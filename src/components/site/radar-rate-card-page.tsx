@@ -1,12 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FloatingDockFooter } from "@/components/site/floating-dock-footer";
-
-const phases = [
-  ["01", "Pre-Production", "Concept development, scriptwriting, storyboarding, talent, locations, and production planning."],
-  ["02", "Production", "Cinematography, drone videography, live streaming, gimbal work, multi-camera setups, and capture."],
-  ["03", "Post-Production", "Editing, colour grading, audio enhancement, 3D animation, captions, archiving, and delivery."],
-];
+import { RADAR_RATE_CARD_SECTIONS, RADAR_RATE_CARD_SOURCE } from "@/lib/radar-ratecard";
 
 export function RadarRateCardPage() {
   return (
@@ -18,14 +13,25 @@ export function RadarRateCardPage() {
         <Link className="radar-route-header__home" href="/store">Official store</Link>
       </header>
       <section className="radar-route-hero">
-        <p className="radar-route-eyebrow">RADAR RATE CARD</p>
-        <h1>Ideas made tangible.</h1>
-        <p className="radar-route-intro">Join us on a journey where ideas transform into captivating cultural products, with creativity and a whole lot of fun.</p>
+        <p className="radar-route-eyebrow">THE RADAR RATECARD</p>
+        <h1>Your ultimate music marketing & promotion hub.</h1>
+        <p className="radar-route-intro">Strategic promotion, airplay, content creation, consultation, distribution, and playlist campaigns for artists and music projects.</p>
+        <p className="radar-rate-card-source">Source of truth: <a href={RADAR_RATE_CARD_SOURCE} target="_blank" rel="noreferrer">radarcharts.net/ratecard ↗</a></p>
       </section>
-      <section className="radar-rate-card-grid" aria-label="Rate card production phases">
-        {phases.map(([number, title, body]) => <article className="radar-rate-card" key={number}><span>{number}</span><h2>{title}</h2><p>{body}</p><Link href="/contact">Discuss a project ↗</Link></article>)}
-      </section>
-      <section className="radar-rate-card-note"><p className="radar-route-eyebrow">THE NEXT FRAME</p><h2>Tell us what you want to make.</h2><Link href="/contact">Start a conversation ↗</Link></section>
+      <div className="radar-rate-card-sections">
+        {RADAR_RATE_CARD_SECTIONS.map((section, index) => (
+          <section className="radar-rate-card-section" aria-labelledby={`ratecard-section-${index}`} key={section.title}>
+            <div className="radar-rate-card-section__heading">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div><p className="radar-route-eyebrow">{section.eyebrow || "RADAR SERVICES"}</p><h2 id={`ratecard-section-${index}`}>{section.title}</h2></div>
+            </div>
+            <div className="radar-rate-card-list">
+              {section.items.map((item) => <article className="radar-rate-card" key={item.name}><div><h3>{item.name}</h3>{item.detail ? <p>{item.detail}</p> : null}</div>{item.price ? <strong>{item.price}</strong> : null}</article>)}
+            </div>
+          </section>
+        ))}
+      </div>
+      <section className="radar-rate-card-note"><p className="radar-route-eyebrow">LET’S TALK</p><h2>Contact RADARCharts for consultation.</h2><a href="https://instagram.com/remradar" target="_blank" rel="noreferrer">Consult via Instagram ↗</a></section>
       <FloatingDockFooter />
     </main>
   );

@@ -10,6 +10,7 @@ import {
   type RadarStoreService,
 } from "@/lib/radar-store";
 import type { RadarManagedService } from "@/lib/wordpress";
+import { FloatingDockFooter } from "@/components/site/floating-dock-footer";
 
 export function RadarStorePage({ services = [] }: { services?: RadarManagedService[] }) {
   const catalog = useMemo<RadarStoreService[]>(
@@ -129,6 +130,7 @@ export function RadarStorePage({ services = [] }: { services?: RadarManagedServi
         <div><p className="radar-store-eyebrow">RADAR RATE CARD</p><h2 id="radar-store-ratecard-title">Need the full picture?</h2></div>
             <Link href="/ratecard" className="radar-store-ratecard__button">View full rate card <span aria-hidden="true">→</span></Link>
       </section>
+      <FloatingDockFooter />
     </main>
   );
 }

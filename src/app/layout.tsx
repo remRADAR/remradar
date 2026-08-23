@@ -12,6 +12,7 @@ import { AdaptiveGrid } from "@/components/common/grid";
 import { TimeOfDayBackground } from "@/components/site/time-of-day-background";
 import { ReducedMotion } from "@/components/common/reduced-motion";
 import { ScrollLayout } from "@/layouts/scroll-layout";
+import { YouTubePlaylistPlayer } from "@/components/site/youtube-playlist-player";
 
 import "@/app/globals.css";
 
@@ -44,6 +45,7 @@ export default function RootLayout({
           <ReducedMotion />
           <LazyCookie />
           {children}
+          <YouTubePlaylistPlayer />
         </ScrollLayout>
       </body>
     </html>

@@ -7,6 +7,8 @@ import { generateMetadata as createMetadata } from "@/utils/seo/generate-page-me
 
 type Params = { slug: string };
 
+export const dynamicParams = true;
+
 export async function generateStaticParams(): Promise<Params[]> {
   const articles = await getLatestRadarArticles(12);
   return articles.map((article) => ({ slug: article.slug }));

@@ -843,6 +843,44 @@ body.radar-welcome-active {
 }
 
 
+/* Framer-derived page extensions */
+.radar-article-detail__article { max-width: 76rem; margin: 0 auto; padding: clamp(2rem, 6vw, 6rem) clamp(1rem, 4vw, 4rem) 8rem; }
+.radar-article-detail__article h1 { max-width: 54rem; margin: .8rem 0 1rem; font-size: clamp(2.7rem, 7vw, 7rem); line-height: .92; letter-spacing: -.07em; }
+.radar-article-detail__date { color: var(--muted-foreground); font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; }
+.radar-article-detail__image { display: block; width: 100%; height: auto; max-height: 42rem; margin: 3rem 0; object-fit: cover; border-radius: 1.8rem; border: 1px solid var(--border-footer); }
+.radar-article-detail__excerpt { max-width: 50rem; font-size: clamp(1.15rem, 2vw, 1.7rem); line-height: 1.4; }
+.radar-article-detail__content { max-width: 50rem; margin-top: 2rem; font-size: 1.05rem; line-height: 1.75; }
+.radar-article-detail__content h2, .radar-article-detail__content h3 { margin-top: 2.5rem; line-height: 1.05; letter-spacing: -.04em; }
+.radar-article-detail__content a, .radar-article-detail__references a { text-decoration: underline; text-underline-offset: .2em; }
+.radar-article-detail__references { display: grid; gap: .7rem; max-width: 50rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-footer); }
+.radar-magazine-flipper { display: grid; gap: 1rem; }
+.radar-magazine-flipper__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--muted-foreground); font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; }
+.radar-magazine-flipper__controls { display: flex; gap: .45rem; }
+.radar-magazine-flipper__controls button { width: 2.7rem; height: 2.7rem; border: 1px solid var(--border-footer); border-radius: 999px; color: var(--foreground); background: color-mix(in srgb, var(--footer-foreground) 8%, transparent); cursor: pointer; }
+.radar-magazine-flipper__controls button:disabled { cursor: not-allowed; opacity: .3; }
+.radar-magazine-flipper__book { position: relative; min-height: 25rem; perspective: 1200px; }
+.radar-magazine-flipper__page { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1rem; padding: clamp(1.5rem, 5vw, 4rem); overflow: hidden; border: 1px solid var(--border-footer); border-radius: 1.5rem; background: linear-gradient(135deg, color-mix(in srgb, var(--footer-foreground) 12%, transparent), color-mix(in srgb, var(--footer-foreground) 3%, transparent)); box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 1.5rem 4rem rgba(0,0,0,.18); animation: radar-page-turn .5s ease both; }
+.radar-magazine-flipper__page h2 { max-width: 46rem; margin: 0; font-size: clamp(2rem, 5vw, 5rem); line-height: .95; letter-spacing: -.06em; }
+.radar-magazine-flipper__page p:not(.radar-route-eyebrow) { max-width: 42rem; font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: 1.45; }
+.radar-magazine-flipper__page a, .radar-rate-card a, .radar-rate-card-note a { text-decoration: underline; text-underline-offset: .2em; }
+.radar-magazine-flipper__page--back { z-index: -1; align-items: flex-end; justify-content: flex-end; transform: rotateY(-8deg) translate(1rem, .5rem); opacity: .28; background: var(--foreground); color: var(--background); animation: none; }
+.radar-magazine-flipper__page--back span { font-size: clamp(3rem, 10vw, 9rem); line-height: .8; letter-spacing: -.1em; }
+.radar-magazine-flipper__page--back strong { font-size: clamp(1.5rem, 4vw, 3rem); }
+.radar-magazine-flipper__page--back small { max-width: 12rem; text-align: right; }
+.radar-magazine-flipper__progress { height: .2rem; overflow: hidden; border-radius: 1rem; background: color-mix(in srgb, var(--footer-foreground) 12%, transparent); }
+.radar-magazine-flipper__progress span { display: block; height: 100%; background: var(--foreground); transition: width .35s ease; }
+@keyframes radar-page-turn { from { opacity: 0; transform: rotateY(16deg) translateX(1.2rem); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+.radar-rate-card-page { padding-bottom: 8rem; }
+.radar-rate-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; max-width: 76rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 4rem); }
+.radar-rate-card { min-height: 23rem; display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; padding: clamp(1.3rem, 3vw, 2.5rem); border: 1px solid var(--border-footer); border-radius: 1.5rem; background: color-mix(in srgb, var(--footer-foreground) 6%, transparent); }
+.radar-rate-card > span { color: var(--muted-foreground); font-size: .8rem; letter-spacing: .14em; }
+.radar-rate-card h2 { margin: auto 0 0; font-size: clamp(1.6rem, 3vw, 3rem); line-height: .95; letter-spacing: -.06em; }
+.radar-rate-card p { margin: 0; line-height: 1.5; color: var(--muted-foreground); }
+.radar-rate-card-note { max-width: 76rem; margin: 1rem auto 0; padding: 4rem clamp(1rem, 4vw, 4rem); border-top: 1px solid var(--border-footer); }
+.radar-rate-card-note h2 { margin: .6rem 0 1.4rem; font-size: clamp(2rem, 5vw, 5rem); line-height: .95; letter-spacing: -.07em; }
+@media (max-width: 760px) { .radar-rate-card-grid { grid-template-columns: 1fr; } .radar-rate-card { min-height: 16rem; } .radar-magazine-flipper__book { min-height: 29rem; } .radar-article-detail__article { padding-bottom: 7rem; } }
+@media (prefers-reduced-motion: reduce) { .radar-magazine-flipper__page { animation: none; } .radar-magazine-flipper__progress span { transition: none; } }
+
 /* Aceternity-inspired native floating dock */
 .radar-floating-footer {
   position: relative;

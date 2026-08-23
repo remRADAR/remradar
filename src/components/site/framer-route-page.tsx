@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FloatingDockFooter } from "@/components/site/floating-dock-footer";
 import type { FramerPageDefinition } from "@/lib/framer-pages";
 import type { RadarArticle, RadarPageArchiveLink } from "@/lib/wordpress";
+import { MagazinePageFlipper } from "@/components/site/magazine-page-flipper";
 import { getArticleCollectionStructuredData } from "@/utils/seo/structured-data";
 
 const navigation = [
@@ -68,7 +69,15 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
         </nav>
       </section>
 
-      {definition.slug === "ontheradar" ? (
+      {definition.slug === "magazine" ? (
+        <section className="radar-route-section">
+          <div className="radar-route-section__heading">
+            <p className="radar-route-eyebrow">RADAR MAGAZINE</p>
+            <h2>Turn the page. Stay close to culture.</h2>
+          </div>
+          <MagazinePageFlipper articles={articles} />
+        </section>
+      ) : definition.slug === "ontheradar" ? (
         <section className="radar-route-section">
           <div className="radar-route-section__heading">
             <p className="radar-route-eyebrow">RADARARTICLES</p>

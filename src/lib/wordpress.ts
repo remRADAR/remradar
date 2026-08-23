@@ -12,9 +12,11 @@ export type RadarArticle = {
   title: string;
   category: string;
   excerpt: string;
+  content?: string;
   image: string;
   url: string;
   date: string;
+  modified?: string;
   source: RadarArticleSource;
   sourceLabel: string;
   references?: RadarArticleReference[];
@@ -27,6 +29,9 @@ type WordPressPost = {
   link?: string;
   title?: { rendered?: string };
   excerpt?: { rendered?: string };
+  content?: { rendered?: string };
+  author?: number;
+  modified?: string;
   categories?: number[];
   meta?: {
     source_url?: string;
@@ -73,9 +78,11 @@ export function normalizeWordPressPost(post: WordPressPost, source: RadarArticle
     title: stripHtml(post.title?.rendered) || "Untitled RADARArticle",
     category: categoryFor(post, sourceLabel),
     excerpt: stripHtml(post.excerpt?.rendered) || "Discover what is moving culture next.",
+    content: post.content?.rendered || "",
     image: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? "",
     url: post.link || `/ontheradar/${post.slug}`,
     date: post.date || "",
+    modified: post.modified,
     source,
     sourceLabel,
     references: references.length ? references : undefined,
@@ -106,8 +113,18 @@ async function getPostsFromSource(
   sourceLabel: string,
   limit: number,
 ): Promise<RadarArticle[]> {
-  const posts = await fetchJson<WordPressPost[]>(`${endpoint}?per_page=${Math.min(Math.max(limit, 1), 12)}&_embed=1`);
+  const separator = endpoint.includes("?") ? "&" : "?";
+  const posts = await fetchJson<WordPressPost[]>(`${endpoint}${separator}per_page=${Math.min(Math.max(limit, 1), 12)}&_embed=1`);
   return posts?.map((post) => normalizeWordPressPost(post, source, sourceLabel)) ?? [];
+}
+
+export async function getRadarArticleBySlug(slug: string): Promise<RadarArticle | null> {
+  const encodedSlug = encodeURIComponent(slug);
+  const [radarcharts, remradar] = await Promise.all([
+    getPostsFromSource(`${WORDPRESS_BASE_URL}/wp-json/wp/v2/posts?slug=${encodedSlug}`, "radarcharts", "RADARCharts", 1),
+    getPostsFromSource(`${WORDPRESS_COM_BASE_URL}/posts?slug=${encodedSlug}`, "remradar", "REM RADAR Archive", 1),
+  ]);
+  return [...radarcharts, ...remradar].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0] ?? null;
 }
 
 export async function getLatestRadarArticles(limit = 4): Promise<RadarArticle[]> {

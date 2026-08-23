@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { FramerRoutePage } from "@/components/site/framer-route-page";
 import { RadarStorePage } from "@/components/site/radar-store-page";
+import { MagazinePageFlipper } from "@/components/site/magazine-page-flipper";
 import { FRAMER_PAGE_DEFINITIONS, PAGE_ALIASES } from "@/lib/framer-pages";
 import { getLatestRadarArticles, getManagedRadarPages, getManagedRadarServices } from "@/lib/wordpress";
 
@@ -17,7 +18,7 @@ export async function FramerRouteView({ route }: { route: string }) {
     return <RadarStorePage services={services} />;
   }
 
-  const articles = key === "ontheradar" ? await getLatestRadarArticles(8) : [];
+  const articles = key === "ontheradar" || key === "magazine" ? await getLatestRadarArticles(12) : [];
   const resolvedDefinition = managedPage
     ? { ...definition, eyebrow: managedPage.eyebrow || definition.eyebrow, title: managedPage.title || definition.title, intro: managedPage.intro || definition.intro }
     : definition;

@@ -20,6 +20,10 @@
     "zod": "^4.4.3",
     "zustand": "^5.0.15"
   },
+  "resolutions": {
+    "eslint-config-next/**/brace-expansion": "5.0.9",
+    "eslint-config-next/**/@babel/core": "7.29.6"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24",

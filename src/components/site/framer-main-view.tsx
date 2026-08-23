@@ -25,7 +25,7 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "[data-framer-name='Now Reading']::before, [data-framer-name='RADARMusic']::before, [data-framer-name='Section - Category']::before { position: absolute !important; z-index: 0 !important; inset: 0 !important; content: '' !important; pointer-events: none !important; background: linear-gradient(118deg, rgba(255,255,255,.12), transparent 28%, transparent 72%, rgba(165,177,195,.07)) !important; opacity: .72 !important; }",
     "[data-framer-name='Now Reading'] > *, [data-framer-name='RADARMusic'] > *, [data-framer-name='Section - Category'] > * { position: relative !important; z-index: 1 !important; }",
     "@media (max-width: 809px) { [data-framer-name='Now Reading'], [data-framer-name='RADARMusic'], [data-framer-name='Section - Category'] { border-radius: 18px !important; -webkit-backdrop-filter: blur(12px) saturate(108%) !important; backdrop-filter: blur(12px) saturate(108%) !important; } }",
-    "[data-framer-name='Mobile App Dock'] { display: none !important; }",
+    "[data-framer-name='Mobile App Dock'], [data-framer-name='Floating Music Player'] { display: none !important; }",
     "@media (max-width: 809px) { .radar-aktiv-frame-container { width: calc(100% - 1.25rem) !important; border-radius: 1rem !important; } }",
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
   ].join("\n");

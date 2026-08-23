@@ -84,6 +84,9 @@ export function WelcomeGate() {
           autoPlay
           muted
           playsInline
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
           preload="auto"
           poster="/media/welcome/remradar-opening-poster.jpg"
           onEnded={dismiss}

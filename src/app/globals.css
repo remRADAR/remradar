@@ -811,9 +811,12 @@ body.radar-welcome-active {
 
 .radar-framer-frame-shell {
   position: relative;
-  min-height: 100svh;
+  min-height: 0;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
+.radar-framer-frame-shell iframe { display: block; width: 100%; margin: 0; border: 0; }
 
 .radar-framer-error {
   position: absolute;
@@ -882,17 +885,20 @@ body.radar-welcome-active {
 @media (prefers-reduced-motion: reduce) { .radar-magazine-flipper__page { animation: none; } .radar-magazine-flipper__progress span { transition: none; } }
 
 /* Persistent YouTube playlist lower panel */
-.radar-playlist-player { position: fixed; z-index: 80; right: clamp(.7rem, 2vw, 1.5rem); bottom: clamp(.7rem, 2vw, 1.5rem); width: min(24rem, calc(100vw - 1.4rem)); overflow: hidden; border: 1px solid rgba(206, 225, 255, .34); border-radius: 1.25rem; background: linear-gradient(145deg, rgba(223,239,255,.18), rgba(110,137,255,.12) 52%, rgba(37,32,93,.18)); box-shadow: inset 0 1px 0 rgba(255,255,255,.32), 0 1rem 3rem rgba(29, 37, 93, .3); backdrop-filter: blur(24px) saturate(140%); }
+.radar-playlist-player { position: fixed; z-index: 80; right: clamp(.7rem, 2vw, 1.5rem); bottom: clamp(.7rem, 2vw, 1.5rem); width: min(16rem, calc(100vw - 1.4rem)); overflow: hidden; border: 1px solid rgba(255,255,255,.24); border-radius: 1rem; background: rgba(8,8,8,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 .7rem 1.8rem rgba(0,0,0,.18); -webkit-backdrop-filter: blur(12px) saturate(90%); backdrop-filter: blur(12px) saturate(90%); }
+.radar-playlist-player--homepage { position: relative; right: auto; bottom: auto; width: min(100% - 2rem, 72rem); margin: clamp(.5rem, 1.5vw, 1.2rem) auto clamp(1rem, 2vw, 2rem); }
+.radar-playlist-player--homepage .radar-playlist-player__frame { height: clamp(11rem, 42vw, 24rem); }
+.radar-playlist-player--homepage .radar-playlist-player__bar { padding-block: .75rem; }
 .radar-playlist-player__frame { display: none; height: 13.5rem; background: #0b1024; }
 .radar-playlist-player.is-open .radar-playlist-player__frame { display: block; }
 .radar-playlist-player__frame > div, .radar-playlist-player__frame iframe { display: block; width: 100%; height: 100%; border: 0; }
 .radar-playlist-player__bar { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .6rem .7rem .6rem 1rem; }
 .radar-playlist-player__label { overflow: hidden; color: rgba(244,249,255,.88); font-size: .67rem; font-weight: 700; letter-spacing: .13em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .radar-playlist-player__actions { display: flex; gap: .35rem; }
-.radar-playlist-player__actions button { display: grid; width: 2.3rem; height: 2.3rem; place-items: center; border: 1px solid rgba(221,230,255,.42); border-radius: 999px; color: #fff; background: linear-gradient(145deg, rgba(136,92,255,.7), rgba(43,109,232,.62)); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 .3rem .8rem rgba(27,30,92,.25); cursor: pointer; }
+.radar-playlist-player__actions button { display: grid; width: 1.85rem; height: 1.85rem; place-items: center; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; color: #fff; background: rgba(0,0,0,.58); box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 .2rem .5rem rgba(0,0,0,.18); cursor: pointer; }
 .radar-playlist-player__actions button:hover, .radar-playlist-player__actions button:focus-visible { transform: translateY(-1px); outline: 2px solid rgba(220,231,255,.86); outline-offset: 2px; }
 .radar-route-shell, .radar-store-page, .radar-rate-card-page { padding-bottom: clamp(7rem, 12vw, 11rem); }
-@media (max-width: 640px) { .radar-playlist-player { right: .65rem; bottom: .65rem; width: min(21rem, calc(100vw - 1.3rem)); } .radar-playlist-player__frame { height: 11.5rem; } .radar-floating-footer { margin-bottom: 4.5rem; } }
+@media (max-width: 640px) { .radar-playlist-player--secondary { right: .65rem; bottom: .65rem; width: min(16rem, calc(100vw - 1.3rem)); } .radar-playlist-player__frame { height: 11.5rem; } .radar-floating-footer { margin-bottom: 4.5rem; } }
 
 /* Scraped rate-card content */
 .radar-rate-card-source { margin: 0; color: var(--footer-muted); font-size: .75rem; letter-spacing: .08em; }

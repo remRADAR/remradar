@@ -23,7 +23,7 @@ function writeState(state: PersistedState) {
   try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* Storage is optional. */ }
 }
 
-export function YouTubePlaylistPlayer() {
+export function YouTubePlaylistPlayer({ mode = "secondary" }: { mode?: "homepage" | "secondary" }) {
   const pathname = usePathname();
   const mountRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
@@ -73,7 +73,8 @@ export function YouTubePlaylistPlayer() {
   }, [pathname]);
 
   if (!PLAYLIST_ID) return null;
-  const visible = pathname === "/" || state.played && !resetExpired;
+  const isHomepage = mode === "homepage";
+  const visible = isHomepage || (pathname !== "/" && state.played && !resetExpired);
 
   function togglePlayback() {
     if (!playerRef.current) return;
@@ -82,7 +83,7 @@ export function YouTubePlaylistPlayer() {
 
   if (!visible) return null;
   return (
-    <aside className={`radar-playlist-player${open ? " is-open" : ""}`} aria-label="RADAR playlist player">
+    <aside className={`radar-playlist-player radar-playlist-player--${mode}${open ? " is-open" : ""}`} aria-label="RADAR playlist player">
       <div className="radar-playlist-player__frame" aria-hidden={!open}><div ref={mountRef} /></div>
       <div className="radar-playlist-player__bar">
         <span className="radar-playlist-player__label">Top10 RADARCharts</span>

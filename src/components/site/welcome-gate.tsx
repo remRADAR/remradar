@@ -29,11 +29,6 @@ export function WelcomeGate() {
     };
   }, []);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => dismiss(), reducedMotion ? 550 : DISPLAY_MS);
-    return () => window.clearTimeout(timer);
-  }, [reducedMotion]);
-
   function dismiss() {
     setExiting(true);
     window.setTimeout(() => {
@@ -42,6 +37,11 @@ export function WelcomeGate() {
       document.body.classList.remove("radar-welcome-active");
     }, EXIT_MS);
   }
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => dismiss(), reducedMotion ? 550 : DISPLAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [reducedMotion]);
 
   if (!mounted) return null;
 

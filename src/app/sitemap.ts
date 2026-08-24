@@ -2,17 +2,23 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/lib/site";
 
-/**
- * Generates `/sitemap.xml`. Currently lists only the home route — add an entry
- * per public route as the site grows (ideally derived from a routes manifest).
- */
+const PUBLIC_ROUTES = [
+  "/",
+  "/charts",
+  "/ontheradar",
+  "/magazine",
+  "/radarmusic",
+  "/store",
+  "/spotlights",
+  "/motherland",
+  "/platforms",
+] as const;
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: siteConfig.url,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  return PUBLIC_ROUTES.map((route, index) => ({
+    url: `${siteConfig.url}${route === "/" ? "" : route}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: index === 0 ? 1 : 0.8,
+  }));
 }

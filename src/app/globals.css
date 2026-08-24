@@ -94,6 +94,7 @@ body {
   color: var(--foreground);
   min-height: 100vh;
   width: 100%;
+  overflow-x: clip;
   scrollbar-width: none;
 }
 
@@ -1069,7 +1070,8 @@ body {
   position: fixed;
   z-index: 0;
   inset: 0;
-  overflow: hidden;
+  overflow: clip;
+  contain: paint;
   pointer-events: none;
   background:
     radial-gradient(58% 44% at 50% 12%, rgba(var(--radar-sky-glow), 0.2), transparent 76%),

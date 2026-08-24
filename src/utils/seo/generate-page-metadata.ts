@@ -57,7 +57,7 @@ export function generateMetadata({
       url,
       siteName,
       // Dimensions must match the real asset; 1200×630 is the ideal size.
-      images: [{ url: ogImage, width: 1200, height: 800, alt: `${siteConfig.name} — ${siteConfig.tagline}` }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${siteConfig.name} — ${siteConfig.tagline}` }],
       locale: "en_US",
       type: "website",
     },

@@ -5,7 +5,8 @@
   "license": "Unlicense",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run verify:assets",
+    "verify:assets": "node scripts/verify-build-assets.mjs",
     "start": "next start",
     "lint": "eslint"
   },

@@ -18,6 +18,7 @@ export const HomeView = async () => {
 
   return (
     <main className="relative min-h-lvh overflow-x-clip bg-transparent text-foreground">
+      <h1 className="sr-only">RADARCharts by REM — #OnTheRADAR</h1>
       <WelcomeGate />
       <FramerMainView replacement={replacement} components={components} />
       <YouTubePlaylistPlayer mode="homepage" />

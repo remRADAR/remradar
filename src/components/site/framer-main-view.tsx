@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { HomepageComponentReplacement } from "@/lib/native-content";
 
-const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=radarcharts-logo-12";
+const FRAME_SRC = "/framer-site/aktiv-section-v4.html?v=liberty-panel-1";
 
 function injectStyles(document: Document, replacement: HomepageComponentReplacement) {
   const styleId = "radar-native-component-replacement-styles";
@@ -15,6 +15,12 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "@keyframes radarAktivDepth { 0%, 100% { transform: perspective(720px) rotateX(0deg) rotateY(0deg) translateZ(0); } 50% { transform: perspective(720px) rotateX(4deg) rotateY(-3deg) translateZ(16px); } }",
     ".radar-aktiv-3d { display: inline-block !important; transform-style: preserve-3d; will-change: transform; text-shadow: 0 1px 0 rgba(255,255,255,.55), 0 2px 0 rgba(255,255,255,.25), 0 4px 0 rgba(0,0,0,.18), 0 8px 18px rgba(0,0,0,.35) !important; animation: radarAktivDepth 4.8s ease-in-out infinite; }",
     ".radar-aktiv-frame-container { box-sizing: border-box !important; width: calc(100% - clamp(1.5rem, 4vw, 3.5rem)) !important; margin-inline: auto !important; height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; overflow: hidden !important; border: 1px solid rgba(255,237,222,.14) !important; border-radius: clamp(1rem, 2.4vw, 1.75rem) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 18px 46px rgba(0,0,0,.16) !important; }",
+    `.rc-liberty-panel { box-sizing: border-box !important; position: relative !important; aspect-ratio: 16 / 9 !important; height: auto !important; min-height: 420px !important; overflow: hidden !important; border-radius: 32px !important; background: #2a2224 !important; }
+    .rc-liberty-layer { position: absolute !important; inset: 0 !important; display: flex !important; align-items: flex-end !important; justify-content: center !important; pointer-events: none !important; overflow: hidden !important; }
+    .rc-liberty-img { display: block !important; width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; object-position: bottom center !important; filter: grayscale(0%) drop-shadow(0 24px 60px rgba(0,0,0,.55)) !important; }
+    .rc-liberty-panel > div[style*='z-index: 10'] { padding: 40px clamp(20px, 4vw, 80px) !important; }
+    @media (min-width: 1024px) { .rc-liberty-img { transform: translateX(8%) !important; } }
+    @media (max-width: 640px) { .rc-liberty-panel { aspect-ratio: 3 / 4 !important; min-height: 320px !important; border-radius: 24px !important; } .rc-liberty-img { transform: none !important; max-height: 88% !important; } .rc-liberty-panel > div[style*='z-index: 10'] { padding: 40px 20px !important; } }`,
     ".radar-aktiv-frame-container > *, .radar-aktiv-frame-container > * > *, .radar-aktiv-frame-container > * > * > * { height: 100% !important; min-height: 0 !important; }",
     ".radar-aktiv-image-layer { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; }",
     ".radar-aktiv-image-frame { position: relative !important; inset: auto !important; width: 100% !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; background: #05070a url('/framer-site/_deps/images/radarmatrix-home-poster.jpg') center / cover no-repeat !important; }",
@@ -34,6 +40,33 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "@media (prefers-reduced-motion: reduce) { .radar-aktiv-3d { animation: none !important; } .radar-aktiv-video { display: none !important; } }",
   ].join("\n");
   document.head.appendChild(style);
+}
+
+function applyRepeatedCloneAccessibility(innerDocument: Document) {
+  const marqueeRoots = [
+    ...innerDocument.querySelectorAll<HTMLElement>("[data-framer-name='Now Reading'], [data-framer-name='RADARMusic'], [data-framer-name='Section - Category']"),
+  ];
+  const seenImages = new Set<string>();
+  for (const root of marqueeRoots) {
+    for (const image of root.querySelectorAll<HTMLImageElement>("img")) {
+      const key = image.currentSrc || image.src || image.alt;
+      if (seenImages.has(key)) {
+        image.alt = "";
+        image.setAttribute("aria-hidden", "true");
+      } else {
+        seenImages.add(key);
+        if (!image.hasAttribute("alt")) image.alt = "";
+      }
+    }
+    const textNodes = [...root.querySelectorAll<HTMLElement>("p, span, div")].filter((element) => element.textContent?.trim());
+    const seenText = new Set<string>();
+    for (const element of textNodes) {
+      const text = element.textContent?.trim() ?? "";
+      if (!text || text.length > 80) continue;
+      if (seenText.has(text)) element.setAttribute("aria-hidden", "true");
+      else seenText.add(text);
+    }
+  }
 }
 
 function applyHomepageComponentReplacements(frame: HTMLIFrameElement, components: HomepageComponentReplacement[]) {
@@ -106,11 +139,43 @@ function configureLoopingVideo(
   void video.play().catch(() => undefined);
 }
 
+function replaceLibertyParallaxLayer(frameContainer: HTMLElement) {
+  frameContainer.classList.add("rc-liberty-panel");
+  frameContainer.classList.remove("radar-aktiv-plain-image");
+  for (const element of [...frameContainer.querySelectorAll<HTMLElement>("*")]) {
+    if (getComputedStyle(element).position === "fixed") element.remove();
+  }
+  for (const media of [...frameContainer.querySelectorAll<HTMLImageElement | HTMLVideoElement>("img, video")]) {
+    media.setAttribute("aria-hidden", "true");
+    media.style.display = "none";
+  }
+  const existing = frameContainer.querySelector<HTMLElement>(".rc-liberty-layer");
+  existing?.remove();
+  const layer = frameContainer.ownerDocument.createElement("div");
+  layer.className = "rc-liberty-layer";
+  layer.setAttribute("aria-hidden", "true");
+  const image = frameContainer.ownerDocument.createElement("img");
+  image.className = "rc-liberty-img";
+  image.src = "/media/liberty-statue.png";
+  image.alt = "Statue of Liberty crown and face, monochrome";
+  image.width = 2016;
+  image.height = 1512;
+  image.loading = "eager";
+  image.decoding = "async";
+  image.style.objectFit = "contain";
+  image.style.objectPosition = "bottom center";
+  image.style.maxWidth = "100%";
+  image.style.maxHeight = "100%";
+  layer.appendChild(image);
+  frameContainer.prepend(layer);
+}
+
 function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageComponentReplacement, components: HomepageComponentReplacement[]) {
   const innerDocument = frame.contentDocument;
   if (!innerDocument) return;
 
   applyHomepageComponentReplacements(frame, components);
+  applyRepeatedCloneAccessibility(innerDocument);
 
   const copy = [...innerDocument.querySelectorAll("p")].find((paragraph) =>
     paragraph.textContent?.includes("Experience the perfect fusion") || paragraph.textContent?.trim() === "AKT!V",
@@ -123,6 +188,11 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageCompone
   }
   if (frameContainer) {
     frameContainer.classList.add("radar-aktiv-frame-container");
+    if (replacement.componentKey === "aktiv-section") {
+      replaceLibertyParallaxLayer(frameContainer);
+      injectStyles(innerDocument, replacement);
+      return;
+    }
     const isPlainImage = replacement.mediaType === "image";
     frameContainer.classList.toggle("radar-aktiv-plain-image", isPlainImage);
     if (isPlainImage) {

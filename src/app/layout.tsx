@@ -13,6 +13,7 @@ import { TimeOfDayBackground } from "@/components/site/time-of-day-background";
 import { ReducedMotion } from "@/components/common/reduced-motion";
 import { ScrollLayout } from "@/layouts/scroll-layout";
 import { YouTubePlaylistPlayer } from "@/components/site/youtube-playlist-player";
+import { PwaRegister } from "@/components/site/pwa-register";
 
 import "@/app/globals.css";
 
@@ -46,6 +47,7 @@ export default function RootLayout({
           <LazyCookie />
           {children}
           <YouTubePlaylistPlayer />
+          <PwaRegister />
         </ScrollLayout>
       </body>
     </html>

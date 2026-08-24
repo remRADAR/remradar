@@ -25,7 +25,7 @@ const FALLBACK: NativeComponentReplacement = {
   label: "Third section / looping media",
   selector: ".framer-50j9t5-container",
   text: "",
-  imageUrl: "/media/home/radarcharts-statue-hero.webp",
+  imageUrl: "/media/home/radarcharts-statue-hero.png",
   videoFallbackUrl: "",
   posterUrl: "",
   imageFit: "contain",

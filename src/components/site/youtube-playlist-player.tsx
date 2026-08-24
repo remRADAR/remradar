@@ -34,18 +34,21 @@ export function YouTubePlaylistPlayer({ mode = "secondary" }: { mode?: "homepage
 
   useEffect(() => { setState(readState()); }, []);
 
+  const isHomepage = mode === "homepage";
+  const isSecondaryOnHomepage = mode === "secondary" && pathname === "/";
+
   useEffect(() => {
-    if (!PLAYLIST_ID || typeof window === "undefined") return;
+    if (isSecondaryOnHomepage || !PLAYLIST_ID || typeof window === "undefined") return;
     const existing = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
     if (window.YT) { setApiReady(true); return; }
     const previous = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => { previous?.(); setApiReady(true); };
     if (!existing) { const script = document.createElement("script"); script.src = "https://www.youtube.com/iframe_api"; script.async = true; document.head.appendChild(script); }
     return () => { window.onYouTubeIframeAPIReady = previous; };
-  }, []);
+  }, [isSecondaryOnHomepage]);
 
   useEffect(() => {
-    if (!apiReady || !PLAYLIST_ID || !mountRef.current || playerRef.current) return;
+    if (isSecondaryOnHomepage || !apiReady || !PLAYLIST_ID || !mountRef.current || playerRef.current) return;
     playerRef.current = new window.YT!.Player(mountRef.current, {
       width: "100%", height: "100%", playerVars: { listType: "playlist", list: PLAYLIST_ID, playsinline: 1, controls: 0, rel: 0, loop: 1, enablejsapi: 1, origin: window.location.origin },
       events: {
@@ -58,9 +61,10 @@ export function YouTubePlaylistPlayer({ mode = "secondary" }: { mode?: "homepage
       },
     });
     return () => { playerRef.current?.destroy(); playerRef.current = null; };
-  }, [apiReady]);
+  }, [apiReady, isSecondaryOnHomepage]);
 
   useEffect(() => {
+    if (isSecondaryOnHomepage) return;
     const timer = window.setInterval(() => {
       const current = readState();
       if (current.pausedAt && Date.now() - current.pausedAt >= PAUSE_RESET_MS) {
@@ -70,10 +74,9 @@ export function YouTubePlaylistPlayer({ mode = "secondary" }: { mode?: "homepage
       }
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [pathname]);
+  }, [pathname, isSecondaryOnHomepage]);
 
-  if (!PLAYLIST_ID) return null;
-  const isHomepage = mode === "homepage";
+  if (!PLAYLIST_ID || isSecondaryOnHomepage) return null;
   const visible = isHomepage || (pathname !== "/" && state.played && !resetExpired);
 
   function togglePlayback() {

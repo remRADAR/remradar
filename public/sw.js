@@ -1,6 +1,6 @@
-const CACHE_NAME = "remradar-shell-v1";
+const CACHE_NAME = "remradar-shell-v2";
 const OFFLINE_URL = "/offline.html";
-const PRECACHE_URLS = [OFFLINE_URL, "/manifest.json", "/favicon.ico", "/radarmatrix-favicon-512.png"];
+const PRECACHE_URLS = [OFFLINE_URL, "/manifest.json", "/favicon.ico", "/radarmatrix-favicon-512.png", "/media/home/radarcharts-statue-hero.webp"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -38,7 +38,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.startsWith("/media/welcome/") || url.pathname.startsWith("/framer-site/_deps/images/")) {
+  if (url.pathname.startsWith("/media/welcome/") || url.pathname.startsWith("/media/home/") || url.pathname.startsWith("/framer-site/_deps/images/")) {
     event.respondWith(
       caches.match(request).then((cached) => {
         const network = fetch(request).then((response) => {

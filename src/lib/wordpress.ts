@@ -95,7 +95,7 @@ async function fetchJson<T>(url: string): Promise<T | null> {
   try {
     const response = await fetch(url, {
       signal: controller.signal,
-      cache: "no-store",
+      next: { revalidate: 300 },
       headers: { Accept: "application/json" },
     });
     if (!response.ok) return null;

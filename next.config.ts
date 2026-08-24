@@ -47,6 +47,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/media/home/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
         source: "/_deps/assets/:path*",
         headers: [
           {

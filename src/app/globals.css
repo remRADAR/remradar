@@ -763,6 +763,7 @@ body.radar-welcome-active {
 
 .radar-welcome-gate__backdrop,
 .radar-welcome-gate__video,
+.radar-welcome-gate__gif,
 .radar-welcome-gate__poster,
 .radar-welcome-gate__scrim {
   position: absolute;
@@ -779,6 +780,7 @@ body.radar-welcome-active {
 }
 
 .radar-welcome-gate__video,
+.radar-welcome-gate__gif,
 .radar-welcome-gate__poster {
   z-index: 1;
   display: block;

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const DISPLAY_MS = 8000;
 const EXIT_MS = 1200;
+const WELCOME_GIF = "/media/welcome/remradar-opening.gif";
+const WELCOME_POSTER = "/media/welcome/remradar-opening-poster.jpg";
 
 export function WelcomeGate() {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [mounted, setMounted] = useState(true);
   const [exiting, setExiting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -29,17 +30,7 @@ export function WelcomeGate() {
   }, []);
 
   useEffect(() => {
-    if (reducedMotion) {
-      const timer = window.setTimeout(() => dismiss(), 550);
-      return () => window.clearTimeout(timer);
-    }
-
-    const timer = window.setTimeout(() => dismiss(), DISPLAY_MS);
-    const video = videoRef.current;
-    video?.play().catch(() => {
-      window.setTimeout(() => dismiss(), 850);
-    });
-
+    const timer = window.setTimeout(() => dismiss(), reducedMotion ? 550 : DISPLAY_MS);
     return () => window.clearTimeout(timer);
   }, [reducedMotion]);
 
@@ -56,55 +47,35 @@ export function WelcomeGate() {
 
   return (
     <>
-      <link
-        rel="preload"
-        as="video"
-        href="/media/welcome/remradar-opening.webm"
-        type="video/webm"
-        fetchPriority="high"
-      />
-      <link
-        rel="preload"
-        as="image"
-        href="/media/welcome/remradar-opening-poster.jpg"
-        type="image/jpeg"
-        fetchPriority="high"
-      />
+      <link rel="preload" as="image" href={WELCOME_GIF} type="image/gif" fetchPriority="high" />
+      <link rel="preload" as="image" href={WELCOME_POSTER} type="image/jpeg" fetchPriority="high" />
       <div
         className={`radar-welcome-gate ${exiting ? "is-exiting" : ""}`}
-      role="dialog"
-      aria-label="RADARCharts welcome animation"
-      aria-modal="true"
-    >
-      <div className="radar-welcome-gate__backdrop" aria-hidden="true" />
-      {!reducedMotion ? (
-        <video
-          ref={videoRef}
-          className="radar-welcome-gate__video"
-          autoPlay
-          muted
-          playsInline
-          controls={false}
-          disablePictureInPicture
-          disableRemotePlayback
-          preload="auto"
-          poster="/media/welcome/remradar-opening-poster.jpg"
-          onEnded={dismiss}
-          onError={() => window.setTimeout(() => dismiss(), 650)}
-        >
-          <source src="/media/welcome/remradar-opening.webm" type="video/webm" />
-          <source src="/media/welcome/remradar-opening.mp4" type="video/mp4" />
-        </video>
-      ) : (
-        <Image
-          className="radar-welcome-gate__poster"
-          src="/media/welcome/remradar-opening-poster.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-        />
-      )}
+        role="dialog"
+        aria-label="RADARCharts welcome animation"
+        aria-modal="true"
+      >
+        <div className="radar-welcome-gate__backdrop" aria-hidden="true" />
+        {reducedMotion ? (
+          <Image
+            className="radar-welcome-gate__poster"
+            src={WELCOME_POSTER}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+        ) : (
+          <Image
+            className="radar-welcome-gate__gif"
+            src={WELCOME_GIF}
+            alt=""
+            fill
+            priority
+            unoptimized
+            sizes="100vw"
+          />
+        )}
         <div className="radar-welcome-gate__scrim" aria-hidden="true" />
       </div>
     </>

@@ -26,7 +26,8 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "[data-framer-name='Now Reading'] > *, [data-framer-name='RADARMusic'] > *, [data-framer-name='Section - Category'] > * { position: relative !important; z-index: 1 !important; }",
     "@media (max-width: 809px) { [data-framer-name='Now Reading'], [data-framer-name='RADARMusic'], [data-framer-name='Section - Category'] { border-radius: 18px !important; -webkit-backdrop-filter: blur(12px) saturate(108%) !important; backdrop-filter: blur(12px) saturate(108%) !important; } }",
     "[data-framer-name='Mobile App Dock'], [data-framer-name='Floating Music Player'] { display: none !important; }",
-    ".radar-aktiv-plain-image { aspect-ratio: 2 / 3 !important; height: auto !important; min-height: 0 !important; }",
+    ".radar-aktiv-plain-image { aspect-ratio: 2 / 3 !important; height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }",
+    ".radar-aktiv-plain-ancestor { height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }",
     ".radar-aktiv-plain-image, .radar-aktiv-plain-image .radar-aktiv-image-frame { border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }",
     ".radar-aktiv-plain-image .radar-aktiv-image { object-fit: contain !important; object-position: 50% 50% !important; }",
     "@media (max-width: 809px) { .radar-aktiv-frame-container { width: calc(100% - 1.25rem) !important; border-radius: 1rem !important; } }",
@@ -122,7 +123,15 @@ function applyReplacement(frame: HTMLIFrameElement, replacement: HomepageCompone
   }
   if (frameContainer) {
     frameContainer.classList.add("radar-aktiv-frame-container");
-    frameContainer.classList.toggle("radar-aktiv-plain-image", replacement.mediaType === "image");
+    const isPlainImage = replacement.mediaType === "image";
+    frameContainer.classList.toggle("radar-aktiv-plain-image", isPlainImage);
+    if (isPlainImage) {
+      let ancestor = frameContainer.parentElement;
+      for (let depth = 0; ancestor && ancestor !== innerDocument.body && depth < 4; depth += 1) {
+        ancestor.classList.add("radar-aktiv-plain-ancestor");
+        ancestor = ancestor.parentElement;
+      }
+    }
     const existingImage = frameContainer.querySelector("img");
     const existingVideo = frameContainer.querySelector("video");
     const isVideo = replacement.mediaType === "video" || /\.(webm|mp4)(?:$|\?)/i.test(replacement.imageUrl);

@@ -706,6 +706,12 @@ body::-webkit-scrollbar {
    CMS data can load during the eight-second intro. */
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 html.radar-welcome-active,
@@ -720,7 +726,7 @@ body.radar-welcome-active {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #050505;
+  background: transparent;
   isolation: isolate;
   opacity: 1;
   pointer-events: auto;
@@ -766,7 +772,7 @@ body.radar-welcome-active {
 }
 
 .radar-welcome-gate__backdrop {
-  z-index: -3;
+  z-index: 0;
   background: #050505 url("/media/welcome/remradar-opening-poster.jpg") center / cover no-repeat;
   filter: blur(14px);
   transform: scale(1.06);
@@ -774,7 +780,9 @@ body.radar-welcome-active {
 
 .radar-welcome-gate__video,
 .radar-welcome-gate__poster {
-  z-index: -2;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
   object-fit: contain;
   object-position: center;
 }
@@ -784,7 +792,7 @@ body.radar-welcome-active {
 }
 
 .radar-welcome-gate__scrim {
-  z-index: -1;
+  z-index: 2;
   background: linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .54));
   pointer-events: none;
 }

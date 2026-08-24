@@ -26,6 +26,7 @@ function injectStyles(document: Document, replacement: HomepageComponentReplacem
     "[data-framer-name='Now Reading'] > *, [data-framer-name='RADARMusic'] > *, [data-framer-name='Section - Category'] > * { position: relative !important; z-index: 1 !important; }",
     "@media (max-width: 809px) { [data-framer-name='Now Reading'], [data-framer-name='RADARMusic'], [data-framer-name='Section - Category'] { border-radius: 18px !important; -webkit-backdrop-filter: blur(12px) saturate(108%) !important; backdrop-filter: blur(12px) saturate(108%) !important; } }",
     "[data-framer-name='Mobile App Dock'], [data-framer-name='Floating Music Player'] { display: none !important; }",
+    ".radar-aktiv-plain-image { aspect-ratio: 2 / 3 !important; height: auto !important; min-height: 0 !important; }",
     ".radar-aktiv-plain-image, .radar-aktiv-plain-image .radar-aktiv-image-frame { border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }",
     ".radar-aktiv-plain-image .radar-aktiv-image { object-fit: contain !important; object-position: 50% 50% !important; }",
     "@media (max-width: 809px) { .radar-aktiv-frame-container { width: calc(100% - 1.25rem) !important; border-radius: 1rem !important; } }",

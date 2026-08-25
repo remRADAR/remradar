@@ -9,22 +9,21 @@ type DockLink = { label: string; href: string; glyph: string };
 
 const fallbackLinks: DockLink[] = [
   { label: "Home", href: "/", glyph: "⌂" },
-  { label: "Charts", href: "/charts", glyph: "↗" },
-  { label: "Articles", href: "/ontheradar", glyph: "▤" },
+  { label: "ON THE RADAR", href: "/ontheradar", glyph: "↗" },
   { label: "Magazine", href: "/magazine", glyph: "▧" },
   { label: "RADARMusic", href: "/radarmusic", glyph: "♫" },
-  { label: "RadarStore", href: "/store", glyph: "▣" },
-  { label: "Spotlights", href: "/spotlights", glyph: "✦" },
-  { label: "Motherland", href: "/motherland", glyph: "◈" },
-  { label: "Explore", href: "/platforms", glyph: "◎" },
+  // RADARMe is the parent destination for Store and Explore during the build-out.
+  { label: "RADARMe", href: "/platforms", glyph: "▣" },
+  // REM is the parent destination for About and Contact.
+  { label: "REM", href: "/about", glyph: "✦" },
 ];
 
-export function FloatingDockFooter({ navigation }: { navigation?: RadarNavigationItem[] }) {
+export function FloatingDockFooter(_props: { navigation?: RadarNavigationItem[] }) {
   const pathname = usePathname();
   const [active, setActive] = useState<string | null>(null);
-  const links = navigation?.length
-    ? navigation.map((item) => ({ label: item.label, href: item.href, glyph: fallbackLinks.find((link) => link.href === item.href)?.glyph ?? "◎" }))
-    : fallbackLinks;
+  // Keep the footer information architecture canonical while grouped child pages
+  // remain reachable from their parent pages and archive navigation.
+  const links = fallbackLinks;
 
   return (
     <footer className="radar-floating-footer" aria-label="RADARCharts floating navigation">

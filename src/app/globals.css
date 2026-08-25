@@ -1962,3 +1962,25 @@ body {
   @media (max-width: 760px) { .motherland-page__header { grid-template-columns: 1fr auto; } .motherland-page__status { display: none; } .motherland-hero { min-height: 76svh; } .motherland-hero__copy { padding: 2rem 1.35rem 2.5rem; } .motherland-hero h1 { font-size: clamp(4.25rem, 18vw, 7rem); } .motherland-manifesto, .motherland-playlist, .motherland-network { grid-template-columns: 1fr; padding-inline: .25rem; } .motherland-manifesto { gap: 1.25rem; } .motherland-playlist__heading { position: static; } .motherland-tracklist { grid-column: 1; margin-top: 0; } .motherland-track { grid-template-columns: 2rem 1fr 1.1rem; } .motherland-track small { display: none; } .motherland-cta { grid-template-columns: 1fr; margin-block: 3rem; } .motherland-cta__poster { min-height: 15rem; } .motherland-network__groups { grid-template-columns: 1fr 1fr; } .motherland-page__footer { flex-direction: column; padding-bottom: 7rem; } }
   @media (prefers-reduced-motion: reduce) { .motherland-hero__orb { animation: none; } }
 }
+
+
+/* Shared Motherland-inspired page motion: restrained reveal depth, not a replacement for page-specific content. */
+[data-scroll-reveal="true"] {
+  opacity: 0;
+  transform: translate3d(0, 1.4rem, 0);
+  transition: opacity 700ms cubic-bezier(.22, 1, .36, 1) var(--radar-reveal-delay, 0ms), transform 700ms cubic-bezier(.22, 1, .36, 1) var(--radar-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-scroll-reveal="true"][data-revealed="true"] { opacity: 1; transform: translate3d(0, 0, 0); }
+.radar-route-shell .radar-route-hero { position: relative; isolation: isolate; }
+.radar-route-shell .radar-route-hero::after { position: absolute; z-index: -1; inset: auto 8% -1rem; height: 5rem; content: ''; pointer-events: none; background: radial-gradient(ellipse, rgba(241,201,187,.14), transparent 70%); filter: blur(1.5rem); }
+.radar-route-shell .radar-route-section { transform-origin: 50% 100%; }
+.radar-route-shell .radar-route-section + .radar-route-section { margin-top: clamp(1rem, 2.5vw, 2.25rem); }
+.radar-route-shell .radar-route-navigation { transition-delay: 120ms; }
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal="true"] { opacity: 1; transform: none; transition: none; }
+}
+@media (max-width: 640px) {
+  [data-scroll-reveal="true"] { transform: translate3d(0, .75rem, 0); transition-duration: 500ms; }
+  .radar-route-shell .radar-route-section + .radar-route-section { margin-top: .75rem; }
+}

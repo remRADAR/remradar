@@ -5,6 +5,7 @@ import type { FramerPageDefinition } from "@/lib/framer-pages";
 import type { RadarArticle, RadarPageArchiveLink } from "@/lib/wordpress";
 import { MagazinePageFlipper } from "@/components/site/magazine-page-flipper";
 import { getArticleCollectionStructuredData } from "@/utils/seo/structured-data";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 const navigation = [
   ["Charts", "/charts"],
@@ -59,7 +60,7 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
         <Link className="radar-route-header__home" href="/">Home</Link>
       </header>
 
-      <section className="radar-route-hero">
+      <ScrollReveal as="section" className="radar-route-hero">
         <p className="radar-route-eyebrow">{definition.eyebrow}</p>
         <h1>{definition.title}</h1>
         <p className="radar-route-intro">{definition.intro}</p>
@@ -67,28 +68,30 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
           <span>Page archive</span>
           {archiveLinks.map(({ label, href }) => <Link href={href} key={`${label}-${href}`}>{label}</Link>)}
         </nav>
-      </section>
+      </ScrollReveal>
 
       {definition.slug === "magazine" ? (
-        <section className="radar-route-section">
+        <ScrollReveal as="section" className="radar-route-section">
+
           <div className="radar-route-section__heading">
             <p className="radar-route-eyebrow">RADAR MAGAZINE</p>
             <h2>Turn the page. Stay close to culture.</h2>
           </div>
           <MagazinePageFlipper articles={articles} />
-        </section>
+        </ScrollReveal>
       ) : definition.slug === "ontheradar" ? (
-        <section className="radar-route-section">
+        <ScrollReveal as="section" className="radar-route-section">
+
           <div className="radar-route-section__heading">
             <p className="radar-route-eyebrow">RADARARTICLES</p>
             <h2>Stories worth staying close to.</h2>
           </div>
           <ArticleList articles={articles} />
-        </section>
+        </ScrollReveal>
       ) : (
         <div className="radar-route-sections">
           {definition.sections.map((section) => (
-            <section className="radar-route-section" key={section.title || section.eyebrow}>
+            <ScrollReveal as="section" className="radar-route-section" key={section.title || section.eyebrow} delay={80}>
               {section.eyebrow ? <p className="radar-route-eyebrow">{section.eyebrow}</p> : null}
               {section.title ? <h2>{section.title}</h2> : null}
               {section.body ? <p className="radar-route-body">{section.body}</p> : null}
@@ -97,14 +100,14 @@ export function FramerRoutePage({ definition, articles = [], archive = [] }: { d
                   {section.items.map((item) => <span className="radar-route-tag" key={item}>{item}</span>)}
                 </div>
               ) : null}
-            </section>
+            </ScrollReveal>
           ))}
         </div>
       )}
 
-      <nav className="radar-route-navigation" aria-label="RADAR navigation">
+      <ScrollReveal as="nav" className="radar-route-navigation" aria-label="RADAR navigation" delay={120}>
         {navigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
-      </nav>
+      </ScrollReveal>
 
       <FloatingDockFooter />
     </main>

@@ -253,6 +253,7 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
     if (!frame) return;
     let settleTimer = 0;
     let hydrationTimer = 0;
+    let mutationStopTimer = 0;
     let scheduledMeasure = 0;
     let isMeasuring = false;
     let observer: ResizeObserver | undefined;
@@ -293,8 +294,16 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
           if (document.body) observer.observe(document.body);
         }
         if (document?.body && "MutationObserver" in window) {
-        mutations = new MutationObserver(scheduleMeasure);
-          mutations.observe(document.body, { subtree: true, childList: true, characterData: true });
+          mutations = new MutationObserver(scheduleMeasure);
+          // Framer’s animated text can emit character-data mutations while the
+          // user scrolls. Observing those indefinitely retriggers full DOM scans
+          // and can make the page appear to crash on the upward return. We only
+          // observe structural hydration changes during the initial settle window.
+          mutations.observe(document.body, { subtree: true, childList: true });
+          mutationStopTimer = window.setTimeout(() => {
+            mutations?.disconnect();
+            mutations = undefined;
+          }, 5200);
         }
         let remaining = 8;
         const settle = () => {
@@ -313,6 +322,7 @@ export function FramerMainView({ replacement, components = [replacement] }: { re
       frame.removeEventListener("load", onLoad);
       if (settleTimer) window.clearTimeout(settleTimer);
       if (hydrationTimer) window.clearTimeout(hydrationTimer);
+      if (mutationStopTimer) window.clearTimeout(mutationStopTimer);
       if (scheduledMeasure) window.cancelAnimationFrame(scheduledMeasure);
       observer?.disconnect();
       mutations?.disconnect();

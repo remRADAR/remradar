@@ -1,4 +1,4 @@
-const CACHE_NAME = "remradar-shell-v3";
+const CACHE_NAME = "remradar-shell-v4";
 const OFFLINE_URL = "/offline.html";
 const PRECACHE_URLS = [OFFLINE_URL, "/manifest.json", "/favicon.ico", "/radarmatrix-favicon-512.png", "/media/home/radarcharts-statue-hero.webp", "/media/welcome/remradar-opening.gif"];
 

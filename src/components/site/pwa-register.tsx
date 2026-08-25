@@ -7,7 +7,9 @@ export function PwaRegister() {
     if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
 
     const register = () => {
-      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {
+      navigator.serviceWorker.register("/sw.js?v=4", { scope: "/", updateViaCache: "none" }).then((registration) => {
+        void registration.update();
+      }).catch(() => {
         // PWA support is progressive; the site remains fully usable without it.
       });
     };

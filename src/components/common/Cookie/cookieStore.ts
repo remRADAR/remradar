@@ -3,7 +3,8 @@
 
 import { create } from "zustand";
 
-const STORAGE_KEY = "cookie-consent-v1";
+const STORAGE_KEY = "cookie-consent-v2";
+const LEGACY_STORAGE_KEY = "cookie-consent-v1";
 
 export type CookieConsent = {
   /** Strictly necessary — always true, never user-disabled. */
@@ -21,6 +22,7 @@ const DEFAULT_CONSENT: CookieConsent = {
 const loadConsent = (): CookieConsent | null => {
   if (typeof window === "undefined") return null;
   try {
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<CookieConsent>;

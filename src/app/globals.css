@@ -1901,3 +1901,64 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .radar-floating-dock__item { transition: none; }
 }
+
+
+@layer components {
+  .motherland-page { min-height: 100svh; overflow: clip; background: #050505; color: #f7f3ed; padding: clamp(.75rem, 2vw, 1.5rem); }
+  .motherland-page__header { position: relative; z-index: 5; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: min(100%, 92rem); margin: 0 auto; padding: .75rem 0; color: rgba(247,243,237,.72); font: 700 .68rem/1.1 var(--font-mono, monospace); letter-spacing: .12em; text-transform: uppercase; }
+  .motherland-page__logo { display: block; width: clamp(6.5rem, 12vw, 10rem); aspect-ratio: 3 / 2; overflow: hidden; }
+  .motherland-page__logo img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
+  .motherland-page__status { justify-self: center; }
+  .motherland-page__home { justify-self: end; color: inherit; text-decoration: none; }
+  .motherland-hero { position: relative; display: grid; min-height: min(82svh, 54rem); width: min(100%, 92rem); margin: 0 auto; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: clamp(1.25rem, 3vw, 2.5rem); isolation: isolate; background: #111; }
+  .motherland-hero__visual, .motherland-hero__grid { position: absolute; inset: 0; }
+  .motherland-hero__visual img { z-index: -3; object-fit: cover; object-position: 28% center; filter: grayscale(1) contrast(1.2) brightness(.46); transform: scale(1.04); }
+  .motherland-hero__visual::after { position: absolute; inset: 0; content: ''; background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.1) 38%, rgba(0,0,0,.88)), radial-gradient(circle at 45% 38%, transparent 0 16%, rgba(0,0,0,.56) 76%); }
+  .motherland-hero__grid { z-index: -1; opacity: .22; background-image: linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px); background-size: 4rem 4rem; mask-image: linear-gradient(180deg, transparent, black 28%, black 76%, transparent); }
+  .motherland-hero__orb { position: absolute; z-index: -1; width: 22rem; aspect-ratio: 1; border: 1px solid rgba(255,218,194,.25); border-radius: 50%; box-shadow: 0 0 6rem rgba(244,173,137,.18), inset 0 0 4rem rgba(255,255,255,.08); opacity: .7; animation: motherland-orbit 14s ease-in-out infinite alternate; }
+  .motherland-hero__orb--one { top: 12%; right: 10%; }
+  .motherland-hero__orb--two { bottom: -12%; left: 9%; width: 12rem; animation-delay: -4s; }
+  .motherland-hero__copy { align-self: end; position: relative; z-index: 2; display: grid; gap: .8rem; max-width: 48rem; padding: clamp(2rem, 7vw, 7rem); }
+  .motherland-kicker { margin: 0; color: rgba(255,220,204,.75); font: 700 .68rem/1.2 var(--font-mono, monospace); letter-spacing: .16em; text-transform: uppercase; }
+  .motherland-hero h1 { margin: 0; font-size: clamp(4.5rem, 13vw, 12rem); font-weight: 500; letter-spacing: -.1em; line-height: .74; }
+  .motherland-hero h1 em, .motherland-cta h2 em { color: #f1c9bb; font-style: normal; }
+  .motherland-hero__edition { margin: 0; color: rgba(255,255,255,.7); font: .8rem/1.2 var(--font-mono, monospace); letter-spacing: .12em; }
+  .motherland-hero__scroll { display: flex; align-items: center; gap: .65rem; margin-top: 2rem; color: rgba(255,255,255,.55); font: .65rem/1 var(--font-mono, monospace); text-transform: uppercase; letter-spacing: .13em; }
+  .motherland-hero__scroll span { width: 2rem; height: 1px; background: #f1c9bb; }
+  .motherland-manifesto, .motherland-playlist, .motherland-network, .motherland-page__footer { width: min(100%, 80rem); margin: 0 auto; }
+  .motherland-manifesto { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr); gap: 2rem; padding: clamp(5rem, 13vw, 12rem) clamp(.5rem, 4vw, 4rem); }
+  .motherland-manifesto__index { color: #f1c9bb; font: .68rem/1.3 var(--font-mono, monospace); letter-spacing: .15em; text-transform: uppercase; }
+  .motherland-manifesto h2, .motherland-playlist h2, .motherland-cta h2, .motherland-network h2 { margin: 0; font-size: clamp(2.5rem, 6vw, 6.8rem); font-weight: 500; letter-spacing: -.075em; line-height: .88; }
+  .motherland-manifesto p { max-width: 44rem; color: rgba(247,243,237,.65); font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: 1.45; }
+  .motherland-playlist { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(1.25rem, 4vw, 4rem); align-items: start; padding: clamp(3rem, 7vw, 6rem) clamp(.5rem, 4vw, 4rem); border-block: 1px solid rgba(255,255,255,.12); }
+  .motherland-playlist__heading { position: sticky; top: 2rem; }
+  .motherland-playlist__heading h2 { margin-top: 1rem; }
+  .motherland-playlist__heading h2 span { color: rgba(247,243,237,.3); }
+  .motherland-playlist__heading > p:last-child { max-width: 24rem; color: rgba(247,243,237,.6); line-height: 1.4; }
+  .motherland-playlist__frame { overflow: hidden; min-height: 22rem; border: 1px solid rgba(255,255,255,.18); border-radius: 1.2rem; background: #202428; box-shadow: 0 2rem 4rem rgba(0,0,0,.3); }
+  .motherland-playlist__frame iframe { display: block; width: 100%; min-height: 22rem; border: 0; }
+  .motherland-tracklist { grid-column: 2; display: grid; margin-top: -2rem; border-top: 1px solid rgba(255,255,255,.12); }
+  .motherland-track { display: grid; grid-template-columns: 2.4rem 1.2fr 1fr 1.3rem; gap: .65rem; align-items: center; min-height: 3.25rem; border-bottom: 1px solid rgba(255,255,255,.1); color: rgba(247,243,237,.72); font: .74rem/1.2 var(--font-mono, monospace); }
+  .motherland-track strong { color: #fff; font-weight: 500; }
+  .motherland-track small { color: rgba(247,243,237,.45); font: inherit; }
+  .motherland-cta { display: grid; grid-template-columns: 1.2fr .8fr; width: min(100%, 80rem); min-height: 34rem; margin: clamp(3rem, 8vw, 8rem) auto; overflow: hidden; border-radius: 1.5rem; background: #ece0dd; color: #111; }
+  .motherland-cta__poster { position: relative; min-height: 24rem; overflow: hidden; }
+  .motherland-cta__poster img { object-fit: cover; object-position: 22% center; filter: grayscale(.4) contrast(1.1); }
+  .motherland-cta__copy { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; padding: clamp(2rem, 5vw, 5rem); }
+  .motherland-cta__copy .motherland-kicker { color: rgba(17,17,17,.58); }
+  .motherland-cta__copy h2 { font-size: clamp(3.2rem, 7vw, 7rem); }
+  .motherland-cta__actions { display: flex; flex-wrap: wrap; gap: .65rem; }
+  .motherland-cta__actions a { border: 1px solid rgba(17,17,17,.25); border-radius: 999px; padding: .8rem 1rem; color: #111; font: 700 .68rem/1 var(--font-mono, monospace); text-decoration: none; text-transform: uppercase; transition: background-color .2s ease, color .2s ease; }
+  .motherland-cta__actions a:hover, .motherland-cta__actions a:focus-visible { background: #111; color: #fff; }
+  .motherland-network { display: grid; grid-template-columns: .9fr 1.1fr; gap: 2rem; padding: clamp(4rem, 9vw, 9rem) clamp(.5rem, 4vw, 4rem) 5rem; }
+  .motherland-network__groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .motherland-network__groups > div { display: grid; align-content: start; gap: .75rem; }
+  .motherland-network__groups p { margin: 0 0 .5rem; color: #f1c9bb; font: 700 .68rem/1 var(--font-mono, monospace); letter-spacing: .12em; text-transform: uppercase; }
+  .motherland-network__groups a { display: flex; justify-content: space-between; gap: .5rem; color: rgba(247,243,237,.72); font-size: .9rem; text-decoration: none; }
+  .motherland-network__groups a:hover { color: #fff; }
+  .motherland-page__footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.5rem clamp(.5rem, 4vw, 4rem) 6rem; border-top: 1px solid rgba(255,255,255,.12); color: rgba(247,243,237,.48); font: .68rem/1.4 var(--font-mono, monospace); }
+  .motherland-page__footer strong { color: #f1c9bb; font-weight: 500; }
+  @keyframes motherland-orbit { from { transform: translate3d(-1rem, .5rem, 0) rotate(0deg); } to { transform: translate3d(1rem, -1rem, 0) rotate(18deg); } }
+  @media (max-width: 760px) { .motherland-page__header { grid-template-columns: 1fr auto; } .motherland-page__status { display: none; } .motherland-hero { min-height: 76svh; } .motherland-hero__copy { padding: 2rem 1.35rem 2.5rem; } .motherland-hero h1 { font-size: clamp(4.25rem, 18vw, 7rem); } .motherland-manifesto, .motherland-playlist, .motherland-network { grid-template-columns: 1fr; padding-inline: .25rem; } .motherland-manifesto { gap: 1.25rem; } .motherland-playlist__heading { position: static; } .motherland-tracklist { grid-column: 1; margin-top: 0; } .motherland-track { grid-template-columns: 2rem 1fr 1.1rem; } .motherland-track small { display: none; } .motherland-cta { grid-template-columns: 1fr; margin-block: 3rem; } .motherland-cta__poster { min-height: 15rem; } .motherland-network__groups { grid-template-columns: 1fr 1fr; } .motherland-page__footer { flex-direction: column; padding-bottom: 7rem; } }
+  @media (prefers-reduced-motion: reduce) { .motherland-hero__orb { animation: none; } }
+}
